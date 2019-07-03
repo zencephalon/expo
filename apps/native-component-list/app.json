@@ -58,7 +58,11 @@
       }
     },
     "web": {
-      "productionPath": "web-build"
+      "config": {
+        "googleMaps": {
+          "apiKey": "***"
+        }
+      }
     },
     "assetBundlePatterns": [
       "assets/**",
