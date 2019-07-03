@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-} from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 
-import MapView, { ProviderPropType } from 'react-native-maps';
+import MapView, { ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -178,12 +174,10 @@ const customStyle = [
 ];
 
 class MapStyle extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-    };
-  }
+  static propTypes = {
+    provider: ProviderPropType,
+  };
+  state = {};
 
   render() {
     return (
@@ -203,10 +197,6 @@ class MapStyle extends React.Component {
     );
   }
 }
-
-MapStyle.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

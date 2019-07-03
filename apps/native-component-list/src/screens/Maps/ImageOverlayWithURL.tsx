@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-} from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 
-import MapView from 'react-native-maps';
+import MapView from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -24,49 +20,38 @@ const OVERLAY_BOTTOM_RIGHT_COORDINATE2 = [35.67514743608467, 139.76806640625];
 const IMAGE_URL2 = 'https://maps.gsi.go.jp/xyz/std/17/116423/51615.png';
 
 export default class ImageOverlayWithURL extends Component {
-
   static propTypes = {
     provider: MapView.ProviderPropType,
   };
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      overlay1: {
-        bounds: [OVERLAY_TOP_LEFT_COORDINATE1, OVERLAY_BOTTOM_RIGHT_COORDINATE1],
-        image: IMAGE_URL1,
-      },
-      overlay2: {
-        bounds: [OVERLAY_TOP_LEFT_COORDINATE2, OVERLAY_BOTTOM_RIGHT_COORDINATE2],
-        image: IMAGE_URL2,
-      },
-    };
-  }
-
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+    overlay1: {
+      bounds: [OVERLAY_TOP_LEFT_COORDINATE1, OVERLAY_BOTTOM_RIGHT_COORDINATE1],
+      image: IMAGE_URL1,
+    },
+    overlay2: {
+      bounds: [OVERLAY_TOP_LEFT_COORDINATE2, OVERLAY_BOTTOM_RIGHT_COORDINATE2],
+      image: IMAGE_URL2,
+    },
+  };
   render() {
     return (
       <View style={styles.container}>
         <MapView
           provider={this.props.provider}
           style={styles.map}
-          initialRegion={this.state.region}
-        >
+          initialRegion={this.state.region}>
           <MapView.Overlay
             bounds={this.state.overlay1.bounds}
             image={this.state.overlay1.image}
             zindex={2}
           />
-          <MapView.Overlay
-            bounds={this.state.overlay2.bounds}
-            image={this.state.overlay2.image}
-          />
+          <MapView.Overlay bounds={this.state.overlay2.bounds} image={this.state.overlay2.image} />
         </MapView>
       </View>
     );

@@ -1,64 +1,51 @@
 import React, { Component } from 'react';
 
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-import MapView from 'react-native-maps';
+import MapView from './lib';
 import carImage from './assets/car.png';
 
 export default class NavigationMap extends Component {
+  state = {
+    prevPos: null,
+    curPos: { latitude: 37.420814, longitude: -122.081949 },
+    curAng: 45,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      prevPos: null,
-      curPos: { latitude: 37.420814, longitude: -122.081949 },
-      curAng: 45,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    };
-    this.changePosition = this.changePosition.bind(this);
-    this.getRotation = this.getRotation.bind(this);
-    this.updateMap = this.updateMap.bind(this);
-  }
-
-  changePosition(latOffset, lonOffset) {
+  changePosition = (latOffset, lonOffset) => {
     const latitude = this.state.curPos.latitude + latOffset;
     const longitude = this.state.curPos.longitude + lonOffset;
     this.setState({ prevPos: this.state.curPos, curPos: { latitude, longitude } });
     this.updateMap();
-  }
+  };
 
-  getRotation(prevPos, curPos) {
+  getRotation = (prevPos, curPos) => {
     if (!prevPos) return 0;
     const xDiff = curPos.latitude - prevPos.latitude;
     const yDiff = curPos.longitude - prevPos.longitude;
     return (Math.atan2(yDiff, xDiff) * 180.0) / Math.PI;
-  }
+  };
 
-  updateMap() {
+  updateMap = () => {
     const { curPos, prevPos, curAng } = this.state;
     const curRot = this.getRotation(prevPos, curPos);
     this.map.animateCamera({ heading: curRot, center: curPos, pitch: curAng });
-  }
+  };
 
   render() {
     return (
       <View style={styles.flex}>
         <MapView
-          ref={(el) => (this.map = el)}
+          ref={el => (this.map = el)}
           style={styles.flex}
           minZoomLevel={15}
           initialRegion={{
             ...this.state.curPos,
             latitudeDelta: this.state.latitudeDelta,
             longitudeDelta: this.state.longitudeDelta,
-          }}
-        >
+          }}>
           <MapView.Marker
             coordinate={this.state.curPos}
             anchor={{ x: 0.5, y: 0.5 }}
@@ -68,28 +55,24 @@ export default class NavigationMap extends Component {
         <View style={styles.buttonContainerUpDown}>
           <TouchableOpacity
             style={[styles.button, styles.up]}
-            onPress={() => this.changePosition(0.0001, 0)}
-          >
+            onPress={() => this.changePosition(0.0001, 0)}>
             <Text>+ Lat</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.down]}
-            onPress={() => this.changePosition(-0.0001, 0)}
-          >
+            onPress={() => this.changePosition(-0.0001, 0)}>
             <Text>- Lat</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainerLeftRight}>
           <TouchableOpacity
             style={[styles.button, styles.left]}
-            onPress={() => this.changePosition(0, -0.0001)}
-          >
+            onPress={() => this.changePosition(0, -0.0001)}>
             <Text>- Lon</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.right]}
-            onPress={() => this.changePosition(0, 0.0001)}
-          >
+            onPress={() => this.changePosition(0, 0.0001)}>
             <Text>+ Lon</Text>
           </TouchableOpacity>
         </View>

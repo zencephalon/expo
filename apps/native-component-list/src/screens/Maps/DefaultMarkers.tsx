@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import MapView, { Marker, ProviderPropType } from 'react-native-maps';
+import MapView, { Marker, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,23 +13,25 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
 function randomColor() {
-  return `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, 0)}`;
+  return `#${Math.floor(Math.random() * 16777215)
+    .toString(16)
+    .padStart(6, 0)}`;
 }
 
 class DefaultMarkers extends React.Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    provider: ProviderPropType,
+  };
 
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      markers: [],
-    };
-  }
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+    markers: [],
+  };
 
   onMapPress(e) {
     this.setState({
@@ -57,21 +53,13 @@ class DefaultMarkers extends React.Component {
           provider={this.props.provider}
           style={styles.map}
           initialRegion={this.state.region}
-          onPress={(e) => this.onMapPress(e)}
-        >
+          onPress={e => this.onMapPress(e)}>
           {this.state.markers.map(marker => (
-            <Marker
-              key={marker.key}
-              coordinate={marker.coordinate}
-              pinColor={marker.color}
-            />
+            <Marker key={marker.key} coordinate={marker.coordinate} pinColor={marker.color} />
           ))}
         </MapView>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => this.setState({ markers: [] })}
-            style={styles.bubble}
-          >
+          <TouchableOpacity onPress={() => this.setState({ markers: [] })} style={styles.bubble}>
             <Text>Tap to create a marker of random color</Text>
           </TouchableOpacity>
         </View>
@@ -79,10 +67,6 @@ class DefaultMarkers extends React.Component {
     );
   }
 }
-
-DefaultMarkers.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

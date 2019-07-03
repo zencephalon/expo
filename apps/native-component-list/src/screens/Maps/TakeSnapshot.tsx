@@ -1,14 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { StyleSheet, View, Text, Dimensions, TouchableOpacity, Image } from 'react-native';
 
-import MapView, { Marker, ProviderPropType } from 'react-native-maps';
+import MapView, { Marker, ProviderPropType } from './lib';
 import flagBlueImg from './assets/flag-blue.png';
 import flagPinkImg from './assets/flag-pink.png';
 
@@ -22,23 +15,29 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
 class MarkerTypes extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      mapSnapshot: null,
-    };
-  }
+  static propTypes = {
+    provider: ProviderPropType,
+  };
+
+  state = {
+    mapSnapshot: null,
+  };
 
   takeSnapshot() {
-    this.map.takeSnapshot(300, 300, {
-      latitude: LATITUDE - SPACE,
-      longitude: LONGITUDE - SPACE,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01 * ASPECT_RATIO,
-    }, (err, data) => {
-      if (err) console.log(err);
-      this.setState({ mapSnapshot: data });
-    });
+    this.map.takeSnapshot(
+      300,
+      300,
+      {
+        latitude: LATITUDE - SPACE,
+        longitude: LONGITUDE - SPACE,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01 * ASPECT_RATIO,
+      },
+      (err, data) => {
+        if (err) console.log(err);
+        this.setState({ mapSnapshot: data });
+      }
+    );
   }
 
   render() {
@@ -46,15 +45,16 @@ class MarkerTypes extends React.Component {
       <View style={styles.container}>
         <MapView
           provider={this.props.provider}
-          ref={ref => { this.map = ref; }}
+          ref={ref => {
+            this.map = ref;
+          }}
           style={styles.map}
           initialRegion={{
             latitude: LATITUDE,
             longitude: LONGITUDE,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
-          }}
-        >
+          }}>
           <Marker
             coordinate={{
               latitude: LATITUDE + SPACE,
@@ -78,30 +78,24 @@ class MarkerTypes extends React.Component {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => this.takeSnapshot()}
-            style={[styles.bubble, styles.button]}
-          >
+            style={[styles.bubble, styles.button]}>
             <Text>Take snapshot</Text>
           </TouchableOpacity>
         </View>
-        {this.state.mapSnapshot &&
+        {this.state.mapSnapshot && (
           <TouchableOpacity
             style={[styles.container, styles.overlay]}
-            onPress={() => this.setState({ mapSnapshot: null })}
-          >
+            onPress={() => this.setState({ mapSnapshot: null })}>
             <Image
               source={{ uri: this.state.mapSnapshot.uri }}
               style={{ width: 300, height: 300 }}
             />
           </TouchableOpacity>
-        }
+        )}
       </View>
     );
   }
 }
-
-MarkerTypes.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, View, Text, Dimensions } from 'react-native';
 
-import MapView, { Circle, Polygon, Polyline, ProviderPropType } from 'react-native-maps';
+import MapView, { Circle, Polygon, Polyline, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -18,67 +13,59 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
 class Overlays extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+    circle: {
+      center: {
+        latitude: LATITUDE + SPACE,
+        longitude: LONGITUDE + SPACE,
       },
-      circle: {
-        center: {
-          latitude: LATITUDE + SPACE,
-          longitude: LONGITUDE + SPACE,
-        },
-        radius: 700,
+      radius: 700,
+    },
+    polygon: [
+      {
+        latitude: LATITUDE + SPACE,
+        longitude: LONGITUDE + SPACE,
       },
-      polygon: [
-        {
-          latitude: LATITUDE + SPACE,
-          longitude: LONGITUDE + SPACE,
-        },
-        {
-          latitude: LATITUDE - SPACE,
-          longitude: LONGITUDE - SPACE,
-        },
-        {
-          latitude: LATITUDE - SPACE,
-          longitude: LONGITUDE + SPACE,
-        },
-      ],
-      polyline: [
-        {
-          latitude: LATITUDE + SPACE,
-          longitude: LONGITUDE - SPACE,
-        },
-        {
-          latitude: LATITUDE - (2 * SPACE),
-          longitude: LONGITUDE + (2 * SPACE),
-        },
-        {
-          latitude: LATITUDE - SPACE,
-          longitude: LONGITUDE - SPACE,
-        },
-        {
-          latitude: LATITUDE - (2 * SPACE),
-          longitude: LONGITUDE - SPACE,
-        },
-      ],
-    };
-  }
+      {
+        latitude: LATITUDE - SPACE,
+        longitude: LONGITUDE - SPACE,
+      },
+      {
+        latitude: LATITUDE - SPACE,
+        longitude: LONGITUDE + SPACE,
+      },
+    ],
+    polyline: [
+      {
+        latitude: LATITUDE + SPACE,
+        longitude: LONGITUDE - SPACE,
+      },
+      {
+        latitude: LATITUDE - 2 * SPACE,
+        longitude: LONGITUDE + 2 * SPACE,
+      },
+      {
+        latitude: LATITUDE - SPACE,
+        longitude: LONGITUDE - SPACE,
+      },
+      {
+        latitude: LATITUDE - 2 * SPACE,
+        longitude: LONGITUDE - SPACE,
+      },
+    ],
+  };
 
   render() {
     const { region, circle, polygon, polyline } = this.state;
     return (
       <View style={styles.container}>
-        <MapView
-          provider={this.props.provider}
-          style={styles.map}
-          initialRegion={region}
-        >
+        <MapView provider={this.props.provider} style={styles.map} initialRegion={region}>
           <Circle
             center={circle.center}
             radius={circle.radius}

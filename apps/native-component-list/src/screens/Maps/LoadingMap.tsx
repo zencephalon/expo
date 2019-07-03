@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  Dimensions,
-  StyleSheet,
-} from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
-import MapView, { Marker, Callout, ProviderPropType } from 'react-native-maps';
 import flagImg from './assets/flag-blue.png';
+import MapView, { Callout, Marker, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,18 +14,17 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
 class LoadingMap extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-    };
-  }
+  static propTypes = {
+    provider: ProviderPropType,
+  };
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+  };
 
   render() {
     return (
@@ -42,8 +36,7 @@ class LoadingMap extends React.Component {
           onPress={this.onMapPress}
           loadingEnabled
           loadingIndicatorColor="#666666"
-          loadingBackgroundColor="#eeeeee"
-        >
+          loadingBackgroundColor="#eeeeee">
           <Marker
             coordinate={{
               latitude: LATITUDE + SPACE,
@@ -59,8 +52,7 @@ class LoadingMap extends React.Component {
               longitude: LONGITUDE - SPACE,
             }}
             centerOffset={{ x: -42, y: -60 }}
-            anchor={{ x: 0.84, y: 1 }}
-          >
+            anchor={{ x: 0.84, y: 1 }}>
             <Callout>
               <View>
                 <Text>This is a plain view</Text>
@@ -77,10 +69,6 @@ class LoadingMap extends React.Component {
     );
   }
 }
-
-LoadingMap.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 
-import MapView from 'react-native-maps';
+import MapView from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -20,18 +16,16 @@ function log(eventName, e) {
   console.log(eventName, e.nativeEvent);
 }
 
-class MarkerTypes extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      a: {
-        latitude: LATITUDE + SPACE,
-        longitude: LONGITUDE + SPACE,
-      },
-    };
-  }
-
+export default class MarkerTypes extends React.Component {
+  static propTypes = {
+    provider: MapView.ProviderPropType,
+  };
+  state = {
+    a: {
+      latitude: LATITUDE + SPACE,
+      longitude: LONGITUDE + SPACE,
+    },
+  };
   render() {
     return (
       <View style={styles.container} accessible>
@@ -43,16 +37,15 @@ class MarkerTypes extends React.Component {
             longitude: LONGITUDE,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
-          }}
-        >
+          }}>
           <MapView.Marker
             testID="marker"
             coordinate={this.state.a}
-            onSelect={(e) => log('onSelect', e)}
-            onDrag={(e) => log('onDrag', e)}
-            onDragStart={(e) => log('onDragStart', e)}
-            onDragEnd={(e) => log('onDragEnd', e)}
-            onPress={(e) => log('onPress', e)}
+            onSelect={log.bind(this, 'onSelect')}
+            onDrag={log.bind(this, 'onDrag')}
+            onDragStart={log.bind(this, 'onDragStart')}
+            onDragEnd={log.bind(this, 'onDragEnd')}
+            onPress={log.bind(this, 'onPress')}
             draggable
           />
         </MapView>
@@ -60,10 +53,6 @@ class MarkerTypes extends React.Component {
     );
   }
 }
-
-MarkerTypes.propTypes = {
-  provider: MapView.ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -75,6 +64,3 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
 });
-
-module.exports = MarkerTypes;
-

@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 
-import MapView, { Polyline, ProviderPropType } from 'react-native-maps';
+import MapView, { Polyline, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,20 +13,16 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
 class PolylineCreator extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      polylines: [],
-      editing: null,
-    };
-  }
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+    polylines: [],
+    editing: null,
+  };
 
   finish() {
     const { polylines, editing } = this.state;
@@ -55,10 +45,7 @@ class PolylineCreator extends React.Component {
       this.setState({
         editing: {
           ...editing,
-          coordinates: [
-            ...editing.coordinates,
-            e.nativeEvent.coordinate,
-          ],
+          coordinates: [...editing.coordinates, e.nativeEvent.coordinate],
         },
       });
     }
@@ -72,8 +59,7 @@ class PolylineCreator extends React.Component {
           style={styles.map}
           initialRegion={this.state.region}
           scrollEnabled={false}
-          onPanDrag={e => this.onPanDrag(e)}
-        >
+          onPanDrag={e => this.onPanDrag(e)}>
           {this.state.polylines.map(polyline => (
             <Polyline
               key={polyline.id}
@@ -83,7 +69,7 @@ class PolylineCreator extends React.Component {
               strokeWidth={1}
             />
           ))}
-          {this.state.editing &&
+          {this.state.editing && (
             <Polyline
               key="editingPolyline"
               coordinates={this.state.editing.coordinates}
@@ -91,14 +77,11 @@ class PolylineCreator extends React.Component {
               fillColor="rgba(255,0,0,0.5)"
               strokeWidth={1}
             />
-          }
+          )}
         </MapView>
         <View style={styles.buttonContainer}>
           {this.state.editing && (
-            <TouchableOpacity
-              onPress={() => this.finish()}
-              style={[styles.bubble, styles.button]}
-            >
+            <TouchableOpacity onPress={() => this.finish()} style={[styles.bubble, styles.button]}>
               <Text>Finish</Text>
             </TouchableOpacity>
           )}

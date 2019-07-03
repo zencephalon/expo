@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, View, Text, Dimensions } from 'react-native';
 
-import MapView, { MAP_TYPES, ProviderPropType, WMSTile } from 'react-native-maps';
+import MapView, { MAP_TYPES, ProviderPropType, WMSTile } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -17,19 +12,17 @@ const LATITUDE_DELTA = 0.0152;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class WMSTiles extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-    };
-  }
-
+  static propTypes = {
+    provider: ProviderPropType,
+  };
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+  };
   render() {
     const { region } = this.state;
     return (
@@ -38,8 +31,7 @@ class WMSTiles extends React.Component {
           provider={this.props.provider}
           mapType={MAP_TYPES.SATELLITE}
           style={styles.map}
-          initialRegion={region}
-        >
+          initialRegion={region}>
           <WMSTile
             urlTemplate="https://demo.geo-solutions.it/geoserver/tiger/wms?service=WMS&version=1.1.0&request=GetMap&layers=tiger:poi&styles=&bbox={minX},{minY},{maxX},{maxY}&width={width}&height={height}&srs=EPSG:900913&format=image/png&transparent=true&format_options=dpi:213"
             zIndex={1}
@@ -56,10 +48,6 @@ class WMSTiles extends React.Component {
     );
   }
 }
-
-WMSTiles.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

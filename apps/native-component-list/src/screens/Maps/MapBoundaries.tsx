@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
-import MapView, { ProviderPropType } from 'react-native-maps';
+import MapView, { ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -12,19 +12,18 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class MapBoundaries extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      mapBoundaries: null,
-    };
-  }
+  static propTypes = {
+    provider: ProviderPropType,
+  };
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+    mapBoundaries: null,
+  };
 
   async onRegionChangeComplete() {
     this.setState({
@@ -53,10 +52,6 @@ class MapBoundaries extends React.Component {
     );
   }
 }
-
-MapBoundaries.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

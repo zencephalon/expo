@@ -1,12 +1,6 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-} from 'react-native';
-
-import MapView, { MAP_TYPES, PROVIDER_DEFAULT, ProviderPropType, UrlTile } from 'react-native-maps';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import MapView, { MAP_TYPES, PROVIDER_DEFAULT, ProviderPropType, UrlTile } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -17,23 +11,22 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class CustomTiles extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  static propTypes = {
+    provider: ProviderPropType,
+  };
 
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-    };
-  }
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+  };
 
   get mapType() {
     // MapKit does not support 'none' as a base map
-    return this.props.provider === PROVIDER_DEFAULT ?
-      MAP_TYPES.STANDARD : MAP_TYPES.NONE;
+    return this.props.provider === PROVIDER_DEFAULT ? MAP_TYPES.STANDARD : MAP_TYPES.NONE;
   }
 
   render() {
@@ -44,12 +37,8 @@ class CustomTiles extends React.Component {
           provider={this.props.provider}
           mapType={this.mapType}
           style={styles.map}
-          initialRegion={region}
-        >
-          <UrlTile
-            urlTemplate="http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
-            zIndex={-1}
-          />
+          initialRegion={region}>
+          <UrlTile urlTemplate="http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg" zIndex={-1} />
         </MapView>
         <View style={styles.buttonContainer}>
           <View style={styles.bubble}>
@@ -60,10 +49,6 @@ class CustomTiles extends React.Component {
     );
   }
 }
-
-CustomTiles.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions, Button, Alert } from 'react-native';
-import MapView from 'react-native-maps';
+import { Alert, Button, Dimensions, StyleSheet, View } from 'react-native';
+
+import MapView from './lib';
 
 const { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
@@ -9,26 +10,21 @@ const LONGITUDE = 103.8316911;
 const LATITUDE_DELTA = 0.003;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-class IndoorMap extends React.Component {
-  constructor(props) {
-    super(props);
-    this.setIndoorLevel = this.setIndoorLevel.bind(this);
-  }
-
+export default class IndoorMap extends React.Component {
+  static propTypes = {
+    provider: MapView.ProviderPropType,
+  };
   handleIndoorFocus(event) {
     const { indoorBuilding } = event.nativeEvent;
     const { defaultLevelIndex, levels } = indoorBuilding;
     const levelNames = levels.map(lv => lv.name || '');
     const msg = `Default Level: ${defaultLevelIndex}\nLevels: ${levelNames.toString()}`;
-    Alert.alert(
-      'Indoor building focused',
-      msg
-    );
+    Alert.alert('Indoor building focused', msg);
   }
 
-  setIndoorLevel(level) {
+  setIndoorLevel = level => {
     this.map.setIndoorActiveLevelIndex(level);
-  }
+  };
 
   render() {
     return (
@@ -45,18 +41,26 @@ class IndoorMap extends React.Component {
           showsIndoors
           showsIndoorLevelPicker
           onIndoorBuildingFocused={this.handleIndoorFocus}
-          ref={map => { this.map = map; }}
+          ref={map => {
+            this.map = map;
+          }}
         />
-        <Button title="go to level 5" onPress={() => { this.setIndoorLevel(5); }} />
-        <Button title="go to level 1" onPress={() => { this.setIndoorLevel(1); }} />
+        <Button
+          title="go to level 5"
+          onPress={() => {
+            this.setIndoorLevel(5);
+          }}
+        />
+        <Button
+          title="go to level 1"
+          onPress={() => {
+            this.setIndoorLevel(1);
+          }}
+        />
       </View>
     );
   }
 }
-
-IndoorMap.propTypes = {
-  provider: MapView.ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -68,5 +72,3 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
 });
-
-module.exports = IndoorMap;

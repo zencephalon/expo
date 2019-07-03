@@ -1,14 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-  Platform,
-} from 'react-native';
+import { StyleSheet, View, Text, Dimensions, TouchableOpacity, Platform } from 'react-native';
 
-import MapView, { ProviderPropType, Marker, AnimatedRegion } from 'react-native-maps';
+import MapView, { ProviderPropType, Marker, AnimatedRegion } from './lib';
 
 const screen = Dimensions.get('window');
 
@@ -19,22 +12,18 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class AnimatedMarkers extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    coordinate: new AnimatedRegion({
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+    }),
+  };
 
-    this.state = {
-      coordinate: new AnimatedRegion({
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-      }),
-    };
-  }
-
-  animate() {
+  animate = () => {
     const { coordinate } = this.state;
     const newCoordinate = {
-      latitude: LATITUDE + ((Math.random() - 0.5) * (LATITUDE_DELTA / 2)),
-      longitude: LONGITUDE + ((Math.random() - 0.5) * (LONGITUDE_DELTA / 2)),
+      latitude: LATITUDE + (Math.random() - 0.5) * (LATITUDE_DELTA / 2),
+      longitude: LONGITUDE + (Math.random() - 0.5) * (LONGITUDE_DELTA / 2),
     };
 
     if (Platform.OS === 'android') {
@@ -44,7 +33,7 @@ class AnimatedMarkers extends React.Component {
     } else {
       coordinate.timing(newCoordinate).start();
     }
-  }
+  };
 
   render() {
     return (
@@ -57,18 +46,16 @@ class AnimatedMarkers extends React.Component {
             longitude: LONGITUDE,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
-          }}
-        >
+          }}>
           <Marker.Animated
-            ref={marker => { this.marker = marker; }}
+            ref={marker => {
+              this.marker = marker;
+            }}
             coordinate={this.state.coordinate}
           />
         </MapView>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => this.animate()}
-            style={[styles.bubble, styles.button]}
-          >
+          <TouchableOpacity onPress={() => this.animate()} style={[styles.bubble, styles.button]}>
             <Text>Animate</Text>
           </TouchableOpacity>
         </View>

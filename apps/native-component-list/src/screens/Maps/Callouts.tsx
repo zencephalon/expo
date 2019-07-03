@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import MapView, { Marker, Callout, CalloutSubview, ProviderPropType } from 'react-native-maps';
+import { StyleSheet, View, Text, Dimensions, TouchableOpacity, Alert } from 'react-native';
+import MapView, { Marker, Callout, CalloutSubview, ProviderPropType } from './lib';
 import CustomCallout from './CustomCallout';
 
 const { width, height } = Dimensions.get('window');
@@ -19,46 +12,41 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
 class Callouts extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      cnt: 0,
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
+  state = {
+    cnt: 0,
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+    markers: [
+      {
+        coordinate: {
+          latitude: LATITUDE + SPACE,
+          longitude: LONGITUDE + SPACE,
+        },
       },
-      markers: [
-        {
-          coordinate: {
-            latitude: LATITUDE + SPACE,
-            longitude: LONGITUDE + SPACE,
-          },
+      {
+        coordinate: {
+          latitude: LATITUDE + SPACE,
+          longitude: LONGITUDE - SPACE,
         },
-        {
-          coordinate: {
-            latitude: LATITUDE + SPACE,
-            longitude: LONGITUDE - SPACE,
-          },
+      },
+      {
+        coordinate: {
+          latitude: LATITUDE,
+          longitude: LONGITUDE,
         },
-        {
-          coordinate: {
-            latitude: LATITUDE,
-            longitude: LONGITUDE,
-          },
+      },
+      {
+        coordinate: {
+          latitude: LATITUDE,
+          longitude: LONGITUDE - SPACE / 2,
         },
-        {
-          coordinate: {
-            latitude: LATITUDE,
-            longitude: LONGITUDE - (SPACE / 2),
-          },
-        },
-      ],
-    };
-  }
-
+      },
+    ],
+  };
   show() {
     this.marker1.showCallout();
   }
@@ -75,17 +63,16 @@ class Callouts extends React.Component {
           provider={this.props.provider}
           style={styles.map}
           initialRegion={region}
-          zoomTapEnabled={false}
-        >
+          zoomTapEnabled={false}>
           <Marker
-            ref={ref => { this.marker1 = ref; }}
+            ref={ref => {
+              this.marker1 = ref;
+            }}
             coordinate={markers[0].coordinate}
             title="This is a native view"
             description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation" // eslint-disable-line max-len
           />
-          <Marker
-            coordinate={markers[1].coordinate}
-          >
+          <Marker coordinate={markers[1].coordinate}>
             <Callout style={styles.plainView}>
               <View>
                 <Text>This is a plain view</Text>
@@ -96,19 +83,23 @@ class Callouts extends React.Component {
             coordinate={markers[2].coordinate}
             calloutOffset={{ x: -8, y: 28 }}
             calloutAnchor={{ x: 0.5, y: 0.4 }}
-            ref={ref => { this.marker2 = ref; }}
-          >
+            ref={ref => {
+              this.marker2 = ref;
+            }}>
             <Callout
               alphaHitTest
-              tooltip onPress={(e) => {
-                if (e.nativeEvent.action === 'marker-inside-overlay-press' ||
-                  e.nativeEvent.action === 'callout-inside-press') {
+              tooltip
+              onPress={e => {
+                if (
+                  e.nativeEvent.action === 'marker-inside-overlay-press' ||
+                  e.nativeEvent.action === 'callout-inside-press'
+                ) {
                   return;
                 }
 
                 Alert.alert('callout pressed');
-              }} style={styles.customView}
-            >
+              }}
+              style={styles.customView}>
               <CustomCallout>
                 <Text>{`This is a custom callout bubble view ${this.state.cnt}`}</Text>
                 <CalloutSubview
@@ -116,15 +107,17 @@ class Callouts extends React.Component {
                     this.setState({ cnt: this.state.cnt + 1 }, () => {
                       this.marker2.redrawCallout();
                     });
-                  }} style={[styles.calloutButton]}
-                >
+                  }}
+                  style={[styles.calloutButton]}>
                   <Text>Click me</Text>
                 </CalloutSubview>
               </CustomCallout>
             </Callout>
           </Marker>
           <Marker
-            ref={ref => { this.marker4 = ref; }}
+            ref={ref => {
+              this.marker4 = ref;
+            }}
             coordinate={markers[3].coordinate}
             title="You can also open this callout"
             description="by pressing on transparent area of custom callout" // eslint-disable-line max-len

@@ -1,12 +1,6 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
-import MapView, { ProviderPropType } from 'react-native-maps';
+import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import MapView, { ProviderPropType } from './lib';
 import MyLocationMapMarker from './MyLocationMapMarker';
 
 const { width, height } = Dimensions.get('window');
@@ -18,24 +12,20 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class BugMarkerWontUpdate extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      coordinate: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-      },
-      amount: 0,
-      enableHack: false,
-    };
-  }
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+    coordinate: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+    },
+    amount: 0,
+    enableHack: false,
+  };
 
   increment() {
     this.setState({ amount: this.state.amount + 10 });
@@ -55,8 +45,7 @@ class BugMarkerWontUpdate extends React.Component {
         <MapView
           provider={this.props.provider}
           style={styles.map}
-          initialRegion={this.state.region}
-        >
+          initialRegion={this.state.region}>
           <MyLocationMapMarker
             coordinate={this.state.coordinate}
             heading={this.state.amount}
@@ -66,24 +55,17 @@ class BugMarkerWontUpdate extends React.Component {
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => this.toggleHack()}
-            style={[styles.bubble, styles.button, styles.hackButton]}
-          >
+            style={[styles.bubble, styles.button, styles.hackButton]}>
             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
               {this.state.enableHack ? 'Disable Hack' : 'Enable Hack'}
             </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => this.decrement()}
-            style={[styles.bubble, styles.button]}
-          >
+          <TouchableOpacity onPress={() => this.decrement()} style={[styles.bubble, styles.button]}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>-</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.increment()}
-            style={[styles.bubble, styles.button]}
-          >
+          <TouchableOpacity onPress={() => this.increment()} style={[styles.bubble, styles.button]}>
             <Text style={{ fontSize: 20, fontWeight: 'bold' }}>+</Text>
           </TouchableOpacity>
         </View>

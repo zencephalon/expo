@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-} from 'react-native';
-import MapView, { Marker, ProviderPropType } from 'react-native-maps';
+import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import MapView, { Marker, ProviderPropType } from './lib';
 import flagBlueImg from './assets/flag-blue.png';
 import flagPinkImg from './assets/flag-pink.png';
 
@@ -38,8 +33,7 @@ class MarkerTypes extends React.Component {
             longitude: LONGITUDE,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
-          }}
-        >
+          }}>
           <Marker
             onPress={() => this.setState({ marker1: !this.state.marker1 })}
             coordinate={{
@@ -48,8 +42,7 @@ class MarkerTypes extends React.Component {
             }}
             centerOffset={{ x: -18, y: -60 }}
             anchor={{ x: 0.69, y: 1 }}
-            image={this.state.marker1 ? flagBlueImg : flagPinkImg}
-          >
+            image={this.state.marker1 ? flagBlueImg : flagPinkImg}>
             <Text style={styles.marker}>X</Text>
           </Marker>
           <Marker

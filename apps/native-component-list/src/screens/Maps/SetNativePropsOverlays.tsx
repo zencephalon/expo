@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
 
-import MapView, { Circle, Polygon, Polyline, ProviderPropType } from 'react-native-maps';
+import MapView, { Circle, Polygon, Polyline, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,58 +13,57 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
 class SetNativePropsOverlays extends React.Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    provider: ProviderPropType,
+  };
 
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+    circle: {
+      center: {
+        latitude: LATITUDE + SPACE,
+        longitude: LONGITUDE + SPACE,
       },
-      circle: {
-        center: {
-          latitude: LATITUDE + SPACE,
-          longitude: LONGITUDE + SPACE,
-        },
-        radius: 700,
+      radius: 700,
+    },
+    polygon: [
+      {
+        latitude: LATITUDE + SPACE,
+        longitude: LONGITUDE + SPACE,
       },
-      polygon: [
-        {
-          latitude: LATITUDE + SPACE,
-          longitude: LONGITUDE + SPACE,
-        },
-        {
-          latitude: LATITUDE - SPACE,
-          longitude: LONGITUDE - SPACE,
-        },
-        {
-          latitude: LATITUDE - SPACE,
-          longitude: LONGITUDE + SPACE,
-        },
-      ],
-      polyline: [
-        {
-          latitude: LATITUDE + SPACE,
-          longitude: LONGITUDE - SPACE,
-        },
-        {
-          latitude: LATITUDE - (2 * SPACE),
-          longitude: LONGITUDE + (2 * SPACE),
-        },
-        {
-          latitude: LATITUDE - SPACE,
-          longitude: LONGITUDE - SPACE,
-        },
-        {
-          latitude: LATITUDE - (2 * SPACE),
-          longitude: LONGITUDE - SPACE,
-        },
-      ],
-    };
-  }
-
+      {
+        latitude: LATITUDE - SPACE,
+        longitude: LONGITUDE - SPACE,
+      },
+      {
+        latitude: LATITUDE - SPACE,
+        longitude: LONGITUDE + SPACE,
+      },
+    ],
+    polyline: [
+      {
+        latitude: LATITUDE + SPACE,
+        longitude: LONGITUDE - SPACE,
+      },
+      {
+        latitude: LATITUDE - 2 * SPACE,
+        longitude: LONGITUDE + 2 * SPACE,
+      },
+      {
+        latitude: LATITUDE - SPACE,
+        longitude: LONGITUDE - SPACE,
+      },
+      {
+        latitude: LATITUDE - 2 * SPACE,
+        longitude: LONGITUDE - SPACE,
+      },
+    ],
+  };
   handleColorChange(color) {
     const props = { strokeColor: color };
     this.circle.setNativeProps(props);
@@ -82,13 +75,11 @@ class SetNativePropsOverlays extends React.Component {
     const { region, circle, polygon, polyline } = this.state;
     return (
       <View style={styles.container}>
-        <MapView
-          provider={this.props.provider}
-          style={styles.map}
-          initialRegion={region}
-        >
+        <MapView provider={this.props.provider} style={styles.map} initialRegion={region}>
           <Circle
-            ref={ref => { this.circle = ref; }}
+            ref={ref => {
+              this.circle = ref;
+            }}
             center={circle.center}
             radius={circle.radius}
             fillColor="rgba(255, 255, 255, 0.6)"
@@ -97,31 +88,44 @@ class SetNativePropsOverlays extends React.Component {
             strokeWidth={3}
           />
           <Polygon
-            ref={ref => { this.polygon = ref; }}
+            ref={ref => {
+              this.polygon = ref;
+            }}
             coordinates={polygon}
             fillColor="rgba(255, 255, 255, 0.6)"
             strokeColor="green"
             strokeWidth={2}
           />
           <Polyline
-            ref={ref => { this.polyline = ref; }}
+            ref={ref => {
+              this.polyline = ref;
+            }}
             coordinates={polyline}
             strokeColor="green"
             strokeWidth={3}
           />
         </MapView>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => { this.handleColorChange('green'); }}>
+          <TouchableOpacity
+            onPress={() => {
+              this.handleColorChange('green');
+            }}>
             <View style={styles.bubble}>
               <Text>Green</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { this.handleColorChange('black'); }}>
+          <TouchableOpacity
+            onPress={() => {
+              this.handleColorChange('black');
+            }}>
             <View style={styles.bubble}>
               <Text>Black</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => { this.handleColorChange('red'); }}>
+          <TouchableOpacity
+            onPress={() => {
+              this.handleColorChange('red');
+            }}>
             <View style={styles.bubble}>
               <Text>Red</Text>
             </View>
@@ -131,10 +135,6 @@ class SetNativePropsOverlays extends React.Component {
     );
   }
 }
-
-SetNativePropsOverlays.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

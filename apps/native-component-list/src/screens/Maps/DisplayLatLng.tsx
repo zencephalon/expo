@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 
-import MapView, { MAP_TYPES, ProviderPropType } from 'react-native-maps';
+import MapView, { MAP_TYPES, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -18,18 +12,17 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class DisplayLatLng extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-    };
-  }
+  static propTypes = {
+    provider: ProviderPropType,
+  };
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+  };
 
   onRegionChange(region) {
     this.setState({ region });
@@ -56,14 +49,14 @@ class DisplayLatLng extends React.Component {
   }
 
   getRandomFloat(min, max) {
-    return (Math.random() * (max - min)) + min;
+    return Math.random() * (max - min) + min;
   }
 
   randomCoordinate() {
     const region = this.state.region;
     return {
-      latitude: region.latitude + ((Math.random() - 0.5) * (region.latitudeDelta / 2)),
-      longitude: region.longitude + ((Math.random() - 0.5) * (region.longitudeDelta / 2)),
+      latitude: region.latitude + (Math.random() - 0.5) * (region.latitudeDelta / 2),
+      longitude: region.longitude + (Math.random() - 0.5) * (region.longitudeDelta / 2),
     };
   }
 
@@ -79,7 +72,9 @@ class DisplayLatLng extends React.Component {
       <View style={styles.container}>
         <MapView
           provider={this.props.provider}
-          ref={ref => { this.map = ref; }}
+          ref={ref => {
+            this.map = ref;
+          }}
           mapType={MAP_TYPES.TERRAIN}
           style={styles.map}
           initialRegion={this.state.region}
@@ -87,39 +82,33 @@ class DisplayLatLng extends React.Component {
         />
         <View style={[styles.bubble, styles.latlng]}>
           <Text style={{ textAlign: 'center' }}>
-            {this.state.region.latitude.toPrecision(7)},
-            {this.state.region.longitude.toPrecision(7)}
+            {this.state.region.latitude.toPrecision(7)},{this.state.region.longitude.toPrecision(7)}
           </Text>
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             onPress={() => this.jumpRandom()}
-            style={[styles.bubble, styles.button]}
-          >
+            style={[styles.bubble, styles.button]}>
             <Text style={styles.buttonText}>Jump</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.animateRandom()}
-            style={[styles.bubble, styles.button]}
-          >
+            style={[styles.bubble, styles.button]}>
             <Text style={styles.buttonText}>Animate (Region)</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.animateRandomCoordinate()}
-            style={[styles.bubble, styles.button]}
-          >
+            style={[styles.bubble, styles.button]}>
             <Text style={styles.buttonText}>Animate (Coordinate)</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.animateToRandomBearing()}
-            style={[styles.bubble, styles.button]}
-          >
+            style={[styles.bubble, styles.button]}>
             <Text style={styles.buttonText}>Animate (Bearing)</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.animateToRandomViewingAngle()}
-            style={[styles.bubble, styles.button]}
-          >
+            style={[styles.bubble, styles.button]}>
             <Text style={styles.buttonText}>Animate (View Angle)</Text>
           </TouchableOpacity>
         </View>
@@ -127,10 +116,6 @@ class DisplayLatLng extends React.Component {
     );
   }
 }
-
-DisplayLatLng.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

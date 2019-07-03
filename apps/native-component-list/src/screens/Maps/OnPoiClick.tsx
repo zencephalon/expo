@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, View, Text, Dimensions } from 'react-native';
 
-import MapView, { Callout, Marker, ProviderPropType } from 'react-native-maps';
+import MapView, { Callout, Marker, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -17,29 +12,27 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class OnPoiClick extends React.Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    provider: ProviderPropType,
+  };
 
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      poi: null,
-    };
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+    poi: null,
+  };
 
-    this.onPoiClick = this.onPoiClick.bind(this);
-  }
-
-  onPoiClick(e) {
+  onPoiClick = e => {
     const poi = e.nativeEvent;
 
     this.setState({
       poi,
     });
-  }
+  };
 
   render() {
     return (
@@ -48,16 +41,13 @@ class OnPoiClick extends React.Component {
           provider={this.props.provider}
           style={styles.map}
           initialRegion={this.state.region}
-          onPoiClick={this.onPoiClick}
-        >
+          onPoiClick={this.onPoiClick}>
           {this.state.poi && (
-            <Marker
-              coordinate={this.state.poi.coordinate}
-            >
+            <Marker coordinate={this.state.poi.coordinate}>
               <Callout>
                 <View>
-                  <Text>Place Id: { this.state.poi.placeId }</Text>
-                  <Text>Name: { this.state.poi.name }</Text>
+                  <Text>Place Id: {this.state.poi.placeId}</Text>
+                  <Text>Name: {this.state.poi.name}</Text>
                 </View>
               </Callout>
             </Marker>
@@ -67,10 +57,6 @@ class OnPoiClick extends React.Component {
     );
   }
 }
-
-OnPoiClick.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

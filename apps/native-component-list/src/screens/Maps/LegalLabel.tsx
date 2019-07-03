@@ -1,26 +1,19 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Animated,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, Text, Animated, Dimensions, TouchableOpacity } from 'react-native';
 
-import MapView, { Marker, ProviderPropType } from 'react-native-maps';
+import MapView, { Marker, ProviderPropType } from './lib';
 
 const screen = Dimensions.get('window');
 
 class LegalLabel extends React.Component {
   static propTypes = {
     provider: ProviderPropType,
-  }
+  };
 
   state = {
     _legalLabelPositionY: new Animated.Value(10),
     legalLabelPositionY: 10,
-  }
+  };
 
   componentDidMount() {
     this.state._legalLabelPositionY.addListener(({ value }) => {
@@ -43,7 +36,7 @@ class LegalLabel extends React.Component {
         toValue: 10,
       }),
     ]).start();
-  }
+  };
 
   render() {
     const latlng = {
@@ -65,8 +58,7 @@ class LegalLabel extends React.Component {
             ...latlng,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
-          }}
-        >
+          }}>
           <Marker coordinate={latlng} />
         </MapView>
 
@@ -78,17 +70,14 @@ class LegalLabel extends React.Component {
 
         <View style={styles.bio}>
           <Text style={styles.bioText}>
-            Bio description lorem ipsum Ullamco exercitation
-            aliqua ullamco nostrud dolor et aliquip fugiat do
-            aute fugiat velit in aliqua sit.
+            Bio description lorem ipsum Ullamco exercitation aliqua ullamco nostrud dolor et aliquip
+            fugiat do aute fugiat velit in aliqua sit.
           </Text>
         </View>
 
         <View style={styles.photo}>
           <View style={styles.photoInner}>
-            <Text style={styles.photoText}>
-              Profile Photo
-            </Text>
+            <Text style={styles.photoText}>Profile Photo</Text>
           </View>
         </View>
       </View>
@@ -122,7 +111,7 @@ const styles = StyleSheet.create({
   photo: {
     padding: 2,
     position: 'absolute',
-    top: mapHeight - (photoSize / 2),
+    top: mapHeight - photoSize / 2,
     left: padding,
     borderRadius: 5,
     borderWidth: StyleSheet.hairlineWidth,

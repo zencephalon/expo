@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
-import MapView, { Marker, ProviderPropType } from 'react-native-maps';
+import MapView, { Marker, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -27,8 +22,8 @@ class ZIndexMarkers extends React.Component {
     const markerInfo = [];
     for (let i = 1; i < NUM_MARKERS; i++) {
       markerInfo.push({
-        latitude: (((Math.random() * 2) - 1) * MARKERS_LATITUDE_DELTA) + LATITUDE,
-        longitude: (((Math.random() * 2) - 1) * MARKERS_LONGITUDE_DELTA) + LONGITUDE,
+        latitude: (Math.random() * 2 - 1) * MARKERS_LATITUDE_DELTA + LATITUDE,
+        longitude: (Math.random() * 2 - 1) * MARKERS_LONGITUDE_DELTA + LONGITUDE,
         isSpecial: Math.random() < PERCENT_SPECIAL_MARKERS,
         id: i,
       });
@@ -40,28 +35,29 @@ class ZIndexMarkers extends React.Component {
   }
 
   render() {
-    const markers = this.state.markerInfo.map((markerInfo) =>
+    const markers = this.state.markerInfo.map(markerInfo => (
       <Marker
         coordinate={markerInfo}
         key={markerInfo.id}
         pinColor={markerInfo.isSpecial ? '#c5a620' : null}
         style={markerInfo.isSpecial ? styles.specialMarker : null}
       />
-    );
+    ));
 
     return (
       <View style={styles.container}>
         <MapView
           provider={this.props.provider}
-          ref={ref => { this.map = ref; }}
+          ref={ref => {
+            this.map = ref;
+          }}
           style={styles.map}
           initialRegion={{
             latitude: LATITUDE,
             longitude: LONGITUDE,
             latitudeDelta: MAP_LATITUDE_DELTA,
             longitudeDelta: MAP_LONGITUDE_DELTA,
-          }}
-        >
+          }}>
           {markers}
         </MapView>
         <View style={styles.textContainer}>

@@ -1,10 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
-import MapView, { Polyline, ProviderPropType } from 'react-native-maps';
+import MapView, { Polyline, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -33,26 +30,24 @@ const COLORS = [
 ];
 
 class GradientPolylines extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-    };
-  }
+  static propTypes = {
+    provider: ProviderPropType,
+  };
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+  };
 
   render() {
     return (
       <MapView
         provider={this.props.provider}
         style={styles.container}
-        initialRegion={this.state.region}
-      >
+        initialRegion={this.state.region}>
         <Polyline
           coordinates={COORDINATES}
           strokeColor="#000"
@@ -63,10 +58,6 @@ class GradientPolylines extends React.Component {
     );
   }
 }
-
-GradientPolylines.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

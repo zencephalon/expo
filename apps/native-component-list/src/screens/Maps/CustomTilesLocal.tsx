@@ -1,17 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-} from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
-import MapView, {
-  MAP_TYPES,
-  PROVIDER_DEFAULT,
-  LocalTile,
-  ProviderPropType,
-} from 'react-native-maps';
+import MapView, { LocalTile, MAP_TYPES, PROVIDER_DEFAULT, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,23 +12,21 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class CustomTiles extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-    };
-  }
+  static propTypes = {
+    provider: ProviderPropType,
+  };
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+  };
 
   get mapType() {
     // MapKit does not support 'none' as a base map
-    return this.props.provider === PROVIDER_DEFAULT ?
-      MAP_TYPES.STANDARD : MAP_TYPES.NONE;
+    return this.props.provider === PROVIDER_DEFAULT ? MAP_TYPES.STANDARD : MAP_TYPES.NONE;
   }
 
   render() {
@@ -49,8 +37,7 @@ class CustomTiles extends React.Component {
           provider={this.props.provider}
           mapType={this.mapType}
           style={styles.map}
-          initialRegion={region}
-        >
+          initialRegion={region}>
           <LocalTile
             pathTemplate="/path/to/locally/saved/tiles/{z}/{x}/{y}.png"
             tileSize={256}
@@ -66,10 +53,6 @@ class CustomTiles extends React.Component {
     );
   }
 }
-
-CustomTiles.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

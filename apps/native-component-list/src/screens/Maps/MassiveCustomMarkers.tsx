@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 
-import MapView, { Marker, ProviderPropType } from 'react-native-maps';
+import MapView, { Marker, ProviderPropType } from './lib';
 import flagPinkImg from './assets/flag-pink.png';
 
 const { width, height } = Dimensions.get('window');
@@ -20,21 +14,15 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
 class MassiveCustomMarkers extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      markers: [],
-    };
-
-    this.onMapPress = this.onMapPress.bind(this);
-  }
+  state = {
+    region: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    },
+    markers: [],
+  };
 
   generateMarkers(fromCoordinate) {
     const result = [];
@@ -42,8 +30,8 @@ class MassiveCustomMarkers extends React.Component {
     for (let i = 0; i < 100; i++) {
       const newMarker = {
         coordinate: {
-          latitude: latitude + (0.001 * i),
-          longitude: longitude + (0.001 * i),
+          latitude: latitude + 0.001 * i,
+          longitude: longitude + 0.001 * i,
         },
         key: `foo${id++}`,
       };
@@ -52,14 +40,11 @@ class MassiveCustomMarkers extends React.Component {
     return result;
   }
 
-  onMapPress(e) {
+  onMapPress = e => {
     this.setState({
-      markers: [
-        ...this.state.markers,
-        ...this.generateMarkers(e.nativeEvent.coordinate),
-      ],
+      markers: [...this.state.markers, ...this.generateMarkers(e.nativeEvent.coordinate)],
     });
-  }
+  };
 
   render() {
     return (
@@ -68,8 +53,7 @@ class MassiveCustomMarkers extends React.Component {
           provider={this.props.provider}
           style={styles.map}
           initialRegion={this.state.region}
-          onPress={this.onMapPress}
-        >
+          onPress={this.onMapPress}>
           {this.state.markers.map(marker => (
             <Marker
               title={marker.key}
@@ -80,10 +64,7 @@ class MassiveCustomMarkers extends React.Component {
           ))}
         </MapView>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => this.setState({ markers: [] })}
-            style={styles.bubble}
-          >
+          <TouchableOpacity onPress={() => this.setState({ markers: [] })} style={styles.bubble}>
             <Text>Tap to create 100 markers</Text>
           </TouchableOpacity>
         </View>

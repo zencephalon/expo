@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 
-import MapView, { MAP_TYPES, Polygon, ProviderPropType } from 'react-native-maps';
+import MapView, { MAP_TYPES, Polygon, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -51,10 +45,7 @@ class PolygonCreator extends React.Component {
         creatingHole: true,
         editing: {
           ...editing,
-          holes: [
-            ...editing.holes,
-            [],
-          ],
+          holes: [...editing.holes, []],
         },
       });
     } else {
@@ -86,25 +77,17 @@ class PolygonCreator extends React.Component {
       this.setState({
         editing: {
           ...editing,
-          coordinates: [
-            ...editing.coordinates,
-            e.nativeEvent.coordinate,
-          ],
+          coordinates: [...editing.coordinates, e.nativeEvent.coordinate],
         },
       });
     } else {
       const holes = [...editing.holes];
-      holes[holes.length - 1] = [
-        ...holes[holes.length - 1],
-        e.nativeEvent.coordinate,
-      ];
+      holes[holes.length - 1] = [...holes[holes.length - 1], e.nativeEvent.coordinate];
       this.setState({
         editing: {
           ...editing,
           id: id++, // keep incrementing id to trigger display refresh
-          coordinates: [
-            ...editing.coordinates,
-          ],
+          coordinates: [...editing.coordinates],
           holes,
         },
       });
@@ -129,8 +112,7 @@ class PolygonCreator extends React.Component {
           mapType={MAP_TYPES.HYBRID}
           initialRegion={this.state.region}
           onPress={e => this.onPress(e)}
-          {...mapOptions}
-        >
+          {...mapOptions}>
           {this.state.polygons.map(polygon => (
             <Polygon
               key={polygon.id}
@@ -156,16 +138,12 @@ class PolygonCreator extends React.Component {
           {this.state.editing && (
             <TouchableOpacity
               onPress={() => this.createHole()}
-              style={[styles.bubble, styles.button]}
-            >
+              style={[styles.bubble, styles.button]}>
               <Text>{this.state.creatingHole ? 'Finish Hole' : 'Create Hole'}</Text>
             </TouchableOpacity>
           )}
           {this.state.editing && (
-            <TouchableOpacity
-              onPress={() => this.finish()}
-              style={[styles.bubble, styles.button]}
-            >
+            <TouchableOpacity onPress={() => this.finish()} style={[styles.bubble, styles.button]}>
               <Text>Finish</Text>
             </TouchableOpacity>
           )}

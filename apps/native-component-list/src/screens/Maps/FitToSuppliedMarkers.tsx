@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-} from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 
-import MapView, { Marker, ProviderPropType } from 'react-native-maps';
+import MapView, { Marker, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,32 +17,31 @@ const timeout = 4000;
 let animationTimeout;
 
 class FocusOnMarkers extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      a: {
-        latitude: LATITUDE + SPACE,
-        longitude: LONGITUDE + SPACE,
-      },
-      b: {
-        latitude: LATITUDE - SPACE,
-        longitude: LONGITUDE - SPACE,
-      },
-      c: {
-        latitude: LATITUDE - (SPACE * 2),
-        longitude: LONGITUDE - (SPACE * 2),
-      },
-      d: {
-        latitude: LATITUDE - (SPACE * 3),
-        longitude: LONGITUDE - (SPACE * 3),
-      },
-      e: {
-        latitude: LATITUDE - (SPACE * 4),
-        longitude: LONGITUDE - (SPACE * 4),
-      },
-    };
-  }
+  static propTypes = {
+    provider: ProviderPropType,
+  };
+  state = {
+    a: {
+      latitude: LATITUDE + SPACE,
+      longitude: LONGITUDE + SPACE,
+    },
+    b: {
+      latitude: LATITUDE - SPACE,
+      longitude: LONGITUDE - SPACE,
+    },
+    c: {
+      latitude: LATITUDE - SPACE * 2,
+      longitude: LONGITUDE - SPACE * 2,
+    },
+    d: {
+      latitude: LATITUDE - SPACE * 3,
+      longitude: LONGITUDE - SPACE * 3,
+    },
+    e: {
+      latitude: LATITUDE - SPACE * 4,
+      longitude: LONGITUDE - SPACE * 4,
+    },
+  };
 
   componentDidMount() {
     animationTimeout = setTimeout(() => {
@@ -67,10 +62,7 @@ class FocusOnMarkers extends React.Component {
 
   focus1() {
     animationTimeout = setTimeout(() => {
-      this.focusMap([
-        markerIDs[1],
-        markerIDs[4],
-      ], true);
+      this.focusMap([markerIDs[1], markerIDs[4]], true);
 
       this.focus2();
     }, timeout);
@@ -78,10 +70,7 @@ class FocusOnMarkers extends React.Component {
 
   focus2() {
     animationTimeout = setTimeout(() => {
-      this.focusMap([
-        markerIDs[2],
-        markerIDs[3],
-      ], false);
+      this.focusMap([markerIDs[2], markerIDs[3]], false);
 
       this.focus3();
     }, timeout);
@@ -89,10 +78,7 @@ class FocusOnMarkers extends React.Component {
 
   focus3() {
     animationTimeout = setTimeout(() => {
-      this.focusMap([
-        markerIDs[1],
-        markerIDs[2],
-      ], false);
+      this.focusMap([markerIDs[1], markerIDs[2]], false);
 
       this.focus4();
     }, timeout);
@@ -100,10 +86,7 @@ class FocusOnMarkers extends React.Component {
 
   focus4() {
     animationTimeout = setTimeout(() => {
-      this.focusMap([
-        markerIDs[0],
-        markerIDs[3],
-      ], true);
+      this.focusMap([markerIDs[0], markerIDs[3]], true);
 
       this.focus1();
     }, timeout);
@@ -114,44 +97,26 @@ class FocusOnMarkers extends React.Component {
       <View style={styles.container}>
         <MapView
           provider={this.props.provider}
-          ref={ref => { this.map = ref; }}
+          ref={ref => {
+            this.map = ref;
+          }}
           style={styles.map}
           initialRegion={{
             latitude: LATITUDE,
             longitude: LONGITUDE,
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
-          }}
-        >
-          <Marker
-            identifier="Marker1"
-            coordinate={this.state.a}
-          />
-          <Marker
-            identifier="Marker2"
-            coordinate={this.state.b}
-          />
-          <Marker
-            identifier="Marker3"
-            coordinate={this.state.c}
-          />
-          <Marker
-            identifier="Marker4"
-            coordinate={this.state.d}
-          />
-          <Marker
-            identifier="Marker5"
-            coordinate={this.state.e}
-          />
+          }}>
+          <Marker identifier="Marker1" coordinate={this.state.a} />
+          <Marker identifier="Marker2" coordinate={this.state.b} />
+          <Marker identifier="Marker3" coordinate={this.state.c} />
+          <Marker identifier="Marker4" coordinate={this.state.d} />
+          <Marker identifier="Marker5" coordinate={this.state.e} />
         </MapView>
       </View>
     );
   }
 }
-
-FocusOnMarkers.propTypes = {
-  provider: ProviderPropType,
-};
 
 const styles = StyleSheet.create({
   container: {

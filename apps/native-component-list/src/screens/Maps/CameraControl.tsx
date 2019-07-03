@@ -1,29 +1,15 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  Alert,
-} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
 
-import MapView, { ProviderPropType } from 'react-native-maps';
+import MapView, { ProviderPropType } from './lib';
 
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
 
-
 class CameraControl extends React.Component {
   async getCamera() {
     const camera = await this.map.getCamera();
-    Alert.alert(
-      'Current camera',
-      JSON.stringify(camera),
-      [
-        { text: 'OK' },
-      ],
-      { cancelable: true }
-    );
+    Alert.alert('Current camera', JSON.stringify(camera), [{ text: 'OK' }], { cancelable: true });
   }
 
   async setCamera() {
@@ -66,22 +52,15 @@ class CameraControl extends React.Component {
           }}
         />
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => this.getCamera()}
-            style={[styles.bubble, styles.button]}
-          >
+          <TouchableOpacity onPress={() => this.getCamera()} style={[styles.bubble, styles.button]}>
             <Text>Get current camera</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.setCamera()}
-            style={[styles.bubble, styles.button]}
-          >
+          <TouchableOpacity onPress={() => this.setCamera()} style={[styles.bubble, styles.button]}>
             <Text>Set Camera</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.animateCamera()}
-            style={[styles.bubble, styles.button]}
-          >
+            style={[styles.bubble, styles.button]}>
             <Text>Animate Camera</Text>
           </TouchableOpacity>
         </View>
@@ -93,7 +72,6 @@ class CameraControl extends React.Component {
 CameraControl.propTypes = {
   provider: ProviderPropType,
 };
-
 
 const styles = StyleSheet.create({
   container: {

@@ -9,45 +9,45 @@ import {
   Switch,
 } from 'react-native';
 import { PROVIDER_GOOGLE, PROVIDER_DEFAULT } from './lib';
-// import DisplayLatLng from './DisplayLatLng';
-// import ViewsAsMarkers from './ViewsAsMarkers';
-// import EventListener from './EventListener';
-// import MarkerTypes from './MarkerTypes';
-// import DraggableMarkers from './DraggableMarkers';
-// import PolygonCreator from './PolygonCreator';
-// import PolylineCreator from './PolylineCreator';
-// import GradientPolylines from './GradientPolylines';
-// import AnimatedViews from './AnimatedViews';
-// import AnimatedMarkers from './AnimatedMarkers';
-// import Callouts from './Callouts';
-// import Overlays from './Overlays';
-// import DefaultMarkers from './DefaultMarkers';
-// import CustomMarkers from './CustomMarkers';
-// import CachedMap from './CachedMap';
-// import LoadingMap from './LoadingMap';
-// import MapBoundaries from './MapBoundaries';
-// import TakeSnapshot from './TakeSnapshot';
-// import FitToSuppliedMarkers from './FitToSuppliedMarkers';
-// import FitToCoordinates from './FitToCoordinates';
-// import LiteMapView from './LiteMapView';
-// import CustomTiles from './CustomTiles';
-// import WMSTiles from './WMSTiles';
-// import ZIndexMarkers from './ZIndexMarkers';
+import DisplayLatLng from './DisplayLatLng';
+import ViewsAsMarkers from './ViewsAsMarkers';
+import EventListener from './EventListener';
+import MarkerTypes from './MarkerTypes';
+import DraggableMarkers from './DraggableMarkers';
+import PolygonCreator from './PolygonCreator';
+import PolylineCreator from './PolylineCreator';
+import GradientPolylines from './GradientPolylines';
+import AnimatedViews from './AnimatedViews';
+import AnimatedMarkers from './AnimatedMarkers';
+import Callouts from './Callouts';
+import Overlays from './Overlays';
+import DefaultMarkers from './DefaultMarkers';
+import CustomMarkers from './CustomMarkers';
+import CachedMap from './CachedMap';
+import LoadingMap from './LoadingMap';
+import MapBoundaries from './MapBoundaries';
+import TakeSnapshot from './TakeSnapshot';
+import FitToSuppliedMarkers from './FitToSuppliedMarkers';
+import FitToCoordinates from './FitToCoordinates';
+import LiteMapView from './LiteMapView';
+import CustomTiles from './CustomTiles';
+import WMSTiles from './WMSTiles';
+import ZIndexMarkers from './ZIndexMarkers';
 import StaticMap from './StaticMap';
-// import MapStyle from './MapStyle';
-// import LegalLabel from './LegalLabel';
-// import SetNativePropsOverlays from './SetNativePropsOverlays';
-// import CustomOverlay from './CustomOverlay';
-// import MapKml from './MapKml';
-// import BugMarkerWontUpdate from './BugMarkerWontUpdate';
-// import ImageOverlayWithAssets from './ImageOverlayWithAssets';
-// import ImageOverlayWithURL from './ImageOverlayWithURL';
-// import AnimatedNavigation from './AnimatedNavigation';
-// import OnPoiClick from './OnPoiClick';
-// import TestIdMarkers from './TestIdMarkers';
-// import IndoorMap from './IndoorMap';
-// import CameraControl from './CameraControl';
-// import MassiveCustomMarkers from './MassiveCustomMarkers';
+import MapStyle from './MapStyle';
+import LegalLabel from './LegalLabel';
+import SetNativePropsOverlays from './SetNativePropsOverlays';
+import CustomOverlay from './CustomOverlay';
+import MapKml from './MapKml';
+import BugMarkerWontUpdate from './BugMarkerWontUpdate';
+import ImageOverlayWithAssets from './ImageOverlayWithAssets';
+import ImageOverlayWithURL from './ImageOverlayWithURL';
+import AnimatedNavigation from './AnimatedNavigation';
+import OnPoiClick from './OnPoiClick';
+import TestIdMarkers from './TestIdMarkers';
+import IndoorMap from './IndoorMap';
+import CameraControl from './CameraControl';
+import MassiveCustomMarkers from './MassiveCustomMarkers';
 
 const IOS = Platform.OS === 'ios';
 const ANDROID = Platform.OS === 'android';
@@ -67,7 +67,7 @@ export default class App extends React.Component<
   { useGoogleMaps: boolean; Component: any }
 > {
   state = {
-    Component: StaticMap,
+    Component: SetNativePropsOverlays,
     useGoogleMaps: ANDROID || WEB,
   };
 
@@ -127,44 +127,44 @@ export default class App extends React.Component<
       [
         // [<component>, <component description>, <Google compatible>, <Google add'l description>]
         [StaticMap, 'StaticMap', true],
-        // [DisplayLatLng, 'Tracking Position', true, '(incomplete)'],
-        // [ViewsAsMarkers, 'Arbitrary Views as Markers', true],
-        // [EventListener, 'Events', true, '(incomplete)'],
-        // [MarkerTypes, 'Image Based Markers', true],
-        // [DraggableMarkers, 'Draggable Markers', true],
-        // [PolygonCreator, 'Polygon Creator', true],
-        // [PolylineCreator, 'Polyline Creator', true],
-        // [GradientPolylines, 'Gradient Polylines', true],
-        // [AnimatedViews, 'Animating with MapViews'],
-        // [AnimatedMarkers, 'Animated Marker Position'],
-        // [Callouts, 'Custom Callouts', true],
-        // [Overlays, 'Circles, Polygons, and Polylines', true],
-        // [DefaultMarkers, 'Default Markers', true],
-        // [CustomMarkers, 'Custom Markers', true],
-        // [TakeSnapshot, 'Take Snapshot', true, '(incomplete)'],
-        // [CachedMap, 'Cached Map'],
-        // [LoadingMap, 'Map with loading'],
-        // [MapBoundaries, 'Get visible map boundaries', true],
-        // [FitToSuppliedMarkers, 'Focus Map On Markers', true],
-        // [FitToCoordinates, 'Fit Map To Coordinates', true],
-        // [LiteMapView, 'Android Lite MapView'],
-        // [CustomTiles, 'Custom Tiles', true],
-        // [WMSTiles, 'WMS Tiles', true],
-        // [ZIndexMarkers, 'Position Markers with Z-index', true],
-        // [MapStyle, 'Customize the style of the map', true],
-        // [LegalLabel, 'Reposition the legal label', true],
-        // [SetNativePropsOverlays, 'Update native props', true],
-        // [CustomOverlay, 'Custom Overlay Component', true],
-        // [TestIdMarkers, 'Test ID for Automation', true],
-        // [MapKml, 'Load Map with KML', true],
-        // [BugMarkerWontUpdate, "BUG: Marker Won't Update (Android)", true],
-        // [ImageOverlayWithAssets, 'Image Overlay Component with Assets', true],
-        // [ImageOverlayWithURL, 'Image Overlay Component with URL', true],
-        // [AnimatedNavigation, 'Animated Map Navigation', true],
-        // [OnPoiClick, 'On Poi Click', true],
-        // [IndoorMap, 'Indoor Map', true],
-        // [CameraControl, 'CameraControl', true],
-        // [MassiveCustomMarkers, 'MassiveCustomMarkers', true],
+        [DisplayLatLng, 'Tracking Position', true, '(incomplete)'],
+        [ViewsAsMarkers, 'Arbitrary Views as Markers', true],
+        [EventListener, 'Events', true, '(incomplete)'],
+        [MarkerTypes, 'Image Based Markers', true],
+        [DraggableMarkers, 'Draggable Markers', true],
+        [PolygonCreator, 'Polygon Creator', true],
+        [PolylineCreator, 'Polyline Creator', true],
+        [GradientPolylines, 'Gradient Polylines', true],
+        [AnimatedViews, 'Animating with MapViews'],
+        [AnimatedMarkers, 'Animated Marker Position'],
+        [Callouts, 'Custom Callouts', true],
+        [Overlays, 'Circles, Polygons, and Polylines', true],
+        [DefaultMarkers, 'Default Markers', true],
+        [CustomMarkers, 'Custom Markers', true],
+        [TakeSnapshot, 'Take Snapshot', true, '(incomplete)'],
+        [CachedMap, 'Cached Map'],
+        [LoadingMap, 'Map with loading'],
+        [MapBoundaries, 'Get visible map boundaries', true],
+        [FitToSuppliedMarkers, 'Focus Map On Markers', true],
+        [FitToCoordinates, 'Fit Map To Coordinates', true],
+        [LiteMapView, 'Android Lite MapView'],
+        [CustomTiles, 'Custom Tiles', true],
+        [WMSTiles, 'WMS Tiles', true],
+        [ZIndexMarkers, 'Position Markers with Z-index', true],
+        [MapStyle, 'Customize the style of the map', true],
+        [LegalLabel, 'Reposition the legal label', true],
+        [SetNativePropsOverlays, 'Update native props', true],
+        [CustomOverlay, 'Custom Overlay Component', true],
+        [TestIdMarkers, 'Test ID for Automation', true],
+        [MapKml, 'Load Map with KML', true],
+        [BugMarkerWontUpdate, "BUG: Marker Won't Update (Android)", true],
+        [ImageOverlayWithAssets, 'Image Overlay Component with Assets', true],
+        [ImageOverlayWithURL, 'Image Overlay Component with URL', true],
+        [AnimatedNavigation, 'Animated Map Navigation', true],
+        [OnPoiClick, 'On Poi Click', true],
+        [IndoorMap, 'Indoor Map', true],
+        [CameraControl, 'CameraControl', true],
+        [MassiveCustomMarkers, 'MassiveCustomMarkers', true],
       ]
         // Filter out examples that are not yet supported for Google Maps on iOS.
         .filter(example => ANDROID || WEB || (IOS && (example[2] || !this.state.useGoogleMaps)))
