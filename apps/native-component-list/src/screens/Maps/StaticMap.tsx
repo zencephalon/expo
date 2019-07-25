@@ -1,8 +1,8 @@
 import React from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import MapView, { Marker, ProviderPropType } from './lib';
-import { GOOGLE_MAPS_API_LOCAL } from '../../../.expo/secrets';
-
+// import { GOOGLE_MAPS_API_LOCAL } from '../../../.expo/secrets';
+const GOOGLE_MAPS_API_LOCAL = '';
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;

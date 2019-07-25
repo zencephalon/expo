@@ -9,7 +9,11 @@ const LONGITUDE = -122.4324;
 class CameraControl extends React.Component {
   async getCamera() {
     const camera = await this.map.getCamera();
-    Alert.alert('Current camera', JSON.stringify(camera), [{ text: 'OK' }], { cancelable: true });
+
+    console.log(camera);
+    alert('Current camera', JSON.stringify(camera, null, 2), [{ text: 'OK' }], {
+      cancelable: true,
+    });
   }
 
   async setCamera() {

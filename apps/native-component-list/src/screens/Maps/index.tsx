@@ -67,7 +67,7 @@ export default class App extends React.Component<
   { useGoogleMaps: boolean; Component: any }
 > {
   state = {
-    Component: SetNativePropsOverlays,
+    Component: PolygonCreator,
     useGoogleMaps: ANDROID || WEB,
   };
 

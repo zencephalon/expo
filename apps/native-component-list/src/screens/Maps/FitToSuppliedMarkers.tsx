@@ -44,15 +44,13 @@ class FocusOnMarkers extends React.Component {
   };
 
   componentDidMount() {
-    animationTimeout = setTimeout(() => {
-      this.focus1();
-    }, timeout);
+    // animationTimeout = setTimeout(() => {
+    this.focus1();
+    // }, timeout);
   }
 
   componentWillUnmount() {
-    if (animationTimeout) {
-      clearTimeout(animationTimeout);
-    }
+    clearTimeout(animationTimeout);
   }
 
   focusMap(markers, animated) {
@@ -63,7 +61,6 @@ class FocusOnMarkers extends React.Component {
   focus1() {
     animationTimeout = setTimeout(() => {
       this.focusMap([markerIDs[1], markerIDs[4]], true);
-
       this.focus2();
     }, timeout);
   }
