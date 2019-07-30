@@ -6,6 +6,7 @@ import MapView, {
   Callout,
   Marker,
   Polygon,
+  Circle,
   Polyline,
   PROVIDER_GOOGLE,
   ProviderPropType,
@@ -54,15 +55,19 @@ class EventListener extends React.Component {
     events: [],
   };
   makeEvent(e, name) {
+
+    const { originalEvent, sourceTarget, target, ...data } = e.nativeEvent ? e.nativeEvent : e;
+
     return {
       id: id++,
       name,
-      data: e.nativeEvent ? e.nativeEvent : e,
+      data,
     };
   }
 
   recordEvent(name) {
     return e => {
+      console.log('record event', name, e)
       if (e.persist) {
         e.persist(); // Avoids warnings relating to https://fb.me/react-event-pooling
       }
@@ -98,6 +103,9 @@ class EventListener extends React.Component {
           onMarkerSelect={this.recordEvent('Map::onMarkerSelect')}
           onMarkerDeselect={this.recordEvent('Map::onMarkerDeselect')}
           onCalloutPress={this.recordEvent('Map::onCalloutPress')}
+          onZoomStart={this.recordEvent('Map::onZoomStart')}
+          onZoomEnd={this.recordEvent('Map::onZoomEnd')}
+          onZoomLevelsChange={this.recordEvent('Map::onZoomLevelsChange')}
           {...googleProviderProps}>
           <Marker
             coordinate={{
@@ -115,10 +123,12 @@ class EventListener extends React.Component {
             title="This is a title"
             description="This is a description"
             coordinate={this.state.region}
+         
             onPress={this.recordEvent('Marker::onPress')}
             onSelect={this.recordEvent('Marker::onSelect')}
             onDeselect={this.recordEvent('Marker::onDeselect')}
             onCalloutPress={this.recordEvent('Marker::onCalloutPress')}>
+              
             <PriceMarker amount={99} />
             <Callout style={styles.callout} onPress={this.recordEvent('Callout::onPress')}>
               <View>
@@ -144,6 +154,13 @@ class EventListener extends React.Component {
                 longitude: LONGITUDE + LONGITUDE_DELTA / 2,
               },
             ]}
+          />
+          <Circle
+            fillColor={'rgba(255,0,0,0.3)'}
+            tappable
+            radius={500}
+            onPress={this.recordEvent('Circle::onPress')}
+            center={{latitude: LATITUDE + 0.01, longitude: LONGITUDE + 0.01 }}
           />
           <Polyline
             strokeColor={'rgba(255,0,0,1)'}
