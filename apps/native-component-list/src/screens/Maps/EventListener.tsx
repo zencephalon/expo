@@ -108,12 +108,16 @@ class EventListener extends React.Component {
           onZoomLevelsChange={this.recordEvent('Map::onZoomLevelsChange')}
           {...googleProviderProps}>
           <Marker
+            title="This is a title"
+            description="This is a description"
             coordinate={{
               latitude: LATITUDE + LATITUDE_DELTA / 2,
               longitude: LONGITUDE + LONGITUDE_DELTA / 2,
             }}
           />
           <Marker
+            title="This is a title"
+            description="This is a description"
             coordinate={{
               latitude: LATITUDE - LATITUDE_DELTA / 2,
               longitude: LONGITUDE - LONGITUDE_DELTA / 2,
@@ -137,7 +141,7 @@ class EventListener extends React.Component {
             </Callout>
           </Marker>
           <Polygon
-            fillColor={'rgba(255,0,0,0.3)'}
+            fillColor="rgba(255,0,0,0.3)"
             onPress={this.recordEvent('Polygon::onPress')}
             tappable
             coordinates={[
