@@ -29,9 +29,9 @@ public class NotificationPresenterImpl implements NotificationPresenter {
   private volatile static List<NotificationModifier> mModifiers = null;
 
   @Override
-  public void presentNotification(Context context, String experienceId, Bundle notification,final int notificationId) {
+  public void presentNotification(Context context, String experienceId, Bundle notification, final int notificationId) {
 
-    AsyncTask.execute(()-> {
+    AsyncTask.execute(() -> {
       NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
       notification.putInt("notificationIntId", notificationId);

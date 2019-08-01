@@ -10,16 +10,8 @@ import registerForPushNotificationsAsync from '../api/registerForPushNotificatio
 export default class NotificationScreen extends React.Component {
   constructor(props) {
     super(props);
-    Notifications.addOnUserInteractionListener('notificationScreen',
-      (userInteraction: UserInteraction) => {
-        console.log(JSON.stringify(userInteraction));
-      }
-    );
-    Notifications.addOnForegroundNotificationListener('notificationScreen',
-      (notification: LocalNotification) => {
-        console.log(JSON.stringify(notifiation));
-      }
-    );
+    Notifications.addOnUserInteractionListener('notificationScreen', console.log);
+    Notifications.addOnForegroundNotificationListener('notificationScreen', console.log);
   }
   static navigationOptions = {
     title: 'Notifications',

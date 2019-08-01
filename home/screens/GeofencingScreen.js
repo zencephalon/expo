@@ -235,8 +235,8 @@ if (Platform.OS !== 'android') {
   });
 }
 
-Notifications.addListener(({ data, remote }) => {		 
-   if (!remote && data.notificationType === GEOFENCING_TASK) {
+Notifications.addListener(({ data, remote }) => {
+  if (!remote && data.notificationType === GEOFENCING_TASK) {
     alert(data.notificationBody);
   }
 });

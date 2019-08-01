@@ -84,7 +84,7 @@ public class LauncherActivity extends Activity {
 
     // We shouldn't ever get here, since we call finish() in onCreate. Just want to be safe
     // since this Activity is singleTask and there might be some edge case where this is called.
-    UserInteractionReceiver.getInstance().onIntent(getIntent(), this);
+    UserInteractionReceiver.getInstance().onIntent(intent, this);
     mKernel.handleIntent(this, intent);
   }
 }

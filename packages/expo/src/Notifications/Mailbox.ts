@@ -1,13 +1,9 @@
 import DeviceEventEmitter from 'react-native/Libraries/EventEmitter/RCTDeviceEventEmitter';
 import {
-  Notification,
-  LocalNotification,
-  Channel,
-  ActionType,
-  LocalNotificationId,
   OnUserInteractionListener,
   OnForegroundNotificationListener,
   UserInteraction,
+  LocalNotification,
 } from './Notifications.types';
 
 export class Mailbox {
@@ -19,11 +15,11 @@ export class Mailbox {
     this.onForegroundNotificationListeners = new Map();
     DeviceEventEmitter.addListener(
       'Exponent.onUserInteraction',
-      this._onUserInteraction.bind(this)
+      this.onUserInteraction.bind(this)
     );
     DeviceEventEmitter.addListener(
       'Exponent.onForegroundNotification',
-      this._onForegroundNotification.bind(this)
+      this.onForegroundNotification.bind(this)
     );
   }
 
@@ -46,13 +42,13 @@ export class Mailbox {
     this.onForegroundNotificationListeners.delete(listenerName);
   }
 
-  _onForegroundNotification(notification) {
+  private onForegroundNotification(notification: LocalNotification) {
     for (let listener of this.onForegroundNotificationListeners.values()) {
       listener(notification);
     }
   }
 
-  _onUserInteraction(userInteraction) {
+  private onUserInteraction(userInteraction: UserInteraction) {
     for (let listener of this.onUserInteractionListeners.values()) {
       listener(userInteraction);
     }
