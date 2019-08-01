@@ -11,6 +11,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
+import android.support.annotation.NonNull;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
@@ -20,11 +21,11 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +33,6 @@ import org.unimodules.core.ModuleRegistry;
 import org.unimodules.core.arguments.MapArguments;
 import org.unimodules.core.interfaces.RegistryLifecycleListener;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,12 +43,9 @@ import javax.inject.Inject;
 
 import host.exp.exponent.Constants;
 import host.exp.exponent.ExponentManifest;
-import host.exp.exponent.analytics.EXL;
 import host.exp.exponent.di.NativeModuleDepsProvider;
 import host.exp.exponent.network.ExponentNetwork;
-import host.exp.exponent.notifications.ExponentNotificationManager;
 import host.exp.exponent.notifications.NotificationActionCenter;
-import host.exp.exponent.notifications.NotificationConstants;
 import host.exp.exponent.notifications.NotificationHelper;
 import host.exp.exponent.notifications.channels.ChannelManager;
 import host.exp.exponent.notifications.channels.ChannelPOJO;
@@ -65,7 +62,6 @@ import host.exp.exponent.notifications.managers.SchedulersManagerProxy;
 import host.exp.exponent.notifications.schedulers.CalendarSchedulerModel;
 import host.exp.expoview.R;
 
-import static com.cronutils.model.field.expression.FieldExpressionFactory.on;
 import static host.exp.exponent.notifications.NotificationConstants.NOTIFICATION_CHANNEL_ID;
 import static host.exp.exponent.notifications.NotificationConstants.NOTIFICATION_DEFAULT_CHANNEL_ID;
 import static host.exp.exponent.notifications.NotificationConstants.NOTIFICATION_DEFAULT_CHANNEL_NAME;
@@ -141,37 +137,17 @@ public class NotificationsModule extends ReactContextBaseJavaModule implements R
     if (!Constants.isStandaloneApp()) {
       promise.reject("getDevicePushTokenAsync is only accessible within standalone applications");
     }
-    try {
-      if (Constants.FCM_ENABLED) {
-        String token = FirebaseInstanceId.getInstance().getToken();
-        if (token == null) {
-          promise.reject("FCM token has not been set");
-        } else {
-          WritableMap params = Arguments.createMap();
-          params.putString("type", "fcm");
-          params.putString("data", token);
-          promise.resolve(params);
-        }
-      } else {
-        InstanceID instanceID = InstanceID.getInstance(this.getReactApplicationContext());
-        String gcmSenderId = config.getString("gcmSenderId");
-        if (gcmSenderId == null || gcmSenderId.length() == 0) {
-          throw new InvalidParameterException("GCM Sender ID is null/empty");
-        }
-        final String token = instanceID.getToken(gcmSenderId, GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-        if (token == null) {
-          promise.reject("GCM token has not been set");
-        } else {
-          WritableMap params = Arguments.createMap();
-          params.putString("type", "gcm");
-          params.putString("data", token);
-          promise.resolve(params);
-        }
-      }
-    } catch (Exception e) {
-      EXL.e(TAG, e.getMessage());
-      promise.reject(e.getMessage());
-    }
+    FirebaseInstanceId.getInstance().getInstanceId()
+        .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+          @Override
+          public void onComplete(@NonNull Task<InstanceIdResult> task) {
+            if (!task.isSuccessful()) {
+              promise.reject(task.getException());
+            }
+            String token = task.getResult().getToken();
+            promise.resolve(token);
+          }
+        });
   }
 
   @ReactMethod
@@ -183,23 +159,17 @@ public class NotificationsModule extends ReactContextBaseJavaModule implements R
       return;
     }
 
-    try {
-      String experienceId = mManifest.getString(ExponentManifest.MANIFEST_ID_KEY);
-      NotificationHelper.getPushNotificationToken(uuid, experienceId, mExponentNetwork, mExponentSharedPreferences, new NotificationHelper.TokenListener() {
-        @Override
-        public void onSuccess(String token) {
-          promise.resolve(token);
-        }
+    NotificationHelper.getPushNotificationToken(uuid, mExperienceId, mExponentNetwork, mExponentSharedPreferences, new NotificationHelper.TokenListener() {
+      @Override
+      public void onSuccess(String token) {
+        promise.resolve(token);
+      }
 
-        @Override
-        public void onFailure(Exception e) {
-          promise.reject("E_GET_GCM_TOKEN_FAILED", "Couldn't get GCM token for device", e);
-        }
-      });
-    } catch (JSONException e) {
-      promise.reject("E_GET_GCM_TOKEN_FAILED", "Couldn't get GCM token for device", e);
-      return;
-    }
+      @Override
+      public void onFailure(Exception e) {
+        promise.reject("E_GET_GCM_TOKEN_FAILED", "Couldn't get GCM token for device", e);
+      }
+    });
   }
 
   @ReactMethod
