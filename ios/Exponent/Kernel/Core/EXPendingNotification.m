@@ -74,4 +74,18 @@
            };
 }
 
+- (NSDictionary *)propertiesForegroundNotificationFormat {
+  NSMutableDictionary * properties = [[self properties] mutableCopy];
+  [properties removeObjectForKey:@"actionId"];
+  [properties removeObjectForKey:@"userText"];
+  [properties removeObjectForKey:@"origin"];
+  return properties;
+}
+
+- (NSDictionary *)propertiesUserInteractionFormat {
+  NSMutableDictionary * properties = [[self properties] mutableCopy];
+  [properties removeObjectForKey:@"origin"];
+  return properties;
+}
+
 @end

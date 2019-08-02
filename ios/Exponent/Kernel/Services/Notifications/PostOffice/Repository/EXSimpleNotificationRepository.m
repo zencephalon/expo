@@ -21,44 +21,44 @@
   return self;
 }
 
-- (void)addForegroundNotificationForExperienceId:(NSString *)experienceId foregroundNotification:(NSBundle *)foregroundNotification
+- (void)addForegroundNotificationForExperienceId:(NSString *)experienceId foregroundNotification:(NSDictionary *)foregroundNotification
 {
-  NSMutableArray<NSBundle*> *notificationList = [[self.foregroundNotifications arrayForKey:experienceId] mutableCopy];
+  NSMutableArray<NSDictionary*> *notificationList = [[self.foregroundNotifications arrayForKey:experienceId] mutableCopy];
   if (!notificationList) {
-    notificationList = [NSMutableArray<NSBundle *> new];
+    notificationList = [NSMutableArray<NSDictionary *> new];
   }
   
   [notificationList addObject:foregroundNotification];
   [self.foregroundNotifications setObject:notificationList forKey:experienceId];
 }
 
-- (void)addUserInteractionForExperienceId:(NSString *)experienceId userInteraction:(NSBundle*)userInteraction
+- (void)addUserInteractionForExperienceId:(NSString *)experienceId userInteraction:(NSDictionary*)userInteraction
 {
-  NSMutableArray<NSBundle*> *userInteractionList = [[self.userIntercations arrayForKey:experienceId] mutableCopy];
+  NSMutableArray<NSDictionary*> *userInteractionList = [[self.userIntercations arrayForKey:experienceId] mutableCopy];
   if (!userInteractionList) {
-    userInteractionList = [NSMutableArray<NSBundle *> new];
+    userInteractionList = [NSMutableArray<NSDictionary *> new];
   }
   
   [userInteractionList addObject:userInteraction];
   [self.userIntercations setObject:userInteractionList forKey:experienceId];
 }
 
-- (NSArray<NSBundle *> *)getForegroundNotificationsForExperienceId:(NSString *)experienceId
+- (NSArray<NSDictionary *> *)getForegroundNotificationsForExperienceId:(NSString *)experienceId
 {
-  NSMutableArray<NSBundle*> *notificationList = [[self.foregroundNotifications arrayForKey:experienceId] mutableCopy];
+  NSMutableArray<NSDictionary*> *notificationList = [[self.foregroundNotifications arrayForKey:experienceId] mutableCopy];
   if (!notificationList) {
-    notificationList = [NSMutableArray<NSBundle *> new];
+    notificationList = [NSMutableArray<NSDictionary *> new];
   }
   
   [self.foregroundNotifications setObject:@[] forKey:experienceId];
   return notificationList;
 }
 
-- (NSArray<NSBundle *> *)getUserInterationsForExperienceId:(NSString *)experienceId
+- (NSArray<NSDictionary *> *)getUserInterationsForExperienceId:(NSString *)experienceId
 {
-  NSMutableArray<NSBundle*> *userInteractionList = [[self.userIntercations arrayForKey:experienceId] mutableCopy];
+  NSMutableArray<NSDictionary*> *userInteractionList = [[self.userIntercations arrayForKey:experienceId] mutableCopy];
   if (!userInteractionList) {
-    userInteractionList = [NSMutableArray<NSBundle *> new];
+    userInteractionList = [NSMutableArray<NSDictionary *> new];
   }
   
   [self.userIntercations setObject:@[] forKey:experienceId];

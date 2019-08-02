@@ -35,13 +35,13 @@ static dispatch_queue_t queue;
   return sharedInstance;
 }
 
-- (void)notifyAboutForegroundNotificationForExperienceId:(NSString *)experienceId notification:(NSBundle *)notification { 
+- (void)notifyAboutForegroundNotificationForExperienceId:(NSString *)experienceId notification:(NSDictionary *)notification {
   dispatch_async(queue, ^{
     [self.insecurePostOffice notifyAboutForegroundNotificationForExperienceId:experienceId notification:notification];
   });
 }
 
-- (void)notifyAboutUserInteractionForExperienceId:(NSString *)experienceId userInteraction:(NSBundle *)userInteraction { 
+- (void)notifyAboutUserInteractionForExperienceId:(NSString *)experienceId userInteraction:(NSDictionary *)userInteraction { 
   dispatch_async(queue, ^{
     [self.insecurePostOffice notifyAboutUserInteractionForExperienceId:experienceId userInteraction:userInteraction];
   });

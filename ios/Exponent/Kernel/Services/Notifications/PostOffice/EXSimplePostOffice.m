@@ -24,7 +24,7 @@
 }
 
 - (void)notifyAboutUserInteractionForExperienceId:(NSString*)experienceId
-                                  userInteraction:(NSBundle*)userInteraction
+                                  userInteraction:(NSDictionary*)userInteraction
 {
   id<EXMailbox> mailbox = [self.mailboxes objectForKey:experienceId];
   if (mailbox) {
@@ -36,7 +36,7 @@
 }
 
 - (void)notifyAboutForegroundNotificationForExperienceId:(NSString*)experienceId
-                                            notification:(NSBundle*)notification
+                                            notification:(NSDictionary*)notification
 {
   id<EXMailbox> mailbox = [self.mailboxes objectForKey:experienceId];
   if (mailbox) {
@@ -52,15 +52,15 @@
 {
   self.mailboxes[experienceId] = mailbox;
   
-  NSArray<NSBundle*> *pendingForegroundNotifications = [self.notificationRepository getForegroundNotificationsForExperienceId:experienceId];
+  NSArray<NSDictionary*> *pendingForegroundNotifications = [self.notificationRepository getForegroundNotificationsForExperienceId:experienceId];
   
-  NSArray<NSBundle*> *pendingUserInteractions = [self.notificationRepository getUserInterationsForExperienceId:experienceId];
+  NSArray<NSDictionary*> *pendingUserInteractions = [self.notificationRepository getUserInterationsForExperienceId:experienceId];
   
-  for (NSBundle *userInteraction in pendingUserInteractions) {
+  for (NSDictionary *userInteraction in pendingUserInteractions) {
     [mailbox onUserInteraction:userInteraction];
   }
   
-  for (NSBundle *notification in pendingForegroundNotifications) {
+  for (NSDictionary *notification in pendingForegroundNotifications) {
     [mailbox onForegroundNotification:notification];
   }
 }

@@ -5,9 +5,9 @@
 
 @protocol EXMailbox <NSObject>
 
-- (void)onUserInteraction:(NSBundle*)userInteraction;
+- (void)onUserInteraction:(NSDictionary*)userInteraction;
 
-- (void)onForegroundNotification:(NSBundle*)notification;
+- (void)onForegroundNotification:(NSDictionary*)notification;
 
 @end
 

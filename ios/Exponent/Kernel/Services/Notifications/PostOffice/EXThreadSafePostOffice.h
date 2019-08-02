@@ -7,6 +7,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface EXThreadSafePostOffice : NSObject <EXPostOffice>
 
++ (id<EXPostOffice>)sharedInstance;
+
 @end
 
 NS_ASSUME_NONNULL_END

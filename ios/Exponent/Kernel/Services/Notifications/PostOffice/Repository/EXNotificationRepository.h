@@ -5,13 +5,13 @@
 
 @protocol EXNotificationRepository <NSObject>
 
-- (void)addForegroundNotificationForExperienceId:(NSString*)experienceId foregroundNotification:(NSBundle*)foregroundNotification;
+- (void)addForegroundNotificationForExperienceId:(NSString*)experienceId foregroundNotification:(NSDictionary*)foregroundNotification;
 
-- (void)addUserInteractionForExperienceId:(NSString*)experienceId userInteraction:(NSBundle*)userInteraction;
+- (void)addUserInteractionForExperienceId:(NSString*)experienceId userInteraction:(NSDictionary*)userInteraction;
 
-- (NSArray<NSBundle*>*)getForegroundNotificationsForExperienceId:(NSString*)experienceId;
+- (NSArray<NSDictionary*>*)getForegroundNotificationsForExperienceId:(NSString*)experienceId;
 
-- (NSArray<NSBundle*>*)getUserInterationsForExperienceId:(NSString*)experienceId;
+- (NSArray<NSDictionary*>*)getUserInterationsForExperienceId:(NSString*)experienceId;
 
 @end
 

@@ -7,9 +7,9 @@
 
 @protocol EXPostOffice <NSObject>
 
-- (void)notifyAboutUserInteractionForExperienceId:(NSString*)experienceId userInteraction:(NSBundle*)userInteraction;
+- (void)notifyAboutUserInteractionForExperienceId:(NSString*)experienceId userInteraction:(NSDictionary*)userInteraction;
 
-- (void)notifyAboutForegroundNotificationForExperienceId:(NSString*)experienceId notification:(NSBundle*)notification;
+- (void)notifyAboutForegroundNotificationForExperienceId:(NSString*)experienceId notification:(NSDictionary*)notification;
 
 - (void)registerModuleAndGetPendingDeliveriesWithExperienceId:(NSString*)experienceId mailbox:(id<EXMailbox>)mailbox;
 
