@@ -53,6 +53,7 @@ EX_EXPORT_SCOPED_MULTISERVICE_MODULE(ExponentNotifications, @"RemoteNotification
     _userNotificationCenter = kernelServiceInstances[@"UserNotificationCenter"];
     _remoteNotificationsDelegate = kernelServiceInstances[@"RemoteNotificationManager"];
     _notificationsIdentifiersManager = kernelServiceInstances[@"UserNotificationManager"];
+    [[EXThreadSafePostOffice sharedInstance] registerModuleAndGetPendingDeliveriesWithExperienceId:self.experienceId mailbox:self]; // remove 
   }
   return self;
 }

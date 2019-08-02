@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 #import "EXPostOffice.h"
+#import "EXNotificationRepository.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
