@@ -26,8 +26,10 @@ class MapBoundaries extends React.Component {
   };
 
   async onRegionChangeComplete() {
+    const mapBoundaries = await this.map.getMapBoundaries();
+    console.log('mapBoundaries', mapBoundaries)
     this.setState({
-      mapBoundaries: await this.map.getMapBoundaries(),
+      mapBoundaries,
     });
   }
 

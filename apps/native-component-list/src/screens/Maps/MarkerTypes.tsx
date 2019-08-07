@@ -13,12 +13,25 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
+const icons = {
+  blue: {
+    image: flagBlueImg,
+    centerOffset: { x: -18, y: -60 },
+    anchor: { x: 0.69, y: 1 },
+  },
+  pink: {
+    image: flagPinkImg,
+    centerOffset: { x: -42, y: -60 },
+    anchor: { x: 0.84, y: 1 },
+  },
+}
+
 class MarkerTypes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       marker1: true,
-      marker2: false,
+      marker2: true,
     };
   }
 
@@ -40,9 +53,7 @@ class MarkerTypes extends React.Component {
               latitude: LATITUDE + SPACE,
               longitude: LONGITUDE + SPACE,
             }}
-            centerOffset={{ x: -18, y: -60 }}
-            anchor={{ x: 0.69, y: 1 }}
-            image={this.state.marker1 ? flagBlueImg : flagPinkImg}>
+            {...(this.state.marker1 ? icons.blue : icons.pink)}>
             <Text style={styles.marker}>X</Text>
           </Marker>
           <Marker
@@ -51,9 +62,7 @@ class MarkerTypes extends React.Component {
               latitude: LATITUDE - SPACE,
               longitude: LONGITUDE - SPACE,
             }}
-            centerOffset={{ x: -42, y: -60 }}
-            anchor={{ x: 0.84, y: 1 }}
-            image={this.state.marker2 ? flagBlueImg : flagPinkImg}
+            {...(this.state.marker2 ? icons.pink : icons.blue)}
           />
           <Marker
             onPress={() => this.setState({ marker2: !this.state.marker2 })}
@@ -61,10 +70,8 @@ class MarkerTypes extends React.Component {
               latitude: LATITUDE + SPACE,
               longitude: LONGITUDE - SPACE,
             }}
-            centerOffset={{ x: -42, y: -60 }}
-            anchor={{ x: 0.84, y: 1 }}
             opacity={0.6}
-            image={this.state.marker2 ? flagBlueImg : flagPinkImg}
+            {...(this.state.marker2 ? icons.pink : icons.blue)}
           />
         </MapView>
       </View>

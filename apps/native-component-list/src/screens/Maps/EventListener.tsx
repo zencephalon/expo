@@ -124,8 +124,7 @@ class EventListener extends React.Component {
             }}
           />
           <Marker
-            title="This is a title"
-            description="This is a description"
+           
             coordinate={this.state.region}
          
             onPress={this.recordEvent('Marker::onPress')}
