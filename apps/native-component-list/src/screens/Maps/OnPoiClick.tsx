@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
 import MapView, { Callout, Marker, ProviderPropType } from './lib';
 
@@ -11,59 +11,46 @@ const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-class OnPoiClick extends React.Component {
-  static propTypes = {
-    provider: ProviderPropType,
-  };
+function OnPoiClick({ provider }) {
 
-  state = {
-    region: {
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
-    },
-    poi: null,
-  };
+  const [
+    region,
+  ] = React.useState({
+    latitude: LATITUDE,
+    longitude: LONGITUDE,
+    latitudeDelta: LATITUDE_DELTA,
+    longitudeDelta: LONGITUDE_DELTA,
+  });
 
-  onPoiClick = e => {
-    const poi = e.nativeEvent;
+  const [poi, setPoi] = React.useState(null);
+  
+  return (
+      <MapView
+        provider={provider}
+        style={styles.map}
+        initialRegion={region}
+        onPoiClick={({ nativeEvent }) => setPoi(nativeEvent)}>
+        {poi && (
+          <Marker coordinate={poi.coordinate}>
+            <Callout>
+              <View>
+                <Text>Place Id: {poi.placeId}</Text>
+                <Text>Name: {poi.name}</Text>
+              </View>
+            </Callout>
+          </Marker>
+        )}
+      </MapView>
+    
+  );
 
-    this.setState({
-      poi,
-    });
-  };
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <MapView
-          provider={this.props.provider}
-          style={styles.map}
-          initialRegion={this.state.region}
-          onPoiClick={this.onPoiClick}>
-          {this.state.poi && (
-            <Marker coordinate={this.state.poi.coordinate}>
-              <Callout>
-                <View>
-                  <Text>Place Id: {this.state.poi.placeId}</Text>
-                  <Text>Name: {this.state.poi.name}</Text>
-                </View>
-              </Callout>
-            </Marker>
-          )}
-        </MapView>
-      </View>
-    );
-  }
 }
 
+OnPoiClick.propTypes = {
+  provider: ProviderPropType,
+};
+
 const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
   map: {
     ...StyleSheet.absoluteFillObject,
   },
