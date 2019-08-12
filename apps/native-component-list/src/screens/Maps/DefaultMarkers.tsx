@@ -57,13 +57,11 @@ function DefaultMarkers({ provider }) {
       </View>
     </View>
   );
-  
 }
 
 DefaultMarkers.propTypes = {
   provider: ProviderPropType,
 };
-
 
 const styles = StyleSheet.create({
   container: {
