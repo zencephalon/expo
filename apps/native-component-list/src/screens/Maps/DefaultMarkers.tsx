@@ -18,55 +18,52 @@ function randomColor() {
     .padStart(6, 0)}`;
 }
 
-class DefaultMarkers extends React.Component {
-  static propTypes = {
-    provider: ProviderPropType,
-  };
+const region = {
+  latitude: LATITUDE,
+  longitude: LONGITUDE,
+  latitudeDelta: LATITUDE_DELTA,
+  longitudeDelta: LONGITUDE_DELTA,
+};
+function DefaultMarkers({ provider }) {
 
-  state = {
-    region: {
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
-    },
-    markers: [],
-  };
+  const [
+    markers,
+    setMarkers
+  ]: any[] = React.useState([]);
 
-  onMapPress(e) {
-    this.setState({
-      markers: [
-        ...this.state.markers,
-        {
-          coordinate: e.nativeEvent.coordinate,
-          key: id++,
-          color: randomColor(),
-        },
-      ],
-    });
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <MapView
-          provider={this.props.provider}
-          style={styles.map}
-          initialRegion={this.state.region}
-          onPress={e => this.onMapPress(e)}>
-          {this.state.markers.map(marker => (
-            <Marker key={marker.key} coordinate={marker.coordinate} pinColor={marker.color} />
-          ))}
-        </MapView>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => this.setState({ markers: [] })} style={styles.bubble}>
-            <Text>Tap to create a marker of random color</Text>
-          </TouchableOpacity>
-        </View>
+  return (
+    <View style={styles.container}>
+      <MapView
+        provider={provider}
+        style={styles.map}
+        initialRegion={region}
+        onPress={({ nativeEvent }: any) => 
+        setMarkers([
+            ...markers,
+            {
+              coordinate: nativeEvent.coordinate,
+              key: id++,
+              color: randomColor(),
+            },
+          ])}>
+        {markers.map((marker: any) => (
+          <Marker key={marker.key} coordinate={marker.coordinate} pinColor={marker.color} />
+        ))}
+      </MapView>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={() => setMarkers([])} style={styles.bubble}>
+          <Text>Tap to create a marker of random color</Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
+    </View>
+  );
+  
 }
+
+DefaultMarkers.propTypes = {
+  provider: ProviderPropType,
+};
+
 
 const styles = StyleSheet.create({
   container: {
