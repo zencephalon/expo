@@ -24,8 +24,8 @@ const region = {
   latitudeDelta: LATITUDE_DELTA,
   longitudeDelta: LONGITUDE_DELTA,
 };
-function DefaultMarkers({ provider }) {
 
+export default function DefaultMarkers({ provider }) {
   const [
     markers,
     setMarkers
@@ -94,5 +94,3 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
 });
-
-export default DefaultMarkers;
