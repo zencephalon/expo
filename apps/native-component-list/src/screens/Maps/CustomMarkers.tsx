@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import MapView, { Marker, ProviderPropType } from './lib';
 import flagPinkImg from './assets/flag-pink.png';
+import MapView, { Marker, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -13,59 +13,61 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
-class CustomMarkers extends React.Component {
-  static propTypes = {
-    provider: ProviderPropType,
-  };
+const region = {
+  latitude: LATITUDE,
+  longitude: LONGITUDE,
+  latitudeDelta: LATITUDE_DELTA,
+  longitudeDelta: LONGITUDE_DELTA,
+};
+export default function DefaultMarkers({ provider }) {
 
-  state = {
-    region: {
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
-    },
-    markers: [],
-  };
+  const [
+    markers,
+    setMarkers
+  ]: any[] = React.useState([]);
 
-  onMapPress = e => {
-    this.setState({
-      markers: [
-        ...this.state.markers,
-        {
-          coordinate: e.nativeEvent.coordinate,
-          key: `foo${id++}`,
-        },
-      ],
-    });
-  };
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <MapView
-          provider={this.props.provider}
-          style={styles.map}
-          initialRegion={this.state.region}
-          onPress={this.onMapPress}>
-          {this.state.markers.map(marker => (
-            <Marker
-              title={marker.key}
-              image={flagPinkImg}
-              key={marker.key}
-              coordinate={marker.coordinate}
-            />
-          ))}
-        </MapView>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => this.setState({ markers: [] })} style={styles.bubble}>
-            <Text>Tap to create a marker of random color</Text>
-          </TouchableOpacity>
-        </View>
+  return (
+    <View style={styles.container}>
+      <MapView
+        provider={provider}
+        style={styles.map}
+        initialRegion={region}
+        onPress={({ nativeEvent }: any) => 
+        setMarkers([
+            ...markers,
+            {
+              coordinate: nativeEvent.coordinate,
+              key: id++,
+            },
+          ])}>
+        {markers.map((marker: any) => (
+           <CustomMarker
+           title={`Marker: ${marker.key}`}
+           key={marker.key}
+           coordinate={marker.coordinate}
+         />
+        ))}
+      </MapView>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={() => setMarkers([])} style={styles.bubble}>
+          <Text>Tap to create a marker of random color</Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
+    </View>
+  );
 }
+
+function CustomMarker({ title, coordinate }) {
+  return (<Marker
+    title={title}
+    image={flagPinkImg} 
+    coordinate={coordinate}
+  />)
+}
+
+DefaultMarkers.propTypes = {
+  provider: ProviderPropType,
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -99,4 +101,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomMarkers;
