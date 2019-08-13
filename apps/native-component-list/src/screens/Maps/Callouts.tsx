@@ -11,134 +11,119 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
-class Callouts extends React.Component {
-  state = {
-    cnt: 0,
-    region: {
+const region = {
+  latitude: LATITUDE,
+  longitude: LONGITUDE,
+  latitudeDelta: LATITUDE_DELTA,
+  longitudeDelta: LONGITUDE_DELTA,
+}
+const markers = [
+  {
+    coordinate: {
+      latitude: LATITUDE + SPACE,
+      longitude: LONGITUDE + SPACE,
+    },
+  },
+  {
+    coordinate: {
+      latitude: LATITUDE + SPACE,
+      longitude: LONGITUDE - SPACE,
+    },
+  },
+  {
+    coordinate: {
       latitude: LATITUDE,
       longitude: LONGITUDE,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
     },
-    markers: [
-      {
-        coordinate: {
-          latitude: LATITUDE + SPACE,
-          longitude: LONGITUDE + SPACE,
-        },
-      },
-      {
-        coordinate: {
-          latitude: LATITUDE + SPACE,
-          longitude: LONGITUDE - SPACE,
-        },
-      },
-      {
-        coordinate: {
-          latitude: LATITUDE,
-          longitude: LONGITUDE,
-        },
-      },
-      {
-        coordinate: {
-          latitude: LATITUDE,
-          longitude: LONGITUDE - SPACE / 2,
-        },
-      },
-    ],
-  };
-  show() {
-    this.marker1.showCallout();
-  }
+  },
+  {
+    coordinate: {
+      latitude: LATITUDE,
+      longitude: LONGITUDE - SPACE / 2,
+    },
+  },
+];
+  
+export default function Callouts({provider}) {
+  const [cnt, setCnt] = React.useState(0);
+  let marker1;
+  let marker2;
 
-  hide() {
-    this.marker1.hideCallout();
-  }
+  return (
+    <View style={styles.container}>
+      <MapView
+        provider={provider}
+        style={styles.map}
+        initialRegion={region}
+        zoomTapEnabled={false}>
+        <Marker
+          ref={ref => marker1 = ref}
+          coordinate={markers[0].coordinate}
+          title="This is a native view"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation" // eslint-disable-line max-len
+        />
+        <Marker coordinate={markers[1].coordinate}>
+          <Callout style={styles.plainView}>
+            <View>
+              <Text>This is a plain view</Text>
+            </View>
+          </Callout>
+        </Marker>
+        <Marker
+          coordinate={markers[2].coordinate}
+          calloutOffset={{ x: -8, y: 28 }}
+          calloutAnchor={{ x: 0.5, y: 0.4 }}
+          ref={ref => {
+            marker2 = ref;
+          }}>
+          <Callout
+            alphaHitTest
+            tooltip
+            onPress={({ nativeEvent: { action } }) => {
+              if (
+                action === 'marker-inside-overlay-press' ||
+                action === 'callout-inside-press'
+              ) {
+                return;
+              }
 
-  render() {
-    const { region, markers } = this.state;
-    return (
-      <View style={styles.container}>
-        <MapView
-          provider={this.props.provider}
-          style={styles.map}
-          initialRegion={region}
-          zoomTapEnabled={false}>
-          <Marker
-            ref={ref => {
-              this.marker1 = ref;
+              Alert.alert('callout pressed');
             }}
-            coordinate={markers[0].coordinate}
-            title="This is a native view"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation" // eslint-disable-line max-len
-          />
-          <Marker coordinate={markers[1].coordinate}>
-            <Callout style={styles.plainView}>
-              <View>
-                <Text>This is a plain view</Text>
-              </View>
-            </Callout>
-          </Marker>
-          <Marker
-            coordinate={markers[2].coordinate}
-            calloutOffset={{ x: -8, y: 28 }}
-            calloutAnchor={{ x: 0.5, y: 0.4 }}
-            ref={ref => {
-              this.marker2 = ref;
-            }}>
-            <Callout
-              alphaHitTest
-              tooltip
-              onPress={e => {
-                if (
-                  e.nativeEvent.action === 'marker-inside-overlay-press' ||
-                  e.nativeEvent.action === 'callout-inside-press'
-                ) {
-                  return;
-                }
-
-                Alert.alert('callout pressed');
-              }}
-              style={styles.customView}>
-              <CustomCallout>
-                <Text>{`This is a custom callout bubble view ${this.state.cnt}`}</Text>
-                <CalloutSubview
-                  onPress={() => {
-                    this.setState({ cnt: this.state.cnt + 1 }, () => {
-                      this.marker2.redrawCallout();
-                    });
-                  }}
-                  style={[styles.calloutButton]}>
-                  <Text>Click me</Text>
-                </CalloutSubview>
-              </CustomCallout>
-            </Callout>
-          </Marker>
-          <Marker
-            ref={ref => {
-              this.marker4 = ref;
-            }}
-            coordinate={markers[3].coordinate}
-            title="You can also open this callout"
-            description="by pressing on transparent area of custom callout" // eslint-disable-line max-len
-          />
-        </MapView>
-        <View style={styles.buttonContainer}>
-          <View style={styles.bubble}>
-            <Text>Tap on markers to see different callouts</Text>
-          </View>
-        </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => this.show()} style={[styles.bubble, styles.button]}>
-            <Text>Show</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.hide()} style={[styles.bubble, styles.button]}>
-            <Text>Hide</Text>
-          </TouchableOpacity>
+            style={styles.customView}>
+            <CustomCallout>
+              <Text>{`This is a custom callout bubble view ${cnt}`}</Text>
+              <CalloutSubview
+                onPress={() => {
+                  setCnt(cnt + 1);
+                  marker2.redrawCallout();
+                }}
+                style={[styles.calloutButton]}>
+                <Text>Click me</Text>
+              </CalloutSubview>
+            </CustomCallout>
+          </Callout>
+        </Marker>
+        <Marker
+          coordinate={markers[3].coordinate}
+          title="You can also open this callout"
+          description="by pressing on transparent area of custom callout" // eslint-disable-line max-len
+        />
+      </MapView>
+      <View style={styles.buttonContainer}>
+        <View style={styles.bubble}>
+          <Text>Tap on markers to see different callouts</Text>
         </View>
       </View>
-    );
-  }
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={() => marker1.showCallout()} style={[styles.bubble, styles.button]}>
+          <Text>Show</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => marker1.hideCallout()} style={[styles.bubble, styles.button]}>
+          <Text>Hide</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
 Callouts.propTypes = {
@@ -194,5 +179,3 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 });
-
-export default Callouts;

@@ -3,23 +3,22 @@ import PropTypes from 'prop-types';
 
 import { StyleSheet, View } from 'react-native';
 
-class CustomCallout extends React.Component {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-    style: PropTypes.object,
-  };
-  render() {
-    return (
-      <View style={[styles.container, this.props.style]}>
-        <View style={styles.bubble}>
-          <View style={styles.amount}>{this.props.children}</View>
-        </View>
-        <View style={styles.arrowBorder} />
-        <View style={styles.arrow} />
+export default function CustomCallout({ style, children }) {
+  return (
+    <View style={[styles.container, style]}>
+      <View style={styles.bubble}>
+        <View style={styles.amount}>{children}</View>
       </View>
-    );
-  }
+      <View style={styles.arrowBorder} />
+      <View style={styles.arrow} />
+    </View>
+  );
 }
+
+CustomCallout.propTypes = {
+  children: PropTypes.node.isRequired,
+  style: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -57,5 +56,3 @@ const styles = StyleSheet.create({
     marginTop: -0.5,
   },
 });
-
-export default CustomCallout;

@@ -13,7 +13,7 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 function AnimatedMarkers({ provider }: any) {
-  const [coordinate, setCoordinate] = React.useState(
+  const [coordinate] = React.useState(
     new AnimatedRegion({
       latitude: LATITUDE,
       longitude: LONGITUDE,
