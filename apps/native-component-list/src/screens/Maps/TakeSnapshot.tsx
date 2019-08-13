@@ -34,8 +34,7 @@ export default function TakeSnapshot({ provider }) {
         longitudeDelta: 0.01 * ASPECT_RATIO,
       },
       (err, data) => {
-        if (err) throw err; //console.log(err);
-        console.log('got image: ', data)
+        if (err) console.log(err);
         setSnapshot(data);
       }
     );
