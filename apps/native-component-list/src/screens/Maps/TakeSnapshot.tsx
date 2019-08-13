@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text, Dimensions, TouchableOpacity, Image } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import MapView, { Marker, ProviderPropType } from './lib';
 import flagBlueImg from './assets/flag-blue.png';
 import flagPinkImg from './assets/flag-pink.png';
+import MapView, { Marker, ProviderPropType } from './lib';
 
 const { width, height } = Dimensions.get('window');
 
@@ -14,17 +14,17 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
-class MarkerTypes extends React.Component {
-  static propTypes = {
-    provider: ProviderPropType,
-  };
+export default function TakeSnapshot({ provider }) {
 
-  state = {
-    mapSnapshot: null,
-  };
+  const [
+    mapSnapshot,
+    setSnapshot
+  ] = React.useState(null);
 
-  takeSnapshot() {
-    this.map.takeSnapshot(
+  let map: any;
+
+  function takeSnapshot() {
+    map.takeSnapshot(
       300,
       300,
       {
@@ -34,20 +34,18 @@ class MarkerTypes extends React.Component {
         longitudeDelta: 0.01 * ASPECT_RATIO,
       },
       (err, data) => {
-        if (err) console.log(err);
-        this.setState({ mapSnapshot: data });
+        if (err) throw err; //console.log(err);
+        console.log('got image: ', data)
+        setSnapshot(data);
       }
     );
   }
 
-  render() {
     return (
       <View style={styles.container}>
         <MapView
-          provider={this.props.provider}
-          ref={ref => {
-            this.map = ref;
-          }}
+          provider={provider}
+          ref={ref => map = ref}
           style={styles.map}
           initialRegion={{
             latitude: LATITUDE,
@@ -77,25 +75,29 @@ class MarkerTypes extends React.Component {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            onPress={() => this.takeSnapshot()}
+            onPress={() => takeSnapshot()}
             style={[styles.bubble, styles.button]}>
             <Text>Take snapshot</Text>
           </TouchableOpacity>
         </View>
-        {this.state.mapSnapshot && (
+        {(mapSnapshot != null) && (
           <TouchableOpacity
             style={[styles.container, styles.overlay]}
-            onPress={() => this.setState({ mapSnapshot: null })}>
+            onPress={() => setSnapshot(null)}>
             <Image
-              source={{ uri: this.state.mapSnapshot.uri }}
+              source={{ uri: mapSnapshot!.uri }}
               style={{ width: 300, height: 300 }}
             />
           </TouchableOpacity>
         )}
       </View>
     );
-  }
+  
 }
+
+TakeSnapshot.propTypes = {
+  provider: ProviderPropType,
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -128,5 +130,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-export default MarkerTypes;
