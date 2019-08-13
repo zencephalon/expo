@@ -1,4 +1,4 @@
-import Screen from './src/screens/Maps/WMSTiles';
+import Screen from './src/screens/Maps/Callouts';
 
 // EventListener
 // AnimatedViews
@@ -23,7 +23,6 @@ import Screen from './src/screens/Maps/WMSTiles';
 // ImageOverlayWithAssets
 // ImageOverlayWithURL
 // AnimatedNavigation
-// OnPoiClick
 
 
 export default Screen;
