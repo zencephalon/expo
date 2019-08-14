@@ -18,7 +18,7 @@ Object.defineProperty(exports, "registerRootComponent", {
 Object.defineProperty(exports, "Linking", {
   enumerable: true,
   get: function () {
-    return _Linking.default;
+    return _expoLinking().default;
   }
 });
 Object.defineProperty(exports, "Notifications", {
@@ -495,7 +495,15 @@ var _apisAreAvailable = _interopRequireDefault(require("./apisAreAvailable"));
 
 var _registerRootComponent = _interopRequireDefault(require("./launch/registerRootComponent"));
 
-var _Linking = _interopRequireDefault(require("./Linking/Linking"));
+function _expoLinking() {
+  const data = _interopRequireDefault(require("expo-linking"));
+
+  _expoLinking = function () {
+    return data;
+  };
+
+  return data;
+}
 
 var _Notifications = _interopRequireDefault(require("./Notifications/Notifications"));
 

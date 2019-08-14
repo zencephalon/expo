@@ -1,6 +1,6 @@
 import Constants from 'expo-constants';
 import qs from 'qs';
-import Linking from './Linking/Linking';
+import Linking from 'expo-linking';
 import { openAuthSessionAsync, dismissAuthSession } from 'expo-web-browser';
 const BASE_URL = `https://auth.expo.io`;
 let _authLock = false;
