@@ -1,0 +1,47 @@
+{
+  "name": "expo-linking",
+  "version": "1.0.0",
+  "description": "An Expo universal module for interacting with the Linking API",
+  "main": "build/Linking.js",
+  "types": "build/Linking.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "linking"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/expo/expo.git",
+    "directory": "packages/expo-linking"
+  },
+  "bugs": {
+    "url": "https://github.com/expo/expo/issues"
+  },
+  "author": "650 Industries, Inc.",
+  "license": "MIT",
+  "homepage": "https://docs.expo.io/versions/latest/sdk/linking/",
+  "jest": {
+    "preset": "expo-module-scripts"
+  },
+  "unimodulePeerDependencies": {
+    "expo-constants": "*",
+    "@unimodules/core": "*"
+  },
+  "dependencies": {
+    "invariant": "^2.2.4",
+    "qs": "^6.7.0"
+  },
+  "devDependencies": {
+    "expo-module-scripts": "^1.0.0"
+  },
+  "gitHead": "9518929d6f2ba9cf8e0aae81d34cc1eb52f7093a"
+}
