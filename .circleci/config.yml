@@ -204,7 +204,7 @@ commands:
         type: string
     steps:
       - yarn:
-          command: 'install'
+          command: 'install --no-progress --non-interactive --cache-folder ~/.cache/yarn'
           working_directory: << parameters.working_directory >>
           max_tries: 5
 
