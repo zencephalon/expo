@@ -73,12 +73,6 @@ UM_REGISTER_MODULE();
     
         [controller dismissViewControllerAnimated:animated completion:^{
             resolve(@YES);
-            
-            // Attempt to restore the status bar
-            SEL setStatusBarSelector = NSSelectorFromString(@"setStatusBarHidden:withAnimation:");
-            UIApplication *sharedApplication = [UIApplication sharedApplication];
-            ((void (*)(id, SEL, BOOL, BOOL))[sharedApplication methodForSelector:setStatusBarSelector])(sharedApplication, setStatusBarSelector, NO, NO);
-            
             // Optionally used for resolving any pending promises
             if (callback) {
                 callback();

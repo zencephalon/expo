@@ -68,6 +68,7 @@ UM_EXPORT_METHOD_AS(dismissAsync,
     BOOL animated = (self.options[@"animateOut"]) ? [self.options[@"animateOut"] boolValue] : YES;
     [UMUtilities dismissViewController:_picker animated:animated callback:^{
         if (self.resolve) {
+            [self maybeRestoreStatusBarVisibility];
             self.resolve(@{@"cancelled": @YES});
         }
     } resolver:resolve rejecter:reject];
