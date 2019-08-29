@@ -5,6 +5,7 @@
 #import <UMFileSystemInterface/UMFileSystemInterface.h>
 #import <UMCore/UMUtilitiesInterface.h>
 #import <UMPermissionsInterface/UMPermissionsInterface.h>
+#import <UMCore/UMUtilities.h>
 
 @import MobileCoreServices;
 @import Photos;
@@ -58,6 +59,20 @@ UM_EXPORT_MODULE(ExponentImagePicker);
   _moduleRegistry = moduleRegistry;
   _permissionsModule = [self.moduleRegistry getModuleImplementingProtocol:@protocol(UMPermissionsInterface)];
 }
+
+UM_EXPORT_METHOD_AS(dismissAsync,
+                    dismissAsync:(NSDictionary *)options
+                    resolver:(UMPromiseResolveBlock)resolve
+                    rejecter:(UMPromiseRejectBlock)reject)
+{
+    BOOL animated = (self.options[@"animateOut"]) ? [self.options[@"animateOut"] boolValue] : YES;
+    [UMUtilities dismissViewController:_picker animated:animated callback:^{
+        if (self.resolve) {
+            self.resolve(@{@"cancelled": @YES});
+        }
+    } resolver:resolve rejecter:reject];
+}
+
 
 UM_EXPORT_METHOD_AS(launchCameraAsync, launchCameraAsync:(NSDictionary *)options
                   resolver:(UMPromiseResolveBlock)resolve
@@ -128,8 +143,10 @@ UM_EXPORT_METHOD_AS(launchImageLibraryAsync, launchImageLibraryAsync:(NSDictiona
     self.picker.delegate = self;
 
     [self maybePreserveVisibilityAndHideStatusBar:[[self.options objectForKey:@"allowsEditing"] boolValue]];
+
+    BOOL animated = (self.options[@"animateIn"]) ? [self.options[@"animateIn"] boolValue] : YES;
     id<UMUtilitiesInterface> utils = [self.moduleRegistry getModuleImplementingProtocol:@protocol(UMUtilitiesInterface)];
-    [utils.currentViewController presentViewController:self.picker animated:YES completion:nil];
+    [utils.currentViewController presentViewController:self.picker animated:animated completion:nil];
   });
 }
 
@@ -157,7 +174,8 @@ UM_EXPORT_METHOD_AS(launchImageLibraryAsync, launchImageLibraryAsync:(NSDictiona
 
   };
   dispatch_async(dispatch_get_main_queue(), ^{
-    [picker dismissViewControllerAnimated:YES completion:dismissCompletionBlock];
+    BOOL animated = (self.options[@"animateOut"]) ? [self.options[@"animateOut"] boolValue] : YES;
+    [picker dismissViewControllerAnimated:animated completion:dismissCompletionBlock];
   });
 }
 
@@ -369,9 +387,12 @@ UM_EXPORT_METHOD_AS(launchImageLibraryAsync, launchImageLibraryAsync:(NSDictiona
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
   dispatch_async(dispatch_get_main_queue(), ^{
-    [picker dismissViewControllerAnimated:YES completion:^{
-      [self maybeRestoreStatusBarVisibility];
-      self.resolve(@{@"cancelled": @YES});
+    BOOL animated = (self.options[@"animateOut"]) ? [self.options[@"animateOut"] boolValue] : YES;
+    [picker dismissViewControllerAnimated:animated completion:^{
+      if (self.resolve) {
+        [self maybeRestoreStatusBarVisibility];
+        self.resolve(@{@"cancelled": @YES});
+      }
     }];
   });
 }

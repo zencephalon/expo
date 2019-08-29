@@ -1,6 +1,12 @@
 import { UnavailabilityError } from '@unimodules/core';
 import ExponentImagePicker from './ExponentImagePicker';
 import { MediaTypeOptions } from './ImagePicker.types';
+export async function dismissAsync(options) {
+    if (!ExponentImagePicker.dismissAsync) {
+        throw new UnavailabilityError('ImagePicker', 'dismissAsync');
+    }
+    return await ExponentImagePicker.dismissAsync(options);
+}
 export async function launchImageLibraryAsync(options = {}) {
     if (!ExponentImagePicker.launchImageLibraryAsync) {
         throw new UnavailabilityError('ImagePicker', 'launchImageLibraryAsync');

@@ -3,6 +3,13 @@ import { UnavailabilityError } from '@unimodules/core';
 import ExponentImagePicker from './ExponentImagePicker';
 import { ImagePickerResult, MediaTypeOptions, ImagePickerOptions } from './ImagePicker.types';
 
+export async function dismissAsync(options: { animateOut?: boolean }): Promise<Boolean> {
+  if (!ExponentImagePicker.dismissAsync) {
+    throw new UnavailabilityError('ImagePicker', 'dismissAsync');
+  }
+  return await ExponentImagePicker.dismissAsync(options);
+}
+
 export async function launchImageLibraryAsync(
   options: ImagePickerOptions = {}
 ): Promise<ImagePickerResult> {

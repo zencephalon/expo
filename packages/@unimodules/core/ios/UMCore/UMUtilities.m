@@ -55,6 +55,38 @@ UM_REGISTER_MODULE();
   return controller;
 }
 
++ (void)dismissViewController:(nullable UIViewController *)controller
+                     animated:(BOOL)animated
+                     callback:(void (^ __nullable)(void))callback
+                     resolver:(UMPromiseResolveBlock)resolve
+                     rejecter:(UMPromiseRejectBlock)reject {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!controller || !(controller.isViewLoaded && controller.view.window)) {
+            resolve(@NO);
+            return;
+        }
+        
+        if ([controller isBeingDismissed] || [controller isMovingFromParentViewController]) {
+            reject(@"E_CONCURRENT_TASK", [NSString stringWithFormat:@"The controller %@ is already being dismissed.", controller.description], nil);
+            return;
+        }
+    
+        [controller dismissViewControllerAnimated:animated completion:^{
+            resolve(@YES);
+            
+            // Attempt to restore the status bar
+            SEL setStatusBarSelector = NSSelectorFromString(@"setStatusBarHidden:withAnimation:");
+            UIApplication *sharedApplication = [UIApplication sharedApplication];
+            ((void (*)(id, SEL, BOOL, BOOL))[sharedApplication methodForSelector:setStatusBarSelector])(sharedApplication, setStatusBarSelector, NO, NO);
+            
+            // Optionally used for resolving any pending promises
+            if (callback) {
+                callback();
+            }
+        }];
+    });
+}
+
 + (void)performSynchronouslyOnMainThread:(void (^)(void))block
 {
   if ([NSThread isMainThread]) {

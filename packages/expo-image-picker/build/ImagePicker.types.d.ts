@@ -22,6 +22,8 @@ export declare type ImagePickerOptions = {
     mediaTypes?: MediaTypeOptions;
     exif?: boolean;
     base64?: boolean;
+    animateIn?: boolean;
+    animateOut?: boolean;
 };
 export declare type OpenFileBrowserOptions = {
     mediaTypes: MediaTypeOptions;
