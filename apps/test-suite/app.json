@@ -1,23 +1,26 @@
 {
   "expo": {
-    "name": "test-suite",
-    "description": "Test suite for the Exponent SDK",
+    "name": "Super Saiyan ⚡️",
+    "description": "Go super while charing",
     "slug": "test-suite",
     "version": "1.0.0",
+    "primaryColor": "#E46535",
+    "icon": "./goku/chibi.png",
+    "splash": {
+      "image": "./goku/head.png",
+      "resizeMode": "contain"
+    },
     "sdkVersion": "UNVERSIONED",
-    "platforms": [
-      "android",
-      "ios",
-      "web"
-    ],
+    "platforms": ["android", "ios", "web"],
     "packagerOpts": {
-      "assetExts": [
-        "db"
-      ],
+      "assetExts": ["db"],
       "config": "metro.config.js"
     },
     "ios": {
       "bundleIdentifier": "io.expo.testsuite"
+    },
+    "web": {
+      "shortName": "Goku ⚡️"
     }
   }
 }
