@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`resolvableExtensions returns the correct resolvable extensions 1`] = `
+Array [
+  ".web.ts",
+  ".ts",
+  ".web.tsx",
+  ".tsx",
+  ".web.js",
+  ".js",
+  ".web.jsx",
+  ".jsx",
+  ".json",
+]
+`;
