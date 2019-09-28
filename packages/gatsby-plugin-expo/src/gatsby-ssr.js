@@ -1,6 +1,7 @@
 import withExpoRoot from 'expo/build/launch/withExpoRoot';
 import * as React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
+
 import { AppRegistry } from 'react-native';
 
 function replaceRenderer({ bodyComponent, replaceBodyHTMLString, setHeadComponents }) {
@@ -11,10 +12,11 @@ function replaceRenderer({ bodyComponent, replaceBodyHTMLString, setHeadComponen
   AppRegistry.registerComponent('main', () => RootComponent);
   const { element, getStyleElement } = AppRegistry.getApplication('main');
 
-  const html = ReactDOMServer.renderToString(element);
+  const markup = renderToString(element);
   const styleElement = getStyleElement();
 
-  replaceBodyHTMLString(html);
+  replaceBodyHTMLString(markup);
+  // TODO: Bacon: Get Expo PWA head elements
   setHeadComponents([styleElement]);
 }
 

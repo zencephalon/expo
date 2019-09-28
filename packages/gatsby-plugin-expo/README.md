@@ -50,7 +50,7 @@ yarn add expo-asset expo-constants expo-file-system expo-font
 ```json
 {
   "expo": {
-    "entryPoint": "gatsby-browser.js"
+    "entryPoint": "/"
   }
 }
 ```
