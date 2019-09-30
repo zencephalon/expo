@@ -3,6 +3,7 @@ import { View } from 'react-native';
 export type Props = {
   tint: BlurTint;
   intensity: number;
+  overlayColor?: any;
 } & React.ComponentProps<typeof View>;
 
 export type BlurTint = 'light' | 'dark' | 'default';
