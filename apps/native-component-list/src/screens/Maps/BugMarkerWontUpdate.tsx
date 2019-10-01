@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Dimensions, TouchableOpacity } from 'react-native';
-import MapView, { ProviderPropType } from './lib';
+import MapView, { ProviderPropType } from 'react-native-maps';
 import MyLocationMapMarker from './MyLocationMapMarker';
 
 const { width, height } = Dimensions.get('window');

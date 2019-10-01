@@ -8,7 +8,7 @@ import {
   Text,
   Switch,
 } from 'react-native';
-import { PROVIDER_GOOGLE, PROVIDER_DEFAULT } from './lib';
+import { PROVIDER_GOOGLE, PROVIDER_DEFAULT } from 'react-native-maps';
 import DisplayLatLng from './DisplayLatLng';
 import ViewsAsMarkers from './ViewsAsMarkers';
 import EventListener from './EventListener';

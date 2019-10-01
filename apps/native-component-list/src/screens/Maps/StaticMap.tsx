@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
-import MapView, { Marker, ProviderPropType } from './lib';
+import MapView, { Marker, ProviderPropType } from 'react-native-maps';
 // import { GOOGLE_MAPS_API_LOCAL } from '../../../.expo/secrets';
 const GOOGLE_MAPS_API_LOCAL = '';
 const { width, height } = Dimensions.get('window');

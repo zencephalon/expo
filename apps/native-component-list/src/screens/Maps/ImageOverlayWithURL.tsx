@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 
-import MapView from './lib';
+import MapView from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
 

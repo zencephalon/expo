@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { View } from 'react-native';
-import { Marker, Polygon, Polyline } from './lib';
+import { Marker, Polygon, Polyline } from 'react-native-maps';
 
 class XMarksTheSpot extends React.Component {
   static propTypes = {

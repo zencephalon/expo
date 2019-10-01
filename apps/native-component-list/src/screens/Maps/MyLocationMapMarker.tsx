@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { StyleSheet, Text, View, PermissionsAndroid, Platform } from 'react-native';
 import isEqual from 'lodash/isEqual';
-import { Marker } from './lib';
+import { Marker } from 'react-native-maps';
 
 const GEOLOCATION_OPTIONS = { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 };
 const ANCHOR = { x: 0.5, y: 0.5 };

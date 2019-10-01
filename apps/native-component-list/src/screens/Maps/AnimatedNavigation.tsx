@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-import MapView from './lib';
+import MapView from 'react-native-maps';
 import carImage from './assets/car.png';
 
 export default class NavigationMap extends Component {

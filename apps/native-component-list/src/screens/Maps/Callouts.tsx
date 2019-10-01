@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, Dimensions, TouchableOpacity, Alert } from 'react-native';
-import MapView, { Marker, Callout, CalloutSubview, ProviderPropType } from './lib';
+import MapView, { Marker, Callout, CalloutSubview, ProviderPropType } from 'react-native-maps';
 import CustomCallout from './CustomCallout';
 
 const { width, height } = Dimensions.get('window');

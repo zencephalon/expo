@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
 import flagImg from './assets/flag-blue.png';
-import MapView, { Callout, Marker, ProviderPropType } from './lib';
+import MapView, { Callout, Marker, ProviderPropType } from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
 

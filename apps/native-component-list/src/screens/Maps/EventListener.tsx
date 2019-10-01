@@ -10,7 +10,7 @@ import MapView, {
   Polyline,
   PROVIDER_GOOGLE,
   ProviderPropType,
-} from './lib';
+} from 'react-native-maps';
 import PriceMarker from './PriceMarker';
 
 // eslint-disable-next-line max-len

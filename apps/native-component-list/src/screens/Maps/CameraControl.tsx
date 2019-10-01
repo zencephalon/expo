@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
 
-import MapView, { ProviderPropType } from './lib';
+import MapView, { ProviderPropType } from 'react-native-maps';
 
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;

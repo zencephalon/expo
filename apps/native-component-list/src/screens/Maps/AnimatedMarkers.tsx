@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Dimensions, TouchableOpacity, Platform } from 'react-native';
 
 // @ts-ignore
-import MapView, { ProviderPropType, Marker, AnimatedRegion } from './lib';
+import MapView, { ProviderPropType, Marker, AnimatedRegion } from 'react-native-maps';
 
 const screen = Dimensions.get('window');
 

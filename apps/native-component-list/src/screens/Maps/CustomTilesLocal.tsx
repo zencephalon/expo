@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
-import MapView, { LocalTile, MAP_TYPES, PROVIDER_DEFAULT, ProviderPropType } from './lib';
+import MapView, { LocalTile, MAP_TYPES, PROVIDER_DEFAULT, ProviderPropType } from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
 
