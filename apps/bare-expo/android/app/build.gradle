@@ -190,6 +190,7 @@ dependencies {
     implementation project(':react-native-safe-area-context')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     def packageJsonFile = new File(rootProject.projectDir, '../package.json')
     def packageJson = new JsonSlurper().parseText(packageJsonFile.text)

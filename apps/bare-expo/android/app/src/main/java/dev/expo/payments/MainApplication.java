@@ -2,6 +2,8 @@ package dev.expo.payments;
 
 import android.app.Application;
 
+import androidx.annotation.Nullable;
+
 import com.facebook.react.ReactApplication;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.facebook.react.ReactNativeHost;
@@ -9,6 +11,8 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import dev.expo.payments.generated.BasePackageList;
+import expo.modules.ota.ExpoOTA;
+
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 
@@ -20,6 +24,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
+
+  private final static boolean EXPO_OTA = false;
+
+  private ExpoOTA expoOTA;
+
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
     new BasePackageList().getPackageList(),
     Arrays.<SingletonModule>asList()
@@ -29,6 +38,16 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
+    }
+
+    @Nullable
+    @Override
+    protected String getJSBundleFile() {
+      if (expoOTA != null) {
+        return expoOTA.getBundlePath();
+      } else {
+        return null;
+      }
     }
 
     @Override
@@ -57,5 +76,8 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    if(EXPO_OTA) {
+      expoOTA = ExpoOTA.init(this, BuildConfig.DEBUG);
+    }
   }
 }

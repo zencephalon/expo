@@ -18,6 +18,10 @@ DoubleConversion:
   LABEL: DoubleConversion
   PROJECT_PATH: DoubleConversion.xcodeproj
   UUID: 725D0E8C1060F8939288E8C91236BA4F
+EDSemver:
+  LABEL: EDSemver
+  PROJECT_PATH: EDSemver.xcodeproj
+  UUID: 07E6DE29224FE58C285CB12768D5FAB0
 EXAmplitude:
   LABEL: EXAmplitude
   PROJECT_PATH: EXAmplitude.xcodeproj
@@ -150,6 +154,10 @@ EXNetwork:
   LABEL: EXNetwork
   PROJECT_PATH: EXNetwork.xcodeproj
   UUID: 71F2A4AC24C8FBC0E24B6A613BB4F7BC
+EXOta:
+  LABEL: EXOta
+  PROJECT_PATH: EXOta.xcodeproj
+  UUID: 0EFFE1CC81989F6A8BAED5E4079EBEA9
 EXPermissions:
   LABEL: EXPermissions
   PROJECT_PATH: EXPermissions.xcodeproj
