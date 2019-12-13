@@ -33,6 +33,8 @@ This is the log of notable changes to the Expo client that are developer-facing.
 
 ### 🎉 New features
 
+- Removed SpongyCastle (BouncyCastle repackaging) from among Android dependencies. ([#6464](https://github.com/expo/expo/pull/6464) by [@sjchmiela](https://github.com/sjchmiela))
+
 - Added `MediaLibrary.saveToAssetsAsync` function that can work without `CAMERA_ROLL` permission. ([#5678](https://github.com/expo/expo/pull/5678) by [@lukmccall](https://github.com/lukmccall))
 - Added support for `Speech.getAvailableVoicesAsync()` on Android. ([#5887](f0a9d8ce87451dbce8c0a309ff917c8b26472861) by [@Mitch528](https://github.com/Mitch528))
 - Added `@react-native-community/masked-view` in version `0.1.5`. ([#6193](https://github.com/expo/expo/pull/6193) by [@brentvatne](https://github.com/brentvatne))
