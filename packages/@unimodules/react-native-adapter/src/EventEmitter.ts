@@ -1,5 +1,6 @@
 import invariant from 'invariant';
-import { NativeEventEmitter, Platform } from 'react-native';
+// @ts-ignore
+import { NativeEventEmitter, Platform, TurboModuleRegistry } from 'react-native';
 
 const nativeEmitterSubscriptionKey = '@@nativeEmitterSubscription@@';
 
@@ -10,29 +11,54 @@ type NativeModule = {
   removeListeners: (count: number) => void;
 };
 
+// @ts-ignore
+const TurboEventEmitter = global.__turboModuleProxy('UMReactNativeEventEmitter');
+
+type EventListener = (event: any) => void;
+
 export type Subscription = {
+  eventName: string;
+  listener: EventListener;
   remove: () => void;
 };
+
+const listeners = new Map<string, Set<EventListener>>();
+
+const eventEmitterCallback = (name: string, event: any) => {
+  // console.log('eventEmitterCallback called with ', name, event);
+  const eventListeners = listeners[name];
+  if (eventListeners) {
+    for (const listener of [...eventListeners]) {
+      listener(event);
+    }
+  }
+}
+
+TurboEventEmitter.setListener(eventEmitterCallback);
 
 export class EventEmitter {
   _listenerCount = 0;
   _nativeModule: NativeModule;
-  _eventEmitter: NativeEventEmitter;
 
   constructor(nativeModule: NativeModule) {
     this._nativeModule = nativeModule;
-    this._eventEmitter = new NativeEventEmitter(nativeModule as any);
   }
 
   addListener<T>(eventName: string, listener: (event: T) => void): Subscription {
+    console.log('EventEmitter.addListener', eventName, this._nativeModule);
     if (!this._listenerCount && Platform.OS !== 'ios' && this._nativeModule.startObserving) {
       this._nativeModule.startObserving();
     }
+    this._nativeModule.addListener(eventName);
 
     this._listenerCount++;
-    const nativeEmitterSubscription = this._eventEmitter.addListener(eventName, listener);
+    if (!listeners[eventName]) {
+      listeners[eventName] = new Set<EventListener>();
+    }
+    listeners[eventName].add(listener);
     const subscription = {
-      [nativeEmitterSubscriptionKey]: nativeEmitterSubscription,
+      listener,
+      eventName,
       remove: () => {
         this.removeSubscription(subscription);
       },
@@ -41,9 +67,11 @@ export class EventEmitter {
   }
 
   removeAllListeners(eventName: string): void {
-    const removedListenerCount = this._eventEmitter.listeners(eventName).length;
-    this._eventEmitter.removeAllListeners(eventName);
-    this._listenerCount -= removedListenerCount;
+    console.warn('removeAllListeners');
+    // (listeners[eventName] as Set).
+    // const removedListenerCount = this._eventEmitter.listeners(eventName).length;
+    // this._eventEmitter.removeAllListeners(eventName);
+    // this._listenerCount -= removedListenerCount;
     invariant(
       this._listenerCount >= 0,
       `EventEmitter must have a non-negative number of listeners`
@@ -55,17 +83,18 @@ export class EventEmitter {
   }
 
   removeSubscription(subscription: Subscription): void {
-    const nativeEmitterSubscription = subscription[nativeEmitterSubscriptionKey];
-    if (!nativeEmitterSubscription) {
-      return;
-    }
+    // const nativeEmitterSubscription = subscription[nativeEmitterSubscriptionKey];
+    // if (!nativeEmitterSubscription) {
+    //   return;
+    // }
 
-    this._eventEmitter.removeSubscription(nativeEmitterSubscription!);
+    listeners[subscription.eventName].delete(subscription.listener);
+    // this._eventEmitter.removeSubscription(nativeEmitterSubscription!);
     this._listenerCount--;
 
     // Ensure that the emitter's internal state remains correct even if `removeSubscription` is
     // called again with the same subscription
-    delete subscription[nativeEmitterSubscriptionKey];
+    // delete subscription[nativeEmitterSubscriptionKey];
 
     // Release closed-over references to the emitter
     subscription.remove = () => {};
@@ -76,6 +105,6 @@ export class EventEmitter {
   }
 
   emit(eventName: string, ...params: any[]): void {
-    this._eventEmitter.emit(eventName, ...params);
+    eventEmitterCallback(eventName, params);
   }
 }

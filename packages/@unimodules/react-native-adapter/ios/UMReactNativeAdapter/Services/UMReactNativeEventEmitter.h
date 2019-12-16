@@ -8,4 +8,7 @@
 
 @interface UMReactNativeEventEmitter : RCTEventEmitter <UMInternalModule, UMBridgeModule, UMModuleRegistryConsumer, UMEventEmitterService>
 
+- (void)setListener:(void (^)(NSArray *responses))block;
+- (void)setReleaseListener:(void (^)())block;
+
 @end

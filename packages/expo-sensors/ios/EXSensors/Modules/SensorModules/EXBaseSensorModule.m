@@ -85,7 +85,8 @@
   return @[(NSString *)[self updateEventName]];
 }
 
-- (void)startObserving {
+- (void)startObserving
+{
   [self setWatching:YES];
   __weak EXBaseSensorModule *weakSelf = self;
   [self subscribeToSensorService:_sensorManager withHandler:^(NSDictionary *event) {

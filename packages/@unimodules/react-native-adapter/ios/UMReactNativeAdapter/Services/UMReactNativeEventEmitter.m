@@ -9,6 +9,8 @@
 
 @property (nonatomic, assign) int listenersCount;
 @property (nonatomic, weak) UMModuleRegistry *moduleRegistry;
+@property (nonatomic, strong) void (^eventListener)(NSArray *responses);
+@property (nonatomic, strong) void (^releaseListener)();
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *modulesListenersCounts;
 
 @end
@@ -46,6 +48,25 @@ UM_REGISTER_MODULE();
     }
   }
   return [eventsAccumulator allObjects];
+}
+
+- (void)setListener:(void (^)(NSArray *responses))block
+{
+  _eventListener = block;
+}
+
+- (void)invalidate
+{
+  _eventListener = nil;
+}
+
+- (void)sendEventWithName:(NSString *)name body:(id)body
+{
+  if (_eventListener) {
+    _eventListener(@[name, body]);
+  } else {
+    [super sendEventWithName:name body:body];
+  }
 }
 
 RCT_EXPORT_METHOD(addProxiedListener:(NSString *)moduleName eventName:(NSString *)eventName)

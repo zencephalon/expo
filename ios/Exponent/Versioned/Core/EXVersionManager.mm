@@ -37,7 +37,9 @@
 #import "EXScopedModuleRegistryAdapter.h"
 #import "EXScopedModuleRegistryDelegate.h"
 
+#import <UMCore/UMEventEmitterService.h>
 #import <UMReactNativeAdapter/UMExportedModuleSpecJSI.h>
+#import <UMReactNativeAdapter/UMReactNativeEventEmitterSpecJSI.h>
 
 #import <React/RCTCxxBridgeDelegate.h>
 #import <React/CoreModulesPlugins.h>
@@ -370,8 +372,16 @@ RCT_EXTERN NSDictionary<NSString *, NSDictionary *> *EXGetScopedModuleClasses(vo
                                                       jsInvoker:(std::shared_ptr<facebook::react::JSCallInvoker>)jsInvoker
 {
   NSString *moduleName = [[NSString alloc] initWithUTF8String:name.c_str()];
+  if ([moduleName isEqualToString:@"UMReactNativeEventEmitter"]) {
+    id<UMEventEmitterService> eventEmitter = [_moduleRegistry getModuleImplementingProtocol:@protocol(UMEventEmitterService)];
+    return std::make_shared<unimodules::EventEmitterSpecJSI>(eventEmitter, jsInvoker);
+  }
   if (UMExportedModule *exportedModule = [_moduleRegistry getExportedModuleForName:moduleName]) {
     return std::make_shared<unimodules::ExportedModuleSpecJSI>(exportedModule, jsInvoker);
+  }
+  if ([moduleName isEqualToString:@"UMReactNativeEventEmitter"]) {
+    id<UMEventEmitterService> eventEmitter = [_moduleRegistry getModuleImplementingProtocol:@protocol(UMEventEmitterService)];
+    return std::make_shared<unimodules::EventEmitterSpecJSI>(eventEmitter, jsInvoker);
   }
   return nullptr;
 }

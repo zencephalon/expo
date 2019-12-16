@@ -7,92 +7,104 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3FDCBD9900AFD303D60545A2A80252C6 /* UMViewManagerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = EE8249F81B9D10BF66B301275779B15B /* UMViewManagerAdapter.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		42643E1F01616CDC2D670B892275CA3F /* UMReactNativeAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 85AC9E4D6BEF8549F808D6A71FB86FE7 /* UMReactNativeAdapter.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		55695095CDF40E0BF3AEEAA85CFDDA30 /* UMNativeModulesProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = AD7611300832148EA756E8A221886D81 /* UMNativeModulesProxy.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		61738C3B047650430A524F5F9F2AC825 /* UMViewManagerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0EA5DAC9EAEC3091868FF8D04ABBA9 /* UMViewManagerAdapter.m */; };
-		6F5FC717516B0329402741573AF0A50B /* UMReactNativeAdapter-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C795D77D4E398C7FAC4E400E1BB9CAB /* UMReactNativeAdapter-dummy.m */; };
-		8AF154BDCCFE117BF3A6EAF8D7A948BE /* UMExportedModuleSpecJSI.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9605CFE443BB6671CC41B4BEE074A8E6 /* UMExportedModuleSpecJSI.mm */; };
-		8D1B785E8290802B2E6D144B8EAE2938 /* UMReactLogHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 29491E9F4C26437455560F44E20B9B32 /* UMReactLogHandler.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		8D6C5E34259C069072C0E1D3C5CC649D /* UMModuleRegistryAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 075E532DCDE767253090F14914242C66 /* UMModuleRegistryAdapter.m */; };
-		8DF49C93B4DE442A493A6E00736786A8 /* UMReactNativeEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F5E378140456201E51598C5441F8A /* UMReactNativeEventEmitter.m */; };
-		90ABF4A4079C0A08529D4ACF10970C1C /* UMReactNativeAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BFE5B6AB35D7B301435FCD8F7F99A2 /* UMReactNativeAdapter.m */; };
-		9862F5301FFE2EFF526D79A4187284B3 /* UMReactFontManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 327F9EA0637EA8318C6BAFD29D811248 /* UMReactFontManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		9EDF6CBD9C9F9B5140F12B40C0B5C9F7 /* UMNativeModulesProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A9DD11FC1C5D210A2622FEA87671A13 /* UMNativeModulesProxy.m */; };
-		A2789B4DFCAE0A0E4DADD53562AA7D4A /* UMExportedModuleSpecJSI.h in Headers */ = {isa = PBXBuildFile; fileRef = C782E67D8F26F9B4EF266C87CB57611E /* UMExportedModuleSpecJSI.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		DD9C14E39E026BA3CABF630449602A43 /* UMViewManagerAdapterClassesRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = C85339F79D4D03A10736E2FDFB5E4538 /* UMViewManagerAdapterClassesRegistry.m */; };
-		E1E8B1ABFF15706518012D1DDF288D57 /* UMReactFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDFC3A97444C6981B47308F64FA47F3 /* UMReactFontManager.m */; };
-		E8DCC159076D6AC8F13351A987309CDF /* UMBridgeModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 80AEE4C9F9917139438EAE49130DC606 /* UMBridgeModule.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		E90F57981D4651850771C07A233465C4 /* UMViewManagerAdapterClassesRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = AA09C509F851FFB6F964BC5B63953655 /* UMViewManagerAdapterClassesRegistry.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		F4826C3A809BBF2D00CB6178AD6B5265 /* UMReactNativeEventEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = F5260C563F970ED552ED5BF7D5C45569 /* UMReactNativeEventEmitter.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		FB34580B946542643D95E119E3421C4E /* UMModuleRegistryAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 611E2A73692A2CB362D475E4273B514F /* UMModuleRegistryAdapter.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		FEE7C844F87E2DBB554E1F8312F75583 /* UMReactLogHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = CFAAD3F706781E5ABDEAF2D9CEBD9269 /* UMReactLogHandler.m */; };
+		155F25FC9F3C781F5A6273A8B993B7F5 /* UMExportedModuleSpecJSI.h in Headers */ = {isa = PBXBuildFile; fileRef = 1482489E0084475569592AFE6517084D /* UMExportedModuleSpecJSI.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3327BA0D0F8A385E311A8AA8B848556F /* UMReactNativeAdapter-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A13EC0EA8F5D7A2522AF4879F2A054C /* UMReactNativeAdapter-dummy.m */; };
+		349C33EC8BC19E1E23FAA8D4ABED6F6D /* UMViewManagerAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D59756A6BCEE0A49B8769A25ECA06B0 /* UMViewManagerAdapter.m */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32"; }; };
+		40EB25CE8DE4812EB88215B831E18CEA /* UMModuleRegistryAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = B93D70BB5646883C9C042F9C38A164B2 /* UMModuleRegistryAdapter.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4A791645A7C0D821271DFAC545BCC944 /* UMExportedModuleSpecJSI.mm in Sources */ = {isa = PBXBuildFile; fileRef = AF076D4912B7F8171AC45B6E3E05C70A /* UMExportedModuleSpecJSI.mm */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32"; }; };
+		4DC8F099983638822B9F6C883E3386DD /* UMNativeModulesProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = CC06044D4E6F8B267454CB0F50CAA6FC /* UMNativeModulesProxy.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		55198F7EC14DBFDF49A2E1F7F95F3C0C /* UMViewManagerAdapterClassesRegistry.h in Headers */ = {isa = PBXBuildFile; fileRef = FDADCBD8FAC067748C8E333DD25C878E /* UMViewManagerAdapterClassesRegistry.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		7061A4850AE3E4B282B7BFC9303A1AB9 /* UMModuleRegistryAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4690F672935B3F0B952280AC03AC20 /* UMModuleRegistryAdapter.m */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32"; }; };
+		73D09616794C7CCB24A66D28ECEE01A8 /* UMReactNativeAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = A7D352ACAA7254C93E130F561799D476 /* UMReactNativeAdapter.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		77A3D7D3C98266ECCEE9466075E343E4 /* UMReactFontManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DFFEDBA4080351798D48A71E3815F3DC /* UMReactFontManager.m */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32"; }; };
+		7AC71FBDB0E0DDC1AE32466D15FEA96A /* UMBridgeModule.h in Headers */ = {isa = PBXBuildFile; fileRef = E7D2312AA7A24E856C7412E673511BF1 /* UMBridgeModule.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		8D8FD647740A012870630A8D7B7049BA /* UMReactNativeEventEmitterSpecJSI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B1BAF30B3B41868B2FF60A754C974FD /* UMReactNativeEventEmitterSpecJSI.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		8E39314FB6EA5564A87A3516C9087987 /* UMReactLogHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B818F0802601D82740E31243B9774E /* UMReactLogHandler.m */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32"; }; };
+		98C76D28F217DDA62C4F1C7B7F995D4B /* UMViewManagerAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B3B4FD69C2394F22805AA5CB973EA91 /* UMViewManagerAdapter.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		A80D204E3E9AAF14F9AC4E785054FAFB /* UMReactNativeEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2663EC4227439BCCE9BA2C23940D8202 /* UMReactNativeEventEmitter.m */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32"; }; };
+		B8E4D6E569227AAE210937B878CB7963 /* UMReactNativeEventEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = EAE56CC4633E6119E72366901ECF0AC3 /* UMReactNativeEventEmitter.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		BF74D239B6AD6FF3F5478F85BF222A80 /* UMReactNativeEventEmitterSpecJSI.mm in Sources */ = {isa = PBXBuildFile; fileRef = B650884BDDC74D1D9B40FDCCEF3019EA /* UMReactNativeEventEmitterSpecJSI.mm */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32"; }; };
+		C7D693E7B554E9DC75BEC1E37F575BC7 /* UMViewManagerAdapterClassesRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 26311B27ED86EB1DFBA0E50F757B3814 /* UMViewManagerAdapterClassesRegistry.m */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32"; }; };
+		D0E69477D7DA506F42078316B1DDB13E /* UMReactLogHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 65D13B326D84052AB9D36A5DC6179138 /* UMReactLogHandler.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		D29EFEBC14C75E3C0C1B101F9BB94581 /* UMReactFontManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 50CC0E0D552AEA41D0DCCCA8AE8DFAAF /* UMReactFontManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		D7A7D34A8B1F9BC0E4EB1B1B5F415D69 /* UMReactNativeAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C3E58A3FF03DE3162E7733648AFCDE7 /* UMReactNativeAdapter.m */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32"; }; };
+		E2A48150A8A61B01C40171D8FC3951A8 /* UMNativeModulesProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 09462062AFB57092F5ADBB25A0F04651 /* UMNativeModulesProxy.m */; settings = {COMPILER_FLAGS = "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -Wno-comma -Wno-shorten-64-to-32"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		23A29E621BF47099DD03D499543BD353 /* PBXContainerItemProxy */ = {
+		1856576E02EFE0BA47F1723CBBEE1ECB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = BCA6BB8228B44D5AB6381070863F483A /* React-Core.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 5DA1A74647F652AE8E4DE074AFC4C6B7;
-			remoteInfo = "React-Core";
-		};
-		7EC17364AC0F27155BD847EAC4FCD388 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 52FA5C9195A920118AD6D4C67F966CB8 /* ReactCommon.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 2610D146B211EB79FECF83D4FA5AB36D;
-			remoteInfo = ReactCommon;
-		};
-		9AC065A3B9AFC45D3563CFA4F82B9691 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFF4497901B40113A45B52B585E1DA8E /* UMFontInterface.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7F4112A673122B6D50845D9BC1D9AFDB;
-			remoteInfo = UMFontInterface;
-		};
-		F62B7BBFC7CC335FD2C9B29CE232245C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7390357E9A02131EE29A1C9D5DCB58C8 /* UMCore.xcodeproj */;
+			containerPortal = 87D79F35E19814C6ABC13EE8BBB9A80B /* UMCore.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 153171642F5C5CBC05FD3EF6B23A3F36;
 			remoteInfo = UMCore;
 		};
+		515B5C21A19127A4062A289C2097F08A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 742BFA71BC323388608C16DFC9D40B02 /* UMFontInterface.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7F4112A673122B6D50845D9BC1D9AFDB;
+			remoteInfo = UMFontInterface;
+		};
+		73E86EBCCF89AC52E227D337F6016619 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9B35F86FB6C988031D224F363FE42971 /* React-Core.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5DA1A74647F652AE8E4DE074AFC4C6B7;
+			remoteInfo = "React-Core";
+		};
+		756FA51CF687D576481AEBD56A379EF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F354425946550F663B92FCBBA3A69F4D /* ReactCommon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 2610D146B211EB79FECF83D4FA5AB36D;
+			remoteInfo = ReactCommon;
+		};
+		E3FACA484F597955AB480DCF42285358 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3C9898E8C0F56186F5F953DC3634FA39 /* Folly.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 14BB2B7275726942E762F076FA966088;
+			remoteInfo = Folly;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		075E532DCDE767253090F14914242C66 /* UMModuleRegistryAdapter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMModuleRegistryAdapter.m; sourceTree = "<group>"; };
-		29491E9F4C26437455560F44E20B9B32 /* UMReactLogHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMReactLogHandler.h; sourceTree = "<group>"; };
-		327F9EA0637EA8318C6BAFD29D811248 /* UMReactFontManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMReactFontManager.h; sourceTree = "<group>"; };
-		3CDFC3A97444C6981B47308F64FA47F3 /* UMReactFontManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMReactFontManager.m; sourceTree = "<group>"; };
-		44BFE5B6AB35D7B301435FCD8F7F99A2 /* UMReactNativeAdapter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMReactNativeAdapter.m; sourceTree = "<group>"; };
-		52FA5C9195A920118AD6D4C67F966CB8 /* ReactCommon */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactCommon; path = ReactCommon.xcodeproj; sourceTree = "<group>"; };
-		5A9DD11FC1C5D210A2622FEA87671A13 /* UMNativeModulesProxy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMNativeModulesProxy.m; sourceTree = "<group>"; };
-		5E0EA5DAC9EAEC3091868FF8D04ABBA9 /* UMViewManagerAdapter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMViewManagerAdapter.m; sourceTree = "<group>"; };
-		611E2A73692A2CB362D475E4273B514F /* UMModuleRegistryAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMModuleRegistryAdapter.h; sourceTree = "<group>"; };
+		09462062AFB57092F5ADBB25A0F04651 /* UMNativeModulesProxy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMNativeModulesProxy.m; sourceTree = "<group>"; };
+		0C3E58A3FF03DE3162E7733648AFCDE7 /* UMReactNativeAdapter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMReactNativeAdapter.m; sourceTree = "<group>"; };
+		0DC560AE6ABCA1E2F253887CC6F6C8D9 /* UMReactNativeAdapter.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = UMReactNativeAdapter.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		1482489E0084475569592AFE6517084D /* UMExportedModuleSpecJSI.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMExportedModuleSpecJSI.h; sourceTree = "<group>"; };
+		2496B7BED2108B8A51C2F11C24371665 /* UMReactNativeAdapter-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UMReactNativeAdapter-prefix.pch"; sourceTree = "<group>"; };
+		26311B27ED86EB1DFBA0E50F757B3814 /* UMViewManagerAdapterClassesRegistry.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMViewManagerAdapterClassesRegistry.m; sourceTree = "<group>"; };
+		2663EC4227439BCCE9BA2C23940D8202 /* UMReactNativeEventEmitter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMReactNativeEventEmitter.m; sourceTree = "<group>"; };
+		3C9898E8C0F56186F5F953DC3634FA39 /* Folly */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Folly; path = Folly.xcodeproj; sourceTree = "<group>"; };
+		3D59756A6BCEE0A49B8769A25ECA06B0 /* UMViewManagerAdapter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMViewManagerAdapter.m; sourceTree = "<group>"; };
+		4B1BAF30B3B41868B2FF60A754C974FD /* UMReactNativeEventEmitterSpecJSI.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMReactNativeEventEmitterSpecJSI.h; sourceTree = "<group>"; };
+		50CC0E0D552AEA41D0DCCCA8AE8DFAAF /* UMReactFontManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMReactFontManager.h; sourceTree = "<group>"; };
+		63B818F0802601D82740E31243B9774E /* UMReactLogHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMReactLogHandler.m; sourceTree = "<group>"; };
 		63E1985045AE44A7D60E4E727AAB1EE8 /* libUMReactNativeAdapter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libUMReactNativeAdapter.a; path = libUMReactNativeAdapter.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		6C795D77D4E398C7FAC4E400E1BB9CAB /* UMReactNativeAdapter-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UMReactNativeAdapter-dummy.m"; sourceTree = "<group>"; };
-		7390357E9A02131EE29A1C9D5DCB58C8 /* UMCore */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UMCore; path = UMCore.xcodeproj; sourceTree = "<group>"; };
-		80AEE4C9F9917139438EAE49130DC606 /* UMBridgeModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UMBridgeModule.h; path = UMReactNativeAdapter/UMBridgeModule.h; sourceTree = "<group>"; };
-		85AC9E4D6BEF8549F808D6A71FB86FE7 /* UMReactNativeAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMReactNativeAdapter.h; sourceTree = "<group>"; };
-		9605CFE443BB6671CC41B4BEE074A8E6 /* UMExportedModuleSpecJSI.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = UMExportedModuleSpecJSI.mm; sourceTree = "<group>"; };
-		AA09C509F851FFB6F964BC5B63953655 /* UMViewManagerAdapterClassesRegistry.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMViewManagerAdapterClassesRegistry.h; sourceTree = "<group>"; };
-		AC676EB8F7BFE09E2416BB3705CC50FD /* UMReactNativeAdapter.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = UMReactNativeAdapter.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		AD7611300832148EA756E8A221886D81 /* UMNativeModulesProxy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMNativeModulesProxy.h; sourceTree = "<group>"; };
-		BCA6BB8228B44D5AB6381070863F483A /* React-Core */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "React-Core"; path = "React-Core.xcodeproj"; sourceTree = "<group>"; };
-		BFF4497901B40113A45B52B585E1DA8E /* UMFontInterface */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UMFontInterface; path = UMFontInterface.xcodeproj; sourceTree = "<group>"; };
-		C68710AF7A747A50D9B3087D6CBDE365 /* UMReactNativeAdapter.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UMReactNativeAdapter.xcconfig; sourceTree = "<group>"; };
-		C782E67D8F26F9B4EF266C87CB57611E /* UMExportedModuleSpecJSI.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMExportedModuleSpecJSI.h; sourceTree = "<group>"; };
-		C85339F79D4D03A10736E2FDFB5E4538 /* UMViewManagerAdapterClassesRegistry.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMViewManagerAdapterClassesRegistry.m; sourceTree = "<group>"; };
-		CFAAD3F706781E5ABDEAF2D9CEBD9269 /* UMReactLogHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMReactLogHandler.m; sourceTree = "<group>"; };
-		D306866C1D3DCC6E1141BA50CBA0FE33 /* UMReactNativeAdapter-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "UMReactNativeAdapter-prefix.pch"; sourceTree = "<group>"; };
-		DB4F5E378140456201E51598C5441F8A /* UMReactNativeEventEmitter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMReactNativeEventEmitter.m; sourceTree = "<group>"; };
-		EE8249F81B9D10BF66B301275779B15B /* UMViewManagerAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMViewManagerAdapter.h; sourceTree = "<group>"; };
-		F5260C563F970ED552ED5BF7D5C45569 /* UMReactNativeEventEmitter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMReactNativeEventEmitter.h; sourceTree = "<group>"; };
+		65D13B326D84052AB9D36A5DC6179138 /* UMReactLogHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMReactLogHandler.h; sourceTree = "<group>"; };
+		6A13EC0EA8F5D7A2522AF4879F2A054C /* UMReactNativeAdapter-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "UMReactNativeAdapter-dummy.m"; sourceTree = "<group>"; };
+		742BFA71BC323388608C16DFC9D40B02 /* UMFontInterface */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UMFontInterface; path = UMFontInterface.xcodeproj; sourceTree = "<group>"; };
+		7B3B4FD69C2394F22805AA5CB973EA91 /* UMViewManagerAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMViewManagerAdapter.h; sourceTree = "<group>"; };
+		87D79F35E19814C6ABC13EE8BBB9A80B /* UMCore */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UMCore; path = UMCore.xcodeproj; sourceTree = "<group>"; };
+		8C4690F672935B3F0B952280AC03AC20 /* UMModuleRegistryAdapter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMModuleRegistryAdapter.m; sourceTree = "<group>"; };
+		9B35F86FB6C988031D224F363FE42971 /* React-Core */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "React-Core"; path = "React-Core.xcodeproj"; sourceTree = "<group>"; };
+		A7D352ACAA7254C93E130F561799D476 /* UMReactNativeAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMReactNativeAdapter.h; sourceTree = "<group>"; };
+		AF076D4912B7F8171AC45B6E3E05C70A /* UMExportedModuleSpecJSI.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = UMExportedModuleSpecJSI.mm; sourceTree = "<group>"; };
+		B650884BDDC74D1D9B40FDCCEF3019EA /* UMReactNativeEventEmitterSpecJSI.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = UMReactNativeEventEmitterSpecJSI.mm; sourceTree = "<group>"; };
+		B93D70BB5646883C9C042F9C38A164B2 /* UMModuleRegistryAdapter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMModuleRegistryAdapter.h; sourceTree = "<group>"; };
+		BEC8F81DB12E07DDF895497DC9CE2FE6 /* UMReactNativeAdapter.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = UMReactNativeAdapter.xcconfig; sourceTree = "<group>"; };
+		CC06044D4E6F8B267454CB0F50CAA6FC /* UMNativeModulesProxy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMNativeModulesProxy.h; sourceTree = "<group>"; };
+		DFFEDBA4080351798D48A71E3815F3DC /* UMReactFontManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = UMReactFontManager.m; sourceTree = "<group>"; };
+		E7D2312AA7A24E856C7412E673511BF1 /* UMBridgeModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = UMBridgeModule.h; path = UMReactNativeAdapter/UMBridgeModule.h; sourceTree = "<group>"; };
+		EAE56CC4633E6119E72366901ECF0AC3 /* UMReactNativeEventEmitter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMReactNativeEventEmitter.h; sourceTree = "<group>"; };
+		F354425946550F663B92FCBBA3A69F4D /* ReactCommon */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactCommon; path = ReactCommon.xcodeproj; sourceTree = "<group>"; };
+		FDADCBD8FAC067748C8E333DD25C878E /* UMViewManagerAdapterClassesRegistry.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = UMViewManagerAdapterClassesRegistry.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E896263556082C87523C150CD002ACF6 /* Frameworks */ = {
+		AAD1850150992402A472EAE3D579D02F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -102,31 +114,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		08A0DD993A83FDBBBB98CCEA656D65AC /* Services */ = {
+		005B1C0593E94E3A8CA93504FDB86D38 /* UMNativeModulesProxy */ = {
 			isa = PBXGroup;
 			children = (
-				327F9EA0637EA8318C6BAFD29D811248 /* UMReactFontManager.h */,
-				3CDFC3A97444C6981B47308F64FA47F3 /* UMReactFontManager.m */,
-				29491E9F4C26437455560F44E20B9B32 /* UMReactLogHandler.h */,
-				CFAAD3F706781E5ABDEAF2D9CEBD9269 /* UMReactLogHandler.m */,
-				85AC9E4D6BEF8549F808D6A71FB86FE7 /* UMReactNativeAdapter.h */,
-				44BFE5B6AB35D7B301435FCD8F7F99A2 /* UMReactNativeAdapter.m */,
-				F5260C563F970ED552ED5BF7D5C45569 /* UMReactNativeEventEmitter.h */,
-				DB4F5E378140456201E51598C5441F8A /* UMReactNativeEventEmitter.m */,
+				CC06044D4E6F8B267454CB0F50CAA6FC /* UMNativeModulesProxy.h */,
+				09462062AFB57092F5ADBB25A0F04651 /* UMNativeModulesProxy.m */,
 			);
-			name = Services;
-			path = UMReactNativeAdapter/Services;
+			name = UMNativeModulesProxy;
+			path = UMReactNativeAdapter/UMNativeModulesProxy;
 			sourceTree = "<group>";
 		};
-		53DA7BA9A275B9A082EFED39D4EF50FC /* Support Files */ = {
+		21A853CAE983D3D69887948A398A6D0E /* UMReactNativeAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				C68710AF7A747A50D9B3087D6CBDE365 /* UMReactNativeAdapter.xcconfig */,
-				6C795D77D4E398C7FAC4E400E1BB9CAB /* UMReactNativeAdapter-dummy.m */,
-				D306866C1D3DCC6E1141BA50CBA0FE33 /* UMReactNativeAdapter-prefix.pch */,
+				E7D2312AA7A24E856C7412E673511BF1 /* UMBridgeModule.h */,
+				57E75D0A14303CC96A0AFB7497AA9432 /* Pod */,
+				A12CD7FCF74AD521F6DC840F7266CDD2 /* Services */,
+				A2A28F94DF9261DCD19467B656671075 /* Support Files */,
+				DB49B334AE1A42D5FE8D62EDF675E923 /* UMExportedModuleSpecJSI */,
+				7E632E2FEB9429F8C4D49A9A19E3BD8E /* UMModuleRegistryAdapter */,
+				005B1C0593E94E3A8CA93504FDB86D38 /* UMNativeModulesProxy */,
+				FD13109C67DDA46CDD58E6A1761D7CE4 /* UMViewManagerAdapter */,
 			);
-			name = "Support Files";
-			path = "../../../../ios/Pods/Target Support Files/UMReactNativeAdapter";
+			name = UMReactNativeAdapter;
+			path = "../../packages/@unimodules/react-native-adapter/ios";
+			sourceTree = "<group>";
+		};
+		57E75D0A14303CC96A0AFB7497AA9432 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				0DC560AE6ABCA1E2F253887CC6F6C8D9 /* UMReactNativeAdapter.podspec */,
+			);
+			name = Pod;
 			sourceTree = "<group>";
 		};
 		642672044AC3FCC79FF382B5AFCE8667 /* Frameworks */ = {
@@ -136,13 +155,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7E8A5ECAB990F51C26F48BD4CA85E3F0 /* UMModuleRegistryAdapter */ = {
+		7E632E2FEB9429F8C4D49A9A19E3BD8E /* UMModuleRegistryAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				611E2A73692A2CB362D475E4273B514F /* UMModuleRegistryAdapter.h */,
-				075E532DCDE767253090F14914242C66 /* UMModuleRegistryAdapter.m */,
-				AA09C509F851FFB6F964BC5B63953655 /* UMViewManagerAdapterClassesRegistry.h */,
-				C85339F79D4D03A10736E2FDFB5E4538 /* UMViewManagerAdapterClassesRegistry.m */,
+				B93D70BB5646883C9C042F9C38A164B2 /* UMModuleRegistryAdapter.h */,
+				8C4690F672935B3F0B952280AC03AC20 /* UMModuleRegistryAdapter.m */,
+				FDADCBD8FAC067748C8E333DD25C878E /* UMViewManagerAdapterClassesRegistry.h */,
+				26311B27ED86EB1DFBA0E50F757B3814 /* UMViewManagerAdapterClassesRegistry.m */,
 			);
 			name = UMModuleRegistryAdapter;
 			path = UMReactNativeAdapter/UMModuleRegistryAdapter;
@@ -151,57 +170,40 @@
 		88CAAA2C559220FA06A2A8579D239523 = {
 			isa = PBXGroup;
 			children = (
-				F2CCBC67B0D92EB05381DF59C674F284 /* Dependencies */,
+				FC441A4D92F42979F626358092C1EC83 /* Dependencies */,
 				642672044AC3FCC79FF382B5AFCE8667 /* Frameworks */,
 				D5439FBF5FA00D00F6DD477C29B20FFF /* Products */,
-				C8045070757ACC596B771E237970929F /* UMReactNativeAdapter */,
+				21A853CAE983D3D69887948A398A6D0E /* UMReactNativeAdapter */,
 			);
 			sourceTree = "<group>";
 		};
-		986A8F936454C7F72A7C5AB59D2900EE /* UMViewManagerAdapter */ = {
+		A12CD7FCF74AD521F6DC840F7266CDD2 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				EE8249F81B9D10BF66B301275779B15B /* UMViewManagerAdapter.h */,
-				5E0EA5DAC9EAEC3091868FF8D04ABBA9 /* UMViewManagerAdapter.m */,
+				50CC0E0D552AEA41D0DCCCA8AE8DFAAF /* UMReactFontManager.h */,
+				DFFEDBA4080351798D48A71E3815F3DC /* UMReactFontManager.m */,
+				65D13B326D84052AB9D36A5DC6179138 /* UMReactLogHandler.h */,
+				63B818F0802601D82740E31243B9774E /* UMReactLogHandler.m */,
+				A7D352ACAA7254C93E130F561799D476 /* UMReactNativeAdapter.h */,
+				0C3E58A3FF03DE3162E7733648AFCDE7 /* UMReactNativeAdapter.m */,
+				EAE56CC4633E6119E72366901ECF0AC3 /* UMReactNativeEventEmitter.h */,
+				2663EC4227439BCCE9BA2C23940D8202 /* UMReactNativeEventEmitter.m */,
+				4B1BAF30B3B41868B2FF60A754C974FD /* UMReactNativeEventEmitterSpecJSI.h */,
+				B650884BDDC74D1D9B40FDCCEF3019EA /* UMReactNativeEventEmitterSpecJSI.mm */,
 			);
-			name = UMViewManagerAdapter;
-			path = UMReactNativeAdapter/UMViewManagerAdapter;
+			name = Services;
+			path = UMReactNativeAdapter/Services;
 			sourceTree = "<group>";
 		};
-		B498EE42C4BCF5F9192FB1BF3FD3EFF5 /* UMNativeModulesProxy */ = {
+		A2A28F94DF9261DCD19467B656671075 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				AD7611300832148EA756E8A221886D81 /* UMNativeModulesProxy.h */,
-				5A9DD11FC1C5D210A2622FEA87671A13 /* UMNativeModulesProxy.m */,
+				BEC8F81DB12E07DDF895497DC9CE2FE6 /* UMReactNativeAdapter.xcconfig */,
+				6A13EC0EA8F5D7A2522AF4879F2A054C /* UMReactNativeAdapter-dummy.m */,
+				2496B7BED2108B8A51C2F11C24371665 /* UMReactNativeAdapter-prefix.pch */,
 			);
-			name = UMNativeModulesProxy;
-			path = UMReactNativeAdapter/UMNativeModulesProxy;
-			sourceTree = "<group>";
-		};
-		C8045070757ACC596B771E237970929F /* UMReactNativeAdapter */ = {
-			isa = PBXGroup;
-			children = (
-				80AEE4C9F9917139438EAE49130DC606 /* UMBridgeModule.h */,
-				EA3014F811599804FC3BD7B714B51663 /* Pod */,
-				08A0DD993A83FDBBBB98CCEA656D65AC /* Services */,
-				53DA7BA9A275B9A082EFED39D4EF50FC /* Support Files */,
-				D492DA4C292B23DCD6254A2AC261645B /* UMExportedModuleSpecJSI */,
-				7E8A5ECAB990F51C26F48BD4CA85E3F0 /* UMModuleRegistryAdapter */,
-				B498EE42C4BCF5F9192FB1BF3FD3EFF5 /* UMNativeModulesProxy */,
-				986A8F936454C7F72A7C5AB59D2900EE /* UMViewManagerAdapter */,
-			);
-			name = UMReactNativeAdapter;
-			path = "../../packages/@unimodules/react-native-adapter/ios";
-			sourceTree = "<group>";
-		};
-		D492DA4C292B23DCD6254A2AC261645B /* UMExportedModuleSpecJSI */ = {
-			isa = PBXGroup;
-			children = (
-				C782E67D8F26F9B4EF266C87CB57611E /* UMExportedModuleSpecJSI.h */,
-				9605CFE443BB6671CC41B4BEE074A8E6 /* UMExportedModuleSpecJSI.mm */,
-			);
-			name = UMExportedModuleSpecJSI;
-			path = UMReactNativeAdapter/UMExportedModuleSpecJSI;
+			name = "Support Files";
+			path = "../../../../ios/Pods/Target Support Files/UMReactNativeAdapter";
 			sourceTree = "<group>";
 		};
 		D5439FBF5FA00D00F6DD477C29B20FFF /* Products */ = {
@@ -212,42 +214,56 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EA3014F811599804FC3BD7B714B51663 /* Pod */ = {
+		DB49B334AE1A42D5FE8D62EDF675E923 /* UMExportedModuleSpecJSI */ = {
 			isa = PBXGroup;
 			children = (
-				AC676EB8F7BFE09E2416BB3705CC50FD /* UMReactNativeAdapter.podspec */,
+				1482489E0084475569592AFE6517084D /* UMExportedModuleSpecJSI.h */,
+				AF076D4912B7F8171AC45B6E3E05C70A /* UMExportedModuleSpecJSI.mm */,
 			);
-			name = Pod;
+			name = UMExportedModuleSpecJSI;
+			path = UMReactNativeAdapter/UMExportedModuleSpecJSI;
 			sourceTree = "<group>";
 		};
-		F2CCBC67B0D92EB05381DF59C674F284 /* Dependencies */ = {
+		FC441A4D92F42979F626358092C1EC83 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				BCA6BB8228B44D5AB6381070863F483A /* React-Core */,
-				52FA5C9195A920118AD6D4C67F966CB8 /* ReactCommon */,
-				7390357E9A02131EE29A1C9D5DCB58C8 /* UMCore */,
-				BFF4497901B40113A45B52B585E1DA8E /* UMFontInterface */,
+				3C9898E8C0F56186F5F953DC3634FA39 /* Folly */,
+				9B35F86FB6C988031D224F363FE42971 /* React-Core */,
+				F354425946550F663B92FCBBA3A69F4D /* ReactCommon */,
+				87D79F35E19814C6ABC13EE8BBB9A80B /* UMCore */,
+				742BFA71BC323388608C16DFC9D40B02 /* UMFontInterface */,
 			);
 			name = Dependencies;
+			sourceTree = "<group>";
+		};
+		FD13109C67DDA46CDD58E6A1761D7CE4 /* UMViewManagerAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				7B3B4FD69C2394F22805AA5CB973EA91 /* UMViewManagerAdapter.h */,
+				3D59756A6BCEE0A49B8769A25ECA06B0 /* UMViewManagerAdapter.m */,
+			);
+			name = UMViewManagerAdapter;
+			path = UMReactNativeAdapter/UMViewManagerAdapter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		9F28F9E9F123C37F47F19369952D72DE /* Headers */ = {
+		1256A4C1223CE999A081DD1422EFAAC5 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E8DCC159076D6AC8F13351A987309CDF /* UMBridgeModule.h in Headers */,
-				A2789B4DFCAE0A0E4DADD53562AA7D4A /* UMExportedModuleSpecJSI.h in Headers */,
-				FB34580B946542643D95E119E3421C4E /* UMModuleRegistryAdapter.h in Headers */,
-				55695095CDF40E0BF3AEEAA85CFDDA30 /* UMNativeModulesProxy.h in Headers */,
-				9862F5301FFE2EFF526D79A4187284B3 /* UMReactFontManager.h in Headers */,
-				8D1B785E8290802B2E6D144B8EAE2938 /* UMReactLogHandler.h in Headers */,
-				42643E1F01616CDC2D670B892275CA3F /* UMReactNativeAdapter.h in Headers */,
-				F4826C3A809BBF2D00CB6178AD6B5265 /* UMReactNativeEventEmitter.h in Headers */,
-				3FDCBD9900AFD303D60545A2A80252C6 /* UMViewManagerAdapter.h in Headers */,
-				E90F57981D4651850771C07A233465C4 /* UMViewManagerAdapterClassesRegistry.h in Headers */,
+				7AC71FBDB0E0DDC1AE32466D15FEA96A /* UMBridgeModule.h in Headers */,
+				155F25FC9F3C781F5A6273A8B993B7F5 /* UMExportedModuleSpecJSI.h in Headers */,
+				40EB25CE8DE4812EB88215B831E18CEA /* UMModuleRegistryAdapter.h in Headers */,
+				4DC8F099983638822B9F6C883E3386DD /* UMNativeModulesProxy.h in Headers */,
+				D29EFEBC14C75E3C0C1B101F9BB94581 /* UMReactFontManager.h in Headers */,
+				D0E69477D7DA506F42078316B1DDB13E /* UMReactLogHandler.h in Headers */,
+				73D09616794C7CCB24A66D28ECEE01A8 /* UMReactNativeAdapter.h in Headers */,
+				B8E4D6E569227AAE210937B878CB7963 /* UMReactNativeEventEmitter.h in Headers */,
+				8D8FD647740A012870630A8D7B7049BA /* UMReactNativeEventEmitterSpecJSI.h in Headers */,
+				98C76D28F217DDA62C4F1C7B7F995D4B /* UMViewManagerAdapter.h in Headers */,
+				55198F7EC14DBFDF49A2E1F7F95F3C0C /* UMViewManagerAdapterClassesRegistry.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,19 +272,20 @@
 /* Begin PBXNativeTarget section */
 		E0F5743D6C158230DA447A63190DF2E9 /* UMReactNativeAdapter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3148B494A00F42D2B95DB27E85ADC7DB /* Build configuration list for PBXNativeTarget "UMReactNativeAdapter" */;
+			buildConfigurationList = 3CBD1983832CA937B34CFC54B24CC7E3 /* Build configuration list for PBXNativeTarget "UMReactNativeAdapter" */;
 			buildPhases = (
-				9F28F9E9F123C37F47F19369952D72DE /* Headers */,
-				A5D8A9A80D8C859EC614DAE98EEB998D /* Sources */,
-				E896263556082C87523C150CD002ACF6 /* Frameworks */,
+				1256A4C1223CE999A081DD1422EFAAC5 /* Headers */,
+				8941B8765334F14B728EFF0AC7D4B90A /* Sources */,
+				AAD1850150992402A472EAE3D579D02F /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				FD07EDB07E863C6888F659ABBF7DAAC1 /* PBXTargetDependency */,
-				1DA7BFD61F61FDA47AF3B0E15D2A5872 /* PBXTargetDependency */,
-				F23DF6ABAB92A310D30E6751D99BD396 /* PBXTargetDependency */,
-				BF6E488994E8B2F278C75CC4882C4A22 /* PBXTargetDependency */,
+				399F23B7CCE926485734D223012B2328 /* PBXTargetDependency */,
+				BBE3CF0176DB109F3922653CAA008BF9 /* PBXTargetDependency */,
+				7DCD7842E22B8D5E9C204D58C48E0AA6 /* PBXTargetDependency */,
+				B449011593F510B35CD9DFD7C4344BEE /* PBXTargetDependency */,
+				6E13C2102E4183686EC7D2200A3BA588 /* PBXTargetDependency */,
 			);
 			name = UMReactNativeAdapter;
 			productName = UMReactNativeAdapter;
@@ -297,16 +314,19 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProjectRef = BCA6BB8228B44D5AB6381070863F483A /* React-Core */;
+					ProjectRef = 9B35F86FB6C988031D224F363FE42971 /* React-Core */;
 				},
 				{
-					ProjectRef = 52FA5C9195A920118AD6D4C67F966CB8 /* ReactCommon */;
+					ProjectRef = F354425946550F663B92FCBBA3A69F4D /* ReactCommon */;
 				},
 				{
-					ProjectRef = 7390357E9A02131EE29A1C9D5DCB58C8 /* UMCore */;
+					ProjectRef = 3C9898E8C0F56186F5F953DC3634FA39 /* Folly */;
 				},
 				{
-					ProjectRef = BFF4497901B40113A45B52B585E1DA8E /* UMFontInterface */;
+					ProjectRef = 87D79F35E19814C6ABC13EE8BBB9A80B /* UMCore */;
+				},
+				{
+					ProjectRef = 742BFA71BC323388608C16DFC9D40B02 /* UMFontInterface */;
 				},
 			);
 			projectRoot = "";
@@ -317,74 +337,55 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		A5D8A9A80D8C859EC614DAE98EEB998D /* Sources */ = {
+		8941B8765334F14B728EFF0AC7D4B90A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AF154BDCCFE117BF3A6EAF8D7A948BE /* UMExportedModuleSpecJSI.mm in Sources */,
-				8D6C5E34259C069072C0E1D3C5CC649D /* UMModuleRegistryAdapter.m in Sources */,
-				9EDF6CBD9C9F9B5140F12B40C0B5C9F7 /* UMNativeModulesProxy.m in Sources */,
-				E1E8B1ABFF15706518012D1DDF288D57 /* UMReactFontManager.m in Sources */,
-				FEE7C844F87E2DBB554E1F8312F75583 /* UMReactLogHandler.m in Sources */,
-				6F5FC717516B0329402741573AF0A50B /* UMReactNativeAdapter-dummy.m in Sources */,
-				90ABF4A4079C0A08529D4ACF10970C1C /* UMReactNativeAdapter.m in Sources */,
-				8DF49C93B4DE442A493A6E00736786A8 /* UMReactNativeEventEmitter.m in Sources */,
-				61738C3B047650430A524F5F9F2AC825 /* UMViewManagerAdapter.m in Sources */,
-				DD9C14E39E026BA3CABF630449602A43 /* UMViewManagerAdapterClassesRegistry.m in Sources */,
+				4A791645A7C0D821271DFAC545BCC944 /* UMExportedModuleSpecJSI.mm in Sources */,
+				7061A4850AE3E4B282B7BFC9303A1AB9 /* UMModuleRegistryAdapter.m in Sources */,
+				E2A48150A8A61B01C40171D8FC3951A8 /* UMNativeModulesProxy.m in Sources */,
+				77A3D7D3C98266ECCEE9466075E343E4 /* UMReactFontManager.m in Sources */,
+				8E39314FB6EA5564A87A3516C9087987 /* UMReactLogHandler.m in Sources */,
+				3327BA0D0F8A385E311A8AA8B848556F /* UMReactNativeAdapter-dummy.m in Sources */,
+				D7A7D34A8B1F9BC0E4EB1B1B5F415D69 /* UMReactNativeAdapter.m in Sources */,
+				A80D204E3E9AAF14F9AC4E785054FAFB /* UMReactNativeEventEmitter.m in Sources */,
+				BF74D239B6AD6FF3F5478F85BF222A80 /* UMReactNativeEventEmitterSpecJSI.mm in Sources */,
+				349C33EC8BC19E1E23FAA8D4ABED6F6D /* UMViewManagerAdapter.m in Sources */,
+				C7D693E7B554E9DC75BEC1E37F575BC7 /* UMViewManagerAdapterClassesRegistry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1DA7BFD61F61FDA47AF3B0E15D2A5872 /* PBXTargetDependency */ = {
+		399F23B7CCE926485734D223012B2328 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = ReactCommon;
-			targetProxy = 7EC17364AC0F27155BD847EAC4FCD388 /* PBXContainerItemProxy */;
+			name = Folly;
+			targetProxy = E3FACA484F597955AB480DCF42285358 /* PBXContainerItemProxy */;
 		};
-		BF6E488994E8B2F278C75CC4882C4A22 /* PBXTargetDependency */ = {
+		6E13C2102E4183686EC7D2200A3BA588 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UMFontInterface;
-			targetProxy = 9AC065A3B9AFC45D3563CFA4F82B9691 /* PBXContainerItemProxy */;
+			targetProxy = 515B5C21A19127A4062A289C2097F08A /* PBXContainerItemProxy */;
 		};
-		F23DF6ABAB92A310D30E6751D99BD396 /* PBXTargetDependency */ = {
+		7DCD7842E22B8D5E9C204D58C48E0AA6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ReactCommon;
+			targetProxy = 756FA51CF687D576481AEBD56A379EF7 /* PBXContainerItemProxy */;
+		};
+		B449011593F510B35CD9DFD7C4344BEE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UMCore;
-			targetProxy = F62B7BBFC7CC335FD2C9B29CE232245C /* PBXContainerItemProxy */;
+			targetProxy = 1856576E02EFE0BA47F1723CBBEE1ECB /* PBXContainerItemProxy */;
 		};
-		FD07EDB07E863C6888F659ABBF7DAAC1 /* PBXTargetDependency */ = {
+		BBE3CF0176DB109F3922653CAA008BF9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "React-Core";
-			targetProxy = 23A29E621BF47099DD03D499543BD353 /* PBXContainerItemProxy */;
+			targetProxy = 73E86EBCCF89AC52E227D337F6016619 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		29CD70709CBFD389A521AD0DF389829A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C68710AF7A747A50D9B3087D6CBDE365 /* UMReactNativeAdapter.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/UMReactNativeAdapter/UMReactNativeAdapter-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = UMReactNativeAdapter;
-				PRODUCT_NAME = UMReactNativeAdapter;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		752541EBE6173ECB05D06E7C062D4709 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -449,6 +450,31 @@
 			};
 			name = Debug;
 		};
+		9F87576302E07CE412FA6751FC1430D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEC8F81DB12E07DDF895497DC9CE2FE6 /* UMReactNativeAdapter.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/UMReactNativeAdapter/UMReactNativeAdapter-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = UMReactNativeAdapter;
+				PRODUCT_NAME = UMReactNativeAdapter;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		E1903BC3F1EE7E15A2258F931791C3C1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -509,9 +535,9 @@
 			};
 			name = Release;
 		};
-		E980C3577EC16EFF08D4CF50D664499E /* Debug */ = {
+		EE77A91DE442E69CB022064D372B9E2F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C68710AF7A747A50D9B3087D6CBDE365 /* UMReactNativeAdapter.xcconfig */;
+			baseConfigurationReference = BEC8F81DB12E07DDF895497DC9CE2FE6 /* UMReactNativeAdapter.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -545,11 +571,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3148B494A00F42D2B95DB27E85ADC7DB /* Build configuration list for PBXNativeTarget "UMReactNativeAdapter" */ = {
+		3CBD1983832CA937B34CFC54B24CC7E3 /* Build configuration list for PBXNativeTarget "UMReactNativeAdapter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E980C3577EC16EFF08D4CF50D664499E /* Debug */,
-				29CD70709CBFD389A521AD0DF389829A /* Release */,
+				EE77A91DE442E69CB022064D372B9E2F /* Debug */,
+				9F87576302E07CE412FA6751FC1430D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
