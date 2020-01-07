@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:m="http://ant.apache.org/ivy/maven">
-  <info organisation="host.exp.exponent" module="expoview" revision="36.0.0" status="integration" publication="20191210165017"/>
+  <info organisation="host.exp.exponent" module="expoview" revision="36.0.0" status="integration" publication="20200107110648"/>
   <configurations>
     <conf name="_internal_aapt2_binary" visibility="private" transitive="false"/>
     <conf name="androidApis" visibility="public"/>
@@ -209,8 +209,6 @@
     <dependency org="com.google.android.gms" name="play-services-location" rev="16.0.0" conf="api-&gt;default"/>
     <dependency org="com.google.android.gms" name="play-services-fitness" rev="16.0.1" conf="api-&gt;default"/>
     <dependency org="com.google.android.gms" name="play-services-wallet" rev="16.0.1" conf="api-&gt;default"/>
-    <dependency org="com.madgag.spongycastle" name="core" rev="1.53.0.0" conf="api-&gt;default"/>
-    <dependency org="com.madgag.spongycastle" name="prov" rev="1.53.0.0" conf="api-&gt;default"/>
     <dependency org="commons-io" name="commons-io" rev="2.6" conf="api-&gt;default"/>
     <dependency org="me.leolin" name="ShortcutBadger" rev="1.1.4" transitive="false" conf="api-&gt;default">
       <artifact name="ShortcutBadger" type="aar" ext="aar" conf="api"/>
@@ -267,7 +265,7 @@
     <dependency org="host.exp.exponent" name="expo-google-sign-in" rev="8.0.0" conf="compileOnly-&gt;default"/>
     <dependency org="host.exp.exponent" name="expo-haptics" rev="8.0.0" conf="compileOnly-&gt;default"/>
     <dependency org="host.exp.exponent" name="expo-image-manipulator" rev="8.0.0" conf="compileOnly-&gt;default"/>
-    <dependency org="host.exp.exponent" name="expo-image-picker" rev="8.0.0" conf="compileOnly-&gt;default"/>
+    <dependency org="host.exp.exponent" name="expo-image-picker" rev="8.0.1" conf="compileOnly-&gt;default"/>
     <dependency org="host.exp.exponent" name="expo-intent-launcher" rev="8.0.0" conf="compileOnly-&gt;default"/>
     <dependency org="host.exp.exponent" name="expo-keep-awake" rev="8.0.0" conf="compileOnly-&gt;default"/>
     <dependency org="host.exp.exponent" name="expo-linear-gradient" rev="8.0.0" conf="compileOnly-&gt;default"/>
@@ -398,8 +396,6 @@
     <dependency org="com.google.android.gms" name="play-services-fitness" rev="16.0.1" transitive="false" conf="releaseCompileClasspath-&gt;default"/>
     <dependency org="com.google.android.gms" name="play-services-wallet" rev="16.0.1" transitive="false" conf="releaseCompileClasspath-&gt;default"/>
     <dependency org="com.google.android.gms" name="play-services-identity" rev="16.0.0" transitive="false" conf="releaseCompileClasspath-&gt;default"/>
-    <dependency org="com.madgag.spongycastle" name="core" rev="1.53.0.0" transitive="false" conf="releaseCompileClasspath-&gt;default"/>
-    <dependency org="com.madgag.spongycastle" name="prov" rev="1.53.0.0" transitive="false" conf="releaseCompileClasspath-&gt;default"/>
     <dependency org="commons-io" name="commons-io" rev="2.6" transitive="false" conf="releaseCompileClasspath-&gt;default"/>
     <dependency org="me.leolin" name="ShortcutBadger" rev="1.1.4" transitive="false" conf="releaseCompileClasspath-&gt;default"/>
     <dependency org="com.theartofdev.edmodo" name="android-image-cropper" rev="2.7.0" transitive="false" conf="releaseCompileClasspath-&gt;default"/>
