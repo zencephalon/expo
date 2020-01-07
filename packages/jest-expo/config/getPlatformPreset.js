@@ -62,7 +62,7 @@ module.exports = {
   getNodePreset() {
     return {
       ...getBaseWebPreset(),
-      ...getPlatformPreset({ name: 'Node', color: 'cyan' }, ['node', 'web']),
+      ...getPlatformPreset({ name: 'Node', color: 'cyan' }, ['node']),
       testEnvironment: 'node',
     };
   },
