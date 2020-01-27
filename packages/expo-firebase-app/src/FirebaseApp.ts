@@ -27,10 +27,6 @@ class FirebaseApp {
     this.options = config.options;
   }
 
-  get isDefault(): boolean {
-    return this.name === DEFAULT_NAME;
-  }
-
   /**
    * Delete the Firebase app instance.
    */
@@ -42,19 +38,6 @@ class FirebaseApp {
     // @ts-ignore
     return ExpoFirebaseApp.deleteAppAsync(this._name);
   }
-
-  /**
-   * Returns the (read-only) configuration options for this app. These are the original parameters
-   * the app was initialized with.
-   */
-  /*getOptionsAsync(): Promise<FirebaseOptions> {
-    // @ts-ignore
-    if (!ExpoFirebaseApp.getAppOptionsAsync) {
-      throw new UnavailabilityError('expo-firebase-app', 'getAppOptionsAsync');
-    }
-    // @ts-ignore
-    return ExpoFirebaseApp.getAppOptionsAsync(this._name);
-  }*/
 }
 
 /**
@@ -67,6 +50,10 @@ class FirebaseApp {
  * You can use this method to initialize additional Firebase app instances. You should typically not
  * initialize the default Firebase with custom options, as the default app is tightly coupled
  * with the google-services config that is shipped with the app.
+ *
+ * @param {FirebaseOption} [options] - Firebase configuration options
+ * @param {string} [name] - Name of the firebase-app (when omitted the default name is used)
+ * @return {Promise<FirebaseApp>} - Firebase app
  */
 export async function initializeAppAsync(
   options?: FirebaseOptions,
@@ -82,10 +69,12 @@ export async function initializeAppAsync(
 
 /**
  * Retrieves a Firebase app instance.
- * When called with no arguments, the default app is returned. When an app name is provided, the app corresponding to that name is returned.
- * An exception is thrown if the app being retrieved has not yet been initialized.
+ * When called with no arguments, the default app is returned. When an app name is provided,
+ * the app corresponding to that name is returned. An exception is thrown if the app being
+ * retrieved has not yet been initialized.
  *
- * @param name Optional name of the app to return
+ * @param {string} name - Optional name of the app
+ * @return {Promise<FirebaseApp>} - Firebase app
  */
 export async function getAppAsync(name?: string): Promise<FirebaseApp> {
   // @ts-ignore
@@ -98,6 +87,8 @@ export async function getAppAsync(name?: string): Promise<FirebaseApp> {
 
 /**
  * Retrieves all initialized Firebase app instances.
+ *
+ * @return {Promise<FirebaseApp[]>} - Array of firebase apps
  */
 export async function getAppsAsync(): Promise<FirebaseApp[]> {
   // @ts-ignore
@@ -107,4 +98,19 @@ export async function getAppsAsync(): Promise<FirebaseApp[]> {
   // @ts-ignore
   const results = await ExpoFirebaseApp.getAppsAsync();
   return results.map(result => new FirebaseApp(result));
+}
+
+/**
+ * Deletes a Firebase app by its name.
+ *
+ * @internal
+ * This function is provided for testing purposes, more specifically
+ * to test forbidden access to the prohibited default app.
+ */
+export async function deleteAppAsync(name: string): Promise<void> {
+  // @ts-ignore
+  if (!ExpoFirebaseApp.deleteAppAsync) {
+    throw new UnavailabilityError('expo-firebase-app', 'deleteAppAsync');
+  }
+  await ExpoFirebaseApp.deleteAppAsync(name);
 }

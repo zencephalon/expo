@@ -4,7 +4,7 @@ import * as FirebaseApp from 'expo-firebase-app';
 
 export const name = 'FirebaseApp';
 
-const DEFAULT_APP_NAME = Platform.select({
+const SYSTEM_APP_NAME = Platform.select({
   ios: '__FIRAPP_DEFAULT',
   android: '[DEFAULT]',
 });
@@ -41,15 +41,15 @@ function expectFirebaseOptions(expect, options1, options2) {
   expect(options1.databaseURL).toBe(options2.databaseURL);
 }
 
-export async function test({ describe, xdescribe, it, xit, expect }) {
+export async function test({ describe, it, xit, expect, beforeAll }) {
   const isSandboxed = Constants.appOwnership === 'expo';
-  //const describeSandboxed = isSandboxed ? describe : xdescribe;
-  const itSandboxed = isSandboxed ? it : xit;
+  const itWhenSandboxed = isSandboxed ? it : xit;
+  const itWhenNotSandboxed = isSandboxed ? xit : it;
 
   describe(name, () => {
-    /*beforeAll(async () => {
+    beforeAll(async () => {
       await FirebaseApp.initializeAppAsync();
-    });*/
+    });
 
     /*afterAll(async () => {
       await FirebaseApp.initializeAppAsync();
@@ -60,7 +60,7 @@ export async function test({ describe, xdescribe, it, xit, expect }) {
         let error = null;
         try {
           const app = await FirebaseApp.getAppAsync();
-          expect(app.isDefault).toBe(true);
+          expect(app.name).toBe(FirebaseApp.DEFAULT_NAME);
         } catch (e) {
           error = e;
         }
@@ -86,33 +86,46 @@ export async function test({ describe, xdescribe, it, xit, expect }) {
         }
         expect(error).not.toBeNull();
       });
-      it(`returns a (non) sandboxed app`, async () => {
+      itWhenNotSandboxed(`returns the default system app`, async () => {
         let error = null;
         try {
           const app = await FirebaseApp.getAppAsync();
-          if (isSandboxed) {
-            expect(app.name.substring(0, SANDBOX_APP_PREFIX.length)).toBe(SANDBOX_APP_PREFIX);
-          } else {
-            expect(app.name.substring(0, SANDBOX_APP_PREFIX.length)).not.toBe(SANDBOX_APP_PREFIX);
-          }
+          expect(app.name).toBe(SYSTEM_APP_NAME);
+          expect(app.name.substring(0, SANDBOX_APP_PREFIX.length)).not.toBe(SANDBOX_APP_PREFIX);
         } catch (e) {
           error = e;
         }
         expect(error).toBeNull();
       });
-      it(`allows/disallowes access to the system default app`, async () => {
+      itWhenSandboxed(`returns a sandboxed app`, async () => {
         let error = null;
         try {
-          const app = await FirebaseApp.getAppAsync(DEFAULT_APP_NAME);
-          expect(app.name).toBe(DEFAULT_APP_NAME);
+          const app = await FirebaseApp.getAppAsync();
+          expect(app.name.substring(0, SANDBOX_APP_PREFIX.length)).toBe(SANDBOX_APP_PREFIX);
         } catch (e) {
           error = e;
         }
-        if (isSandboxed) {
-          expect(error).not.toBeNull();
-        } else {
-          expect(error).toBeNull();
+        expect(error).toBeNull();
+      });
+      itWhenNotSandboxed(`allows access to the default system app`, async () => {
+        let error = null;
+        try {
+          const app = await FirebaseApp.getAppAsync(SYSTEM_APP_NAME);
+          expect(app.name).toBe(SYSTEM_APP_NAME);
+        } catch (e) {
+          error = e;
         }
+        expect(error).toBeNull();
+      });
+      itWhenSandboxed(`forbids access to the protected system app`, async () => {
+        let error = null;
+        try {
+          const app = await FirebaseApp.getAppAsync(SYSTEM_APP_NAME);
+          expect(app.name).toBe(SYSTEM_APP_NAME);
+        } catch (e) {
+          error = e;
+        }
+        expect(error).not.toBeNull();
       });
     });
 
@@ -127,43 +140,31 @@ export async function test({ describe, xdescribe, it, xit, expect }) {
         }
         expect(error).toBeNull();
       });
-      it(`returns a (non) sandboxed app`, async () => {
+      itWhenNotSandboxed(`returns a non sandboxed app`, async () => {
         let error = null;
         try {
           const apps = await FirebaseApp.getAppsAsync();
           expect(apps.length).toBe(1);
           const app = apps[0];
-          if (isSandboxed) {
-            expect(app.name.substring(0, SANDBOX_APP_PREFIX.length)).toBe(SANDBOX_APP_PREFIX);
-          } else {
-            expect(app.name.substring(0, SANDBOX_APP_PREFIX.length)).not.toBe(SANDBOX_APP_PREFIX);
-          }
+          expect(app.name.substring(0, SANDBOX_APP_PREFIX.length)).not.toBe(SANDBOX_APP_PREFIX);
+        } catch (e) {
+          error = e;
+        }
+        expect(error).toBeNull();
+      });
+      itWhenSandboxed(`returns a sandboxed app`, async () => {
+        let error = null;
+        try {
+          const apps = await FirebaseApp.getAppsAsync();
+          expect(apps.length).toBe(1);
+          const app = apps[0];
+          expect(app.name.substring(0, SANDBOX_APP_PREFIX.length)).toBe(SANDBOX_APP_PREFIX);
         } catch (e) {
           error = e;
         }
         expect(error).toBeNull();
       });
     });
-
-    /*describe('getAppOptions()', async () => {
-      it(`returns valid firebase options`, async () => {
-        let error = null;
-        try {
-          const app = await FirebaseApp.getAppAsync();
-          const options = await app.getOptionsAsync();
-          expect(options.appId).not.toBeNull();
-          expect(options.messagingSenderId).not.toBeNull();
-          expect(options.apiKey).not.toBeNull();
-          expect(options.projectId).not.toBeNull();
-          expect(options.clientId).not.toBeNull();
-          expect(options.storageBucket).not.toBeNull();
-          expect(options.databaseURL).not.toBeNull();
-        } catch (e) {
-          error = e;
-        }
-        expect(error).toBeNull();
-      });
-    });*/
 
     describe('DEFAULT_OPTIONS', async () => {
       it(`returns the default firebase options`, async () => {
@@ -194,7 +195,7 @@ export async function test({ describe, xdescribe, it, xit, expect }) {
         }
         expect(error).toBeNull();
       });
-      itSandboxed(`returns the firebase options from the test-suite`, async () => {
+      itWhenSandboxed(`returns the firebase options from the test-suite`, async () => {
         let error = null;
         try {
           const { DEFAULT_OPTIONS } = FirebaseApp;
@@ -206,30 +207,29 @@ export async function test({ describe, xdescribe, it, xit, expect }) {
       });
     });
 
-    /*describe('deleteAsync()', async () => {
-      it(`succeeds when app exists`, async () => {
+    describe('deleteAppAsync()', async () => {
+      it(`fails when an unknown name is specified`, async () => {
         let error = null;
         try {
-          const app = await FirebaseApp.getAppAsync();
-          await app.deleteAsync();
-        } catch (e) {
-          error = e;
-        }
-        expect(error).toBeNull();
-      });
-      it(`is not returned by getAppAsync`, async () => {
-        let error = null;
-        try {
-          const app = await FirebaseApp.getAppAsync();
-          expect(app).toBeNull();
+          await FirebaseApp.deleteAppAsync('someNonExistentApp');
         } catch (e) {
           error = e;
         }
         expect(error).not.toBeNull();
       });
-      it(`is not returned by getAppsAsync`, async () => {
+      itWhenSandboxed(`fails when the protected system app is specified`, async () => {
         let error = null;
         try {
+          await FirebaseApp.deleteAppAsync(SYSTEM_APP_NAME);
+        } catch (e) {
+          error = e;
+        }
+        expect(error).not.toBeNull();
+      });
+      it(`deletes the default app when no name is provided`, async () => {
+        let error = null;
+        try {
+          await FirebaseApp.deleteAppAsync();
           const apps = await FirebaseApp.getAppsAsync();
           expect(apps.length).toBe(0);
         } catch (e) {
@@ -237,17 +237,30 @@ export async function test({ describe, xdescribe, it, xit, expect }) {
         }
         expect(error).toBeNull();
       });
-      it(`fails when app has been deleted`, async () => {
+      it(`deletes the app when a valid name is provided`, async () => {
         let error = null;
-        await FirebaseApp.initializeAppAsync();
-        const app = await FirebaseApp.getAppAsync();
         try {
-          await app.deleteAsync();
+          const app = await FirebaseApp.initializeAppAsync();
+          await FirebaseApp.deleteAppAsync(app.name);
+          const apps = await FirebaseApp.getAppsAsync();
+          expect(apps.length).toBe(0);
         } catch (e) {
           error = e;
         }
         expect(error).toBeNull();
       });
-    });*/
+      it(`deletes the app using app.deleteAsync()`, async () => {
+        let error = null;
+        try {
+          const app = await FirebaseApp.initializeAppAsync();
+          await app.deleteAsync();
+          const apps = await FirebaseApp.getAppsAsync();
+          expect(apps.length).toBe(0);
+        } catch (e) {
+          error = e;
+        }
+        expect(error).toBeNull();
+      });
+    });
   });
 }
