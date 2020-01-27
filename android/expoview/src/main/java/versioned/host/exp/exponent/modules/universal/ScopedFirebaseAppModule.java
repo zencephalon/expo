@@ -33,7 +33,7 @@ public class ScopedFirebaseAppModule extends FirebaseAppModule {
     super(context);
 
     // Get the default firebase app name
-    FirebaseApp defaultApp = FirebaseApp.getInstance();
+    FirebaseApp defaultApp = getFirebaseApp(null);
     mProtectedAppName = (defaultApp != null) ? defaultApp.getName() : "[DEFAULT]";
 
     // Get experience key & unique app name

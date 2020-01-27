@@ -56,12 +56,12 @@ public class FirebaseAppModule extends ExportedModule implements RegistryLifecyc
   }
 
   public String getAppName() {
-    FirebaseApp app = FirebaseApp.getInstance();
+    FirebaseApp app = getFirebaseApp(null);
     return (app != null) ? app.getName() : DEFAULT_APP_NAME;
   }
 
   public FirebaseOptions getAppOptions() {
-    FirebaseApp app = FirebaseApp.getInstance();
+    FirebaseApp app = getFirebaseApp(null);
     return (app != null) ? app.getOptions() : null;
   }
 
@@ -70,13 +70,7 @@ public class FirebaseAppModule extends ExportedModule implements RegistryLifecyc
   }
 
   public FirebaseApp updateFirebaseApp(final FirebaseOptions options, final String name) {
-    FirebaseApp app;
-    try {
-      app = (name == null) ? FirebaseApp.getInstance() : FirebaseApp.getInstance(name);
-    } catch (Exception e) {
-      app = null;
-    }
-
+    FirebaseApp app = getFirebaseApp(name);
     if (app != null) {
       if (options == null) {
         app.delete();
@@ -145,6 +139,15 @@ public class FirebaseAppModule extends ExportedModule implements RegistryLifecyc
     }
   }
 
+  public static FirebaseApp getFirebaseApp(String name) {
+    FirebaseApp app;
+    try {
+      return (name == null) ? FirebaseApp.getInstance() : FirebaseApp.getInstance(name);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
   private final FirebaseApp getFirebaseAppOrReject(String name, Promise promise) {
     if (name == null) {
       name = getAppName();
@@ -157,7 +160,7 @@ public class FirebaseAppModule extends ExportedModule implements RegistryLifecyc
     }
 
     // Get app instance
-    final FirebaseApp app = FirebaseApp.getInstance(name);
+    final FirebaseApp app = getFirebaseApp(name);
     if (app == null) {
       promise.reject(ERROR_EXCEPTION, "Firebase App not found");
       return null;
