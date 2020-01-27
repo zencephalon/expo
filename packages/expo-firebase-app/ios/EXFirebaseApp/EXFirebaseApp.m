@@ -143,7 +143,7 @@ UM_EXPORT_METHOD_AS(initializeAppAsync,
       return;
     }
   }
-  if ([self isAppAccessible:name]) {
+  if (![self isAppAccessible:name]) {
     reject(@"ERR_FIREBASE_APP", @"Access to the Firebase app is forbidden", nil);
     return;
   }
@@ -155,7 +155,11 @@ UM_EXPORT_METHOD_AS(initializeAppAsync,
   [UMUtilities performSynchronouslyOnMainThread:^{
     [self.class updateAppWithOptions:options name:name completion:^(BOOL success) {
       if (success) {
-        resolve([NSNull null]);
+        FIRApp* app = [FIRApp appNamed:name];        
+        resolve(@{
+          @"name": app.name,
+          @"options": [self.class firOptionsToJSON:app.options]
+        });
       } else {
         reject(@"ERR_FIREBASE_APP", @"Failed to initialize Firebase app", nil);
       }
