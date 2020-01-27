@@ -3,6 +3,7 @@
 #import <Foundation/Foundation.h>
 #import <EXFirebaseApp/EXFirebaseApp.h>
 #import <Firebase/Firebase.h>
+#import <UMConstantsInterface/UMConstantsInterface.h>
 
 @interface EXFirebaseApp (FIROptions)
 
@@ -12,6 +13,7 @@
 
 + (BOOL) firOptionsIsEqualTo:(nonnull FIROptions*)firebaseOptions compareTo:(nonnull FIROptions*)compareTo;
 
-+ (void) updateAppWithOptions:(nullable FIROptions*)options name:(nonnull NSString*)name completion:(nonnull FIRAppVoidBoolCallback)completion;
++ (nullable NSDictionary*)googleServicesFileFromBundle;
++ (nullable NSDictionary*)googleServicesFileFromConstantsManifest:(nullable id<UMConstantsInterface>)constants;
 
 @end

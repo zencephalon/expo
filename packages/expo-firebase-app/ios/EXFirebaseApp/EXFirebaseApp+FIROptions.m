@@ -80,29 +80,26 @@
     return firOptions;
 }
 
-+ (void) updateAppWithOptions:(nullable FIROptions*)options name:(nonnull NSString*)name completion:(nonnull FIRAppVoidBoolCallback)completion
++ (nullable NSDictionary*)googleServicesFileFromBundle
 {
-  // Default app
-  FIRApp* app = [FIRApp appNamed:name];
-  if (!options) {
-    if (app) {
-      [app deleteApp:completion];
-      return;
-    }
-  } else {
-    if (app) {
-      if (![self.class firOptionsIsEqualTo:app.options compareTo:options]) {
-        [app deleteApp:^(BOOL success) {
-          [FIRApp configureWithName:name options:options];
-          completion(YES);
-        }];
-        return;
-      }
-    } else {
-      [FIRApp configureWithName:name options:options];
-    }
-  }
-  completion(YES);
+  NSString *path = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+  if (!path) return nil;
+  NSDictionary *plist = [[NSDictionary alloc] initWithContentsOfFile:path];
+  return plist;
+}
+
++ (nullable NSDictionary*)googleServicesFileFromConstantsManifest:(nullable id<UMConstantsInterface>)constants
+{
+  // load GoogleService-Info.plist from manifest
+  if (constants == nil) return nil;
+  NSDictionary* manifest = constants.constants[@"manifest"];
+  NSDictionary* ios = manifest ? manifest[@"ios"] : nil;
+  NSString* googleServicesFile = ios ? ios[@"googleServicesFile"] : nil;
+  if (!googleServicesFile) return nil;
+  NSData *data = [[NSData alloc] initWithBase64EncodedString:googleServicesFile options:0];
+  NSError* error;
+  NSDictionary* plist = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:nil error:&error];
+  return plist;
 }
 
 @end

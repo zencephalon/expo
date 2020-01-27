@@ -23,52 +23,44 @@ UM_EXPORT_MODULE(ExpoFirebaseApp);
   _moduleRegistry = moduleRegistry;
   _constants = [moduleRegistry getModuleImplementingProtocol:@protocol(UMConstantsInterface)];
 
-  NSString* name = [self getDefaultAppName];
-  FIROptions* options = [self getDefaultAppOptions];
+  NSString* defaultName = [self getDefaultAppName];
+  FIROptions* defaultOptions = [self getDefaultAppOptions];
   
-  // Delete all previously created apps
-  // TODO
-  
-  // Initialize app
-  if (name && options) {
-    [self.class updateAppWithOptions:options name:name completion:^(BOOL success) {
-      // nop
-      /*if (!success) {
-        reject(@"ERR_FIREBASE_APP", @"Failed to initialize Firebase App", nil);
-      }*/
-    }];
+  // Delete all previously created apps, except for the "default" one
+  // which will be updated/created/deleted only when it has changed
+  NSDictionary<NSString *,FIRApp *>* apps = [FIRApp allApps];
+  NSArray<NSString*>* names = [apps allKeys];
+  for (int i = 0; i < names.count; i++) {
+    NSString* name = names[i];
+    if (![name isEqualToString:defaultName] || !defaultName || !defaultOptions) {
+      [[FIRApp appNamed:name] deleteApp:^(BOOL success) {
+        if (!success) {
+          NSLog(@"Failed to delete Firebase app: %@", name);
+        } else {
+          NSLog(@"Deleted Firebase app: %@", name);
+        }
+      }];
+    }
   }
   
-  // In the Expo client, also initialize a Firebase app called "expo".
-  // This app is used by the FaceDetector module when the default app is not available.
-  /*NSString* appOwnership = _constants ? _constants.constants[@"appOwnership"] : nil;
-  if ([@"expo" isEqualToString: appOwnership]) {
-    FIROptions* expoFirOptions = [self.class firOptionsWithGoogleServicesFile:self.googleServicesFileFromBundle];
-    [self.class updateFirAppWithOptions:expoFirOptions name:@"expo" completion:^(BOOL success) {
+  // Initialize the default app. This will delete/create/update the app
+  // if it has changed, and leaves the app untouched when the config
+  // is the same.
+  if (defaultName && defaultOptions) {
+    [self.class updateAppWithOptions:defaultOptions name:defaultName completion:^(BOOL success) {
+      if (!success) {
+        NSLog(@"Failed to initialize default Firebase app: %@", defaultName);
+      } else {
+        NSLog(@"Initialized default Firebase app: %@", defaultName);
+      }
     }];
-  }*/
+  }
 }
 
-- (nullable NSDictionary*)googleServicesFileFromBundle
+- (BOOL) isSandboxed
 {
-  NSString *path = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
-  if (!path) return nil;
-  NSDictionary *plist = [[NSDictionary alloc] initWithContentsOfFile:path];
-  return plist;
-}
-
-- (nullable NSDictionary*)googleServicesFileFromManifest
-{
-  // load GoogleService-Info.plist from manifest
-  if (_constants == nil) return nil;
-  NSDictionary* manifest = _constants.constants[@"manifest"];
-  NSDictionary* ios = manifest ? manifest[@"ios"] : nil;
-  NSString* googleServicesFile = ios ? ios[@"googleServicesFile"] : nil;
-  if (!googleServicesFile) return nil;
-  NSData *data = [[NSData alloc] initWithBase64EncodedString:googleServicesFile options:0];
-  NSError* error;
-  NSDictionary* plist = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:nil error:&error];
-  return plist;
+  NSString* appOwnership = _constants ? _constants.constants[@"appOwnership"] : nil;
+  return [@"expo" isEqualToString: appOwnership];
 }
 
 - (NSDictionary *)constantsToExport
@@ -83,6 +75,59 @@ UM_EXPORT_MODULE(ExpoFirebaseApp);
   }
   
   return constants;
+}
+
+- (nonnull NSString*) getDefaultAppName
+{
+  if (self.isSandboxed) {
+    // TODO
+    return @"__sandbox_todoExperienceId";
+  }
+  return DEFAULT_APP_NAME;
+}
+
+- (nullable FIROptions*) getDefaultAppOptions
+{
+  NSDictionary* googleServicesFile = self.isSandboxed
+  ? [self.class googleServicesFileFromConstantsManifest:_constants]
+    : self.class.googleServicesFileFromBundle;
+  return [self.class firOptionsWithGoogleServicesFile:googleServicesFile];
+}
+
+- (BOOL) isAppAccessible:(nonnull NSString*)name
+{
+  // Deny access to the [DEFAULT] app on sandboxed environments
+  if (self.isSandboxed) {
+    if ([name isEqualToString:DEFAULT_APP_NAME]) {
+      return NO;
+    }
+  }
+  return YES;
+}
+
++ (void) updateAppWithOptions:(nullable FIROptions*)options name:(nonnull NSString*)name completion:(nonnull FIRAppVoidBoolCallback)completion
+{
+  // Default app
+  FIRApp* app = [FIRApp appNamed:name];
+  if (!options) {
+    if (app) {
+      [app deleteApp:completion];
+      return;
+    }
+  } else {
+    if (app) {
+      if (![self.class firOptionsIsEqualTo:app.options compareTo:options]) {
+        [app deleteApp:^(BOOL success) {
+          [FIRApp configureWithName:name options:options];
+          completion(YES);
+        }];
+        return;
+      }
+    } else {
+      [FIRApp configureWithName:name options:options];
+    }
+  }
+  completion(YES);
 }
 
 - (void)reject:(UMPromiseRejectBlock)reject withException:(NSException *)exception {
@@ -110,37 +155,6 @@ UM_EXPORT_MODULE(ExpoFirebaseApp);
   return nil;
 }
 
-- (nonnull NSString*) getDefaultAppName
-{
-  NSString* appOwnership = _constants ? _constants.constants[@"appOwnership"] : nil;
-  if ([@"expo" isEqualToString: appOwnership]) {
-    // TODO
-    return @"__sandbox.todoExperienceId";
-  }
-  return DEFAULT_APP_NAME;
-}
-
-- (nullable FIROptions*) getDefaultAppOptions
-{
-  NSString* appOwnership = _constants ? _constants.constants[@"appOwnership"] : nil;
-  NSDictionary* googleServicesFile = [@"expo" isEqualToString: appOwnership]
-    ? self.googleServicesFileFromManifest
-    : self.googleServicesFileFromBundle;
-  return [self.class firOptionsWithGoogleServicesFile:googleServicesFile];
-}
-
-- (BOOL) isAppAccessible:(nonnull NSString*)name
-{
-  // Deny access to the Default app on sandboxed environments
-  NSString* appOwnership = _constants ? _constants.constants[@"appOwnership"] : nil;
-  if ([@"expo" isEqualToString: appOwnership]) {
-    if ([name isEqualToString:DEFAULT_APP_NAME]) {
-      return NO;
-    }
-  }
-  return YES;
-}
-
 UM_EXPORT_METHOD_AS(initializeAppAsync,
                     initializeAppAsync:(nullable NSDictionary *)json
                     name:(nullable NSString*)name
@@ -148,7 +162,7 @@ UM_EXPORT_METHOD_AS(initializeAppAsync,
                     reject:(UMPromiseRejectBlock)reject)
 {
   if (name && !json) {
-    reject(@"ERR_FIREBASE_APP", @"No options provided for custom app", nil);
+    reject(@"ERR_FIREBASE_APP", @"No options provided for named Firebase app", nil);
     return;
   }
   if (!name) {
@@ -159,7 +173,7 @@ UM_EXPORT_METHOD_AS(initializeAppAsync,
     }
   }
   if ([self isAppAccessible:name]) {
-    reject(@"ERR_FIREBASE_APP", @"Access to the Firebase App is forbidden", nil);
+    reject(@"ERR_FIREBASE_APP", @"Access to the Firebase app is forbidden", nil);
     return;
   }
   
@@ -172,7 +186,7 @@ UM_EXPORT_METHOD_AS(initializeAppAsync,
       if (success) {
         resolve([NSNull null]);
       } else {
-        reject(@"ERR_FIREBASE_APP", @"Failed to initialize Firebase App", nil);
+        reject(@"ERR_FIREBASE_APP", @"Failed to initialize Firebase app", nil);
       }
     }];
   }];
@@ -226,24 +240,9 @@ UM_EXPORT_METHOD_AS(deleteAppAsync,
     if (success) {
       resolve([NSNull null]);
     } else {
-      reject(@"ERR_FIREBASE_APP", @"Failed to delete Firebase App", nil);
+      reject(@"ERR_FIREBASE_APP", @"Failed to delete Firebase app", nil);
     }
   }];
 }
-
-/*
-UM_EXPORT_METHOD_AS(getAppOptionsAsync,
-                    getAppOptionsAsync:(NSString*)name
-                    resolve:(UMPromiseResolveBlock)resolve
-                    reject:(UMPromiseRejectBlock)reject)
-{
-  FIRApp* app = [self getAppOrReject:name reject:reject];
-  if (!app) return;
-  @try {
-    resolve([self.class firOptionsToJSON:app.options]);
-  } @catch (NSException *exception) {
-    [self reject:reject withException:exception];
-  }
-}*/
 
 @end
