@@ -25,7 +25,6 @@ function getTestSuiteFirebaseOptions() {
       appId: '1:1082251606918:ios:f448eb8df0adab41e24a07',
       databaseURL: 'https://expo-test-suite.firebaseio.com',
       messagingSenderId: '1082251606918',
-      authDomain: 'expo-test-suite.firebaseapp.com',
     };
   } else {
     throw new Error('Platform not supported');
@@ -40,7 +39,6 @@ function expectFirebaseOptions(expect, options1, options2) {
   expect(options1.clientId).toBe(options2.clientId);
   expect(options1.storageBucket).toBe(options2.storageBucket);
   expect(options1.databaseURL).toBe(options2.databaseURL);
-  expect(options1.authDomain).toBe(options2.authDomain);
 }
 
 export async function test({ describe, xdescribe, it, xit, expect }) {
@@ -160,7 +158,6 @@ export async function test({ describe, xdescribe, it, xit, expect }) {
           expect(options.clientId).not.toBeNull();
           expect(options.storageBucket).not.toBeNull();
           expect(options.databaseURL).not.toBeNull();
-          expect(options.authDomain).not.toBeNull();
         } catch (e) {
           error = e;
         }
@@ -180,7 +177,6 @@ export async function test({ describe, xdescribe, it, xit, expect }) {
           expect(DEFAULT_OPTIONS.clientId).not.toBeNull();
           expect(DEFAULT_OPTIONS.storageBucket).not.toBeNull();
           expect(DEFAULT_OPTIONS.databaseURL).not.toBeNull();
-          expect(DEFAULT_OPTIONS.authDomain).not.toBeNull();
         } catch (e) {
           error = e;
         }

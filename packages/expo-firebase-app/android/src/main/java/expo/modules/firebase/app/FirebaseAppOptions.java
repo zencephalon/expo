@@ -119,7 +119,6 @@ class FirebaseAppOptions {
         result.put("projectId", options.getProjectId());
         result.put("storageBucket", options.getStorageBucket());
         result.put("trackingId", options.getGaTrackingId());
-        result.put("authDomain", options.getProjectId() + ".firebaseapp.com");
 
         return result;
     }
