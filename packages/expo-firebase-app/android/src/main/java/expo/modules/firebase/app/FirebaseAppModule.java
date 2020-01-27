@@ -132,7 +132,19 @@ public class FirebaseAppModule extends ExportedModule implements RegistryLifecyc
       }
       final FirebaseOptions firebaseOptions = (options != null) ? FirebaseAppOptions.fromJSON(options)
               : getAppOptions();
-      FirebaseApp app = this.updateFirebaseApp(firebaseOptions, name);
+
+      // Special case when initializing the default app. When no
+      // config is provided, initialize using the system config as
+      // provided in the google-services.json file.
+      FirebaseApp app;
+      if (name.equals("[DEFAULT]") && (options == null)) {
+        if (getFirebaseApp(null) == null) {
+          FirebaseApp.initializeApp(mContext);
+        }
+        app = getFirebaseApp(null);
+      } else {
+        app = this.updateFirebaseApp(firebaseOptions, name);
+      }
       promise.resolve(getBundleFromApp(app));
     } catch (Exception e) {
       promise.reject(e);
