@@ -63,6 +63,9 @@ public class ExpoModuleRegistryAdapter extends ModuleRegistryAdapter implements 
     // Scoping Amplitude
     moduleRegistry.registerExportedModule(new ScopedAmplitudeModule(scopedContext, experienceId));
 
+    // Overriding expo-firebase-app
+    moduleRegistry.registerExportedModule(new ScopedFirebaseAppModule(scopedContext, manifest, experienceId));
+
     // ReactAdapterPackage requires ReactContext
     ReactApplicationContext reactContext = (ReactApplicationContext) scopedContext.getContext();
     for (InternalModule internalModule : mReactAdapterPackage.createInternalModules(reactContext)) {
