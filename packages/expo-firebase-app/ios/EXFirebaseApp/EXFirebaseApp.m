@@ -3,105 +3,76 @@
 #import <UMCore/UMUtilities.h>
 #import <EXFirebaseApp/EXFirebaseApp.h>
 #import <EXFirebaseApp/EXFirebaseApp+FIROptions.h>
-#import <UMConstantsInterface/UMConstantsInterface.h>
-
-#define DEFAULT_APP_NAME @"__FIRAPP_DEFAULT"
 
 @interface EXFirebaseApp ()
 
 @property (nonatomic, weak) UMModuleRegistry *moduleRegistry;
-@property (nonatomic, weak) id<UMConstantsInterface> constants;
 
 @end
 
-@implementation EXFirebaseApp
+@implementation EXFirebaseApp {
+  NSString* _appName;
+  FIROptions* _appOptions;
+}
 
 UM_EXPORT_MODULE(ExpoFirebaseApp);
+
+- (instancetype) init
+{
+  if (self = [super init]) {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
+    if (path && ![FIRApp defaultApp]) {
+      [FIRApp configure];
+    }
+    FIRApp* defaultApp = [FIRApp defaultApp];
+    if (defaultApp) {
+      _appName = defaultApp.name;
+      _appOptions = defaultApp.options;
+    }
+  }
+  return self;
+}
+
+- (instancetype) initWithAppName:(nonnull NSString*)name options:(nullable FIROptions*)options
+{
+  if (self = [super init]) {
+    _appName = name;
+    _appOptions = options;
+    
+    // Initialize the firebase app. This will delete/create/update the app
+    // if it has changed, and leaves the app untouched when the config
+    // is the same.
+    [self.class updateAppWithOptions:options name:name completion:^(BOOL success) {
+      if (!success) {
+        NSLog(@"Failed to initialize Firebase app: %@", name);
+      } else {
+        //NSLog(@"Initialized Firebase app: %@", name);
+      }
+    }];
+  }
+  return self;
+}
 
 - (void)setModuleRegistry:(UMModuleRegistry *)moduleRegistry
 {
   _moduleRegistry = moduleRegistry;
-  _constants = [moduleRegistry getModuleImplementingProtocol:@protocol(UMConstantsInterface)];
-
-  NSString* defaultName = [self getDefaultAppName];
-  FIROptions* defaultOptions = [self getDefaultAppOptions];
-  
-  // Delete all previously created apps, except for the "default" one
-  // which will be updated/created/deleted only when it has changed
-  NSDictionary<NSString *,FIRApp *>* apps = [FIRApp allApps];
-  NSArray<NSString*>* names = [apps allKeys];
-  for (int i = 0; i < names.count; i++) {
-    NSString* name = names[i];
-    if (![name isEqualToString:defaultName] || !defaultName || !defaultOptions) {
-      [[FIRApp appNamed:name] deleteApp:^(BOOL success) {
-        if (!success) {
-          NSLog(@"Failed to delete Firebase app: %@", name);
-        } else {
-          NSLog(@"Deleted Firebase app: %@", name);
-        }
-      }];
-    }
-  }
-  
-  // Initialize the default app. This will delete/create/update the app
-  // if it has changed, and leaves the app untouched when the config
-  // is the same.
-  if (defaultName && defaultOptions) {
-    [self.class updateAppWithOptions:defaultOptions name:defaultName completion:^(BOOL success) {
-      if (!success) {
-        NSLog(@"Failed to initialize default Firebase app: %@", defaultName);
-      } else {
-        NSLog(@"Initialized default Firebase app: %@", defaultName);
-      }
-    }];
-  }
-}
-
-- (BOOL) isSandboxed
-{
-  NSString* appOwnership = _constants ? _constants.constants[@"appOwnership"] : nil;
-  return [@"expo" isEqualToString: appOwnership];
 }
 
 - (NSDictionary *)constantsToExport
 {
   NSMutableDictionary* constants = [NSMutableDictionary dictionaryWithDictionary:@{
-    @"DEFAULT_NAME": [self getDefaultAppName]
+    @"DEFAULT_NAME": _appName
   }];
   
-  FIROptions* options = [self getDefaultAppOptions];
-  if (options) {
-    [constants setObject:[self.class firOptionsToJSON:options] forKey:@"DEFAULT_OPTIONS"];
+  if (_appOptions) {
+    [constants setObject:[self.class firOptionsToJSON:_appOptions] forKey:@"DEFAULT_OPTIONS"];
   }
   
   return constants;
 }
 
-- (nonnull NSString*) getDefaultAppName
-{
-  if (self.isSandboxed) {
-    // TODO
-    return @"__sandbox_todoExperienceId";
-  }
-  return DEFAULT_APP_NAME;
-}
-
-- (nullable FIROptions*) getDefaultAppOptions
-{
-  NSDictionary* googleServicesFile = self.isSandboxed
-  ? [self.class googleServicesFileFromConstantsManifest:_constants]
-    : self.class.googleServicesFileFromBundle;
-  return [self.class firOptionsWithGoogleServicesFile:googleServicesFile];
-}
-
 - (BOOL) isAppAccessible:(nonnull NSString*)name
 {
-  // Deny access to the [DEFAULT] app on sandboxed environments
-  if (self.isSandboxed) {
-    if ([name isEqualToString:DEFAULT_APP_NAME]) {
-      return NO;
-    }
-  }
   return YES;
 }
 
@@ -141,7 +112,7 @@ UM_EXPORT_MODULE(ExpoFirebaseApp);
 - (nullable FIRApp *)getAppOrReject:(NSString*)name reject:(UMPromiseRejectBlock)reject
 {
   if (name == nil) {
-    name = [self getDefaultAppName];
+    name = _appName;
   }
   
   if (![self isAppAccessible:name]) {
@@ -166,7 +137,7 @@ UM_EXPORT_METHOD_AS(initializeAppAsync,
     return;
   }
   if (!name) {
-    name = [self getDefaultAppName];
+    name = _appName;
     if (!name) {
       reject(@"ERR_FIREBASE_APP", @"No `GoogleService-Info.plist` configured", nil);
       return;
@@ -179,7 +150,7 @@ UM_EXPORT_METHOD_AS(initializeAppAsync,
   
   FIROptions* options = json
     ? [self.class firOptionsWithJSON:json]
-    : [self getDefaultAppOptions];
+    : _appOptions;
   
   [UMUtilities performSynchronouslyOnMainThread:^{
     [self.class updateAppWithOptions:options name:name completion:^(BOOL success) {

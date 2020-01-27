@@ -4,24 +4,6 @@
 
 @implementation EXFirebaseApp (FIROptions)
 
-+ (nullable FIROptions*) firOptionsWithGoogleServicesFile:(nullable NSDictionary*)plist
-{
-  if (!plist) return nil;
-  
-  FIROptions *firOptions = [[FIROptions alloc] initWithGoogleAppID:plist[@"GOOGLE_APP_ID"] GCMSenderID:plist[@"GCM_SENDER_ID"]];
-         
-  firOptions.APIKey = plist[@"API_KEY"];
-  firOptions.projectID = plist[@"PROJECT_ID"];
-  firOptions.clientID = plist[@"CLIENT_ID"];
-  firOptions.databaseURL = plist[@"DATABASE_URL"];
-  firOptions.storageBucket = plist[@"STORAGE_BUCKET"];
-  //firOptions.trackingID = plist[@"trackingId"];
-  //firOptions.androidClientID = plist[@"ANDROID_CLIENT_ID"];
-  //firOptions.deepLinkURLScheme = plist[@"DEEP_LINK_URL_SCHEMA"];
-  
-  return firOptions;
-}
-
 + (BOOL) compareString:(NSString*) str1 str2:(NSString*) str2 {
   if (str1 == str2) return YES;
   if (!str1 || !str2) return NO;
@@ -78,28 +60,6 @@
     firOptions.deepLinkURLScheme = json[@"deepLinkURLScheme"];
     
     return firOptions;
-}
-
-+ (nullable NSDictionary*)googleServicesFileFromBundle
-{
-  NSString *path = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
-  if (!path) return nil;
-  NSDictionary *plist = [[NSDictionary alloc] initWithContentsOfFile:path];
-  return plist;
-}
-
-+ (nullable NSDictionary*)googleServicesFileFromConstantsManifest:(nullable id<UMConstantsInterface>)constants
-{
-  // load GoogleService-Info.plist from manifest
-  if (constants == nil) return nil;
-  NSDictionary* manifest = constants.constants[@"manifest"];
-  NSDictionary* ios = manifest ? manifest[@"ios"] : nil;
-  NSString* googleServicesFile = ios ? ios[@"googleServicesFile"] : nil;
-  if (!googleServicesFile) return nil;
-  NSData *data = [[NSData alloc] initWithBase64EncodedString:googleServicesFile options:0];
-  NSError* error;
-  NSDictionary* plist = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListImmutable format:nil error:&error];
-  return plist;
 }
 
 @end

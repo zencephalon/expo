@@ -18,6 +18,7 @@
 		0DBCB92B4EB6445CB2A162E4 /* RNSVGMarkerPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = 417AEE2C283C4782885B8C12 /* RNSVGMarkerPosition.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		19382BA91EC2EACC001ED4A1 /* EXScopedBranchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 19382BA81EC2EACC001ED4A1 /* EXScopedBranchManager.m */; };
 		19B2EF751FB25A1A003F2E1B /* EXCachedResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 19B2EF741FB25A1A003F2E1B /* EXCachedResourceManager.m */; };
+		21A0A0BF23DEF8CD007D785C /* EXScopedFirebaseApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A0A0BE23DEF8CC007D785C /* EXScopedFirebaseApp.m */; };
 		2519CCFC216B292600FA7C80 /* EXUserNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2519CCFB216B292600FA7C80 /* EXUserNotificationCenter.m */; };
 		2520E83A21ABEEF100D900A4 /* EXScopedFilePermissionModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 2520E83921ABEEF100D900A4 /* EXScopedFilePermissionModule.m */; };
 		255A630A2154FB89009FDFC6 /* EXPendingNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 255A63092154FB88009FDFC6 /* EXPendingNotification.m */; };
@@ -378,6 +379,8 @@
 		19B2EF731FB25A1A003F2E1B /* EXCachedResourceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EXCachedResourceManager.h; sourceTree = "<group>"; };
 		19B2EF741FB25A1A003F2E1B /* EXCachedResourceManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EXCachedResourceManager.m; sourceTree = "<group>"; };
 		1E9033E268A74098A882CCEB /* RNSharedElementTransitionManager.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; path = RNSharedElementTransitionManager.m; sourceTree = "<group>"; };
+		21A0A0BD23DEF8CC007D785C /* EXScopedFirebaseApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EXScopedFirebaseApp.h; sourceTree = "<group>"; };
+		21A0A0BE23DEF8CC007D785C /* EXScopedFirebaseApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EXScopedFirebaseApp.m; sourceTree = "<group>"; };
 		23181375B61140378B02E53B /* RNSharedElementStyle.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; path = RNSharedElementStyle.h; sourceTree = "<group>"; };
 		2519CCFA216B292600FA7C80 /* EXUserNotificationCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EXUserNotificationCenter.h; sourceTree = "<group>"; };
 		2519CCFB216B292600FA7C80 /* EXUserNotificationCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EXUserNotificationCenter.m; sourceTree = "<group>"; };
@@ -1162,6 +1165,8 @@
 				31571B2C2265DD5800358D65 /* EXScopedLocalAuthentication.m */,
 				319C949D22F80DE100063194 /* EXScopedBranch.h */,
 				319C949E22F80DE100063194 /* EXScopedBranch.m */,
+				21A0A0BD23DEF8CC007D785C /* EXScopedFirebaseApp.h */,
+				21A0A0BE23DEF8CC007D785C /* EXScopedFirebaseApp.m */,
 			);
 			path = UniversalModules;
 			sourceTree = "<group>";
@@ -2682,6 +2687,7 @@
 				B5D0D679204F4C0400DDFC99 /* EXReactAppManager.m in Sources */,
 				31AD99E82285B51100F19090 /* AIRGoogleMapCalloutManager.m in Sources */,
 				78C832A323545ECE00448582 /* REAModule.m in Sources */,
+				21A0A0BF23DEF8CD007D785C /* EXScopedFirebaseApp.m in Sources */,
 				78C832BA23545ECF00448582 /* REATransitionManager.m in Sources */,
 				31AD99E32285B51100F19090 /* AIRGoogleMapMarkerManager.m in Sources */,
 				B5A473DA204A66F70035C61C /* EXAppViewController.m in Sources */,
