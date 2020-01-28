@@ -4,6 +4,9 @@
 #import <EXFirebaseApp/EXFirebaseApp.h>
 #import <EXFirebaseApp/EXFirebaseApp+FIROptions.h>
 
+#define DEFAULT_APP_NAME_IOS @"__FIRAPP_DEFAULT"
+#define DEFAULT_APP_NAME_UNIVERSAL @"[DEFAULT]"
+
 @interface EXFirebaseApp ()
 
 @property (nonatomic, weak) UMModuleRegistry *moduleRegistry;
@@ -13,6 +16,20 @@
 @implementation EXFirebaseApp {
   NSString* _appName;
   FIROptions* _appOptions;
+}
+
++ (NSString*) toUniversalAppName:(NSString*)name
+{
+  return [name isEqualToString:DEFAULT_APP_NAME_IOS]
+    ? DEFAULT_APP_NAME_UNIVERSAL
+    : name;
+}
+
++ (NSString*) fromUniversalAppName:(NSString*)name
+{
+  return [name isEqualToString:DEFAULT_APP_NAME_UNIVERSAL]
+    ? DEFAULT_APP_NAME_IOS
+    : name;
 }
 
 UM_EXPORT_MODULE(ExpoFirebaseApp);
@@ -61,7 +78,7 @@ UM_EXPORT_MODULE(ExpoFirebaseApp);
 - (NSDictionary *)constantsToExport
 {
   NSMutableDictionary* constants = [NSMutableDictionary dictionaryWithDictionary:@{
-    @"DEFAULT_NAME": _appName
+    @"DEFAULT_NAME": [self.class toUniversalAppName:_appName]
   }];
   
   if (_appOptions) {
@@ -120,6 +137,8 @@ UM_EXPORT_MODULE(ExpoFirebaseApp);
     return nil;
   }
   
+  name = [self.class fromUniversalAppName:name];
+
   FIRApp *app = [FIRApp appNamed:name];
   if (app != nil) return app;
   reject(@"ERR_FIREBASE_APP", @"The 'default' Firebase app is not initialized. Ensure your app has a valid GoogleService-Info.plist bundled and your project has react-native-unimodules installed.", nil);
@@ -148,6 +167,7 @@ UM_EXPORT_METHOD_AS(initializeAppAsync,
     return;
   }
   
+  name = [self.class fromUniversalAppName:name];
   FIROptions* options = json
     ? [self.class firOptionsWithJSON:json]
     : _appOptions;
@@ -157,7 +177,7 @@ UM_EXPORT_METHOD_AS(initializeAppAsync,
       if (success) {
         FIRApp* app = [FIRApp appNamed:name];        
         resolve(@{
-          @"name": app.name,
+          @"name": [self.class toUniversalAppName:app.name],
           @"options": [self.class firOptionsToJSON:app.options]
         });
       } else {
@@ -175,7 +195,7 @@ UM_EXPORT_METHOD_AS(getAppAsync,
   FIRApp* app = [self getAppOrReject:name reject:reject];
   if (!app) return;
   resolve(@{
-    @"name": app.name,
+    @"name": [self.class toUniversalAppName:app.name],
     @"options": [self.class firOptionsToJSON:app.options]
   });
 }
@@ -193,7 +213,7 @@ UM_EXPORT_METHOD_AS(getAppsAsync,
       if ([self isAppAccessible:name]) {
         FIRApp* app = apps[name];
         [results addObject:@{
-          @"name": name,
+          @"name": [self.class toUniversalAppName:app.name],
           @"options": [self.class firOptionsToJSON:app.options]
         }];
       }

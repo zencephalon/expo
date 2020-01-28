@@ -4,10 +4,7 @@ import * as FirebaseApp from 'expo-firebase-app';
 
 export const name = 'FirebaseApp';
 
-const SYSTEM_APP_NAME = Platform.select({
-  ios: '__FIRAPP_DEFAULT',
-  android: '[DEFAULT]',
-});
+const SYSTEM_APP_NAME = '[DEFAULT]';
 
 const SANDBOX_APP_PREFIX = '__sandbox';
 
