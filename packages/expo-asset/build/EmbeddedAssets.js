@@ -12,8 +12,7 @@ export function getEmbeddedAssetUri(hash, type) {
     if (__DEV__) {
         return null;
     }
-    const assetUrl = `https://d1wp6m56sqw74a.cloudfront.net/~assets/${hash}`;
-    if (!localAssets.hasOwnProperty(assetUrl)) {
+    if (!localAssets.hasOwnProperty(hash)) {
         // check legacy location in case we're in Expo client/managed workflow
         // TODO(eric): remove this once bundledAssets is no longer exported from FileSystem
         const assetName = `asset_${hash}${type ? `.${type}` : ''}`;
@@ -22,6 +21,6 @@ export function getEmbeddedAssetUri(hash, type) {
         }
         return `${FileSystem.bundleDirectory}${assetName}`;
     }
-    return localAssets[assetUrl];
+    return localAssets[hash];
 }
 //# sourceMappingURL=EmbeddedAssets.js.map
