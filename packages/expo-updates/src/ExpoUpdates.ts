@@ -1,2 +1,2 @@
 import { NativeModulesProxy } from '@unimodules/core';
-export default NativeModulesProxy.ExpoWebBrowser || ({} as any);
+export default NativeModulesProxy.ExpoUpdates || ({} as any);
