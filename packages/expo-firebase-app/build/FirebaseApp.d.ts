@@ -1,7 +1,9 @@
-import { FirebaseOptions } from './FirebaseApp.types';
+import { FirebaseOptions, FirebaseModuleName } from './FirebaseApp.types';
+import * as FirebaseModules from './FirebaseModules';
 export { FirebaseOptions } from './FirebaseApp.types';
+export { analytics, auth, database, firestore, functions, messaging, performance, remoteConfig, storage, } from './FirebaseModules';
 export * from './GoogleServices';
-export declare const DEFAULT_OPTIONS: any, DEFAULT_NAME: any;
+export declare const DEFAULT_NAME: any, DEFAULT_OPTIONS: any;
 interface FirebaseAppConfig {
     name: string;
     options: FirebaseOptions;
@@ -20,7 +22,28 @@ declare class FirebaseApp {
      * Delete the Firebase app instance.
      */
     deleteAsync(): Promise<void>;
+    private getModuleInstance;
+    analytics(): FirebaseModules.Analytics;
+    /**
+     * Gets the Auth service for the current app.
+     */
+    auth(): FirebaseModules.Auth;
+    database(): FirebaseModules.Database;
+    firestore(): FirebaseModules.Firestore;
+    functions(): FirebaseModules.Functions;
+    messaging(): FirebaseModules.Messaging;
+    performance(): FirebaseModules.Performance;
+    remoteConfig(): FirebaseModules.RemoteConfig;
+    storage(): FirebaseModules.Storage;
 }
+/**
+ * Retrieves the default Firebase app instance.
+ *
+ * Unlike the Firebase JavaScript SDK, it is not possible to access
+ * custom named apps using this function. If you want to initialize and
+ * use custom named apps, use `initializeAppAsync` and `getAppAsync`.
+ */
+export declare function app(): FirebaseApp;
 /**
  * Initializes a Firebase app.
  *
@@ -61,3 +84,11 @@ export declare function getAppsAsync(): Promise<FirebaseApp[]>;
  * to test forbidden access to the prohibited default app.
  */
 export declare function deleteAppAsync(name: string): Promise<void>;
+/**
+ * Register a native module.
+ *
+ * @internal
+ * This function is used by the other `expo-firebase-` modules to register
+ * themselves with the main expo firebase namespace.
+ */
+export declare function registerModule(name: FirebaseModuleName, firebase: any): void;

@@ -1,7 +1,9 @@
 import { UnavailabilityError } from '@unimodules/core';
 import ExpoFirebaseApp from './ExpoFirebaseApp';
+import * as FirebaseModules from './FirebaseModules';
+export { analytics, auth, database, firestore, functions, messaging, performance, remoteConfig, storage, } from './FirebaseModules';
 export * from './GoogleServices';
-export const { DEFAULT_OPTIONS, DEFAULT_NAME } = ExpoFirebaseApp;
+export const { DEFAULT_NAME, DEFAULT_OPTIONS } = ExpoFirebaseApp;
 class FirebaseApp {
     constructor(config) {
         this.name = config.name;
@@ -18,6 +20,56 @@ class FirebaseApp {
         // @ts-ignore
         return ExpoFirebaseApp.deleteAppAsync(this._name);
     }
+    getModuleInstance(name) {
+        const mod = FirebaseModules.getModule(name);
+        if (!mod)
+            throw new Error(`Firebase module not available: ${name}`);
+        return mod(this);
+    }
+    analytics() {
+        return this.getModuleInstance('analytics');
+    }
+    /**
+     * Gets the Auth service for the current app.
+     */
+    auth() {
+        return this.getModuleInstance('auth');
+    }
+    database() {
+        return this.getModuleInstance('database');
+    }
+    firestore() {
+        return this.getModuleInstance('firestore');
+    }
+    functions() {
+        return this.getModuleInstance('functions');
+    }
+    messaging() {
+        return this.getModuleInstance('messaging');
+    }
+    performance() {
+        return this.getModuleInstance('performance');
+    }
+    remoteConfig() {
+        return this.getModuleInstance('remoteConfig');
+    }
+    storage() {
+        return this.getModuleInstance('storage');
+    }
+}
+const defaultApp = new FirebaseApp({
+    name: DEFAULT_NAME,
+    options: DEFAULT_OPTIONS,
+});
+/**
+ * Retrieves the default Firebase app instance.
+ *
+ * Unlike the Firebase JavaScript SDK, it is not possible to access
+ * custom named apps using this function. If you want to initialize and
+ * use custom named apps, use `initializeAppAsync` and `getAppAsync`.
+ */
+export function app() {
+    return defaultApp;
 }
 /**
  * Initializes a Firebase app.
@@ -86,5 +138,23 @@ export async function deleteAppAsync(name) {
         throw new UnavailabilityError('expo-firebase-app', 'deleteAppAsync');
     }
     await ExpoFirebaseApp.deleteAppAsync(name);
+}
+/**
+ * Register a native module.
+ *
+ * @internal
+ * This function is used by the other `expo-firebase-` modules to register
+ * themselves with the main expo firebase namespace.
+ */
+export function registerModule(name, firebase) {
+    const wrappedMod = (app) => {
+        return firebase.app(app ? app.name : DEFAULT_NAME)[name]();
+    };
+    // hoist statics
+    const mod = firebase[name];
+    Object.keys(mod).forEach(key => {
+        wrappedMod[key] = mod[key];
+    });
+    return FirebaseModules.setModule(name, wrappedMod);
 }
 //# sourceMappingURL=FirebaseApp.js.map

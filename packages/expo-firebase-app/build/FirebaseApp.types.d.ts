@@ -8,3 +8,5 @@ export interface FirebaseOptions {
     projectId: string;
     authDomain: string;
 }
+export declare type FirebaseModuleName = 'analytics' | 'auth' | 'database' | 'firestore' | 'functions' | 'messaging' | 'performance' | 'remoteConfig' | 'storage';
+export declare type FirebaseModule = any;
