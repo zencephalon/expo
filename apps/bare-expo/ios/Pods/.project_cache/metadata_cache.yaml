@@ -98,6 +98,10 @@ EXFirebaseApp:
   LABEL: EXFirebaseApp
   PROJECT_PATH: EXFirebaseApp.xcodeproj
   UUID: 938156D19B3674988F96B4F2FE8F7699
+EXFirebaseFirestore:
+  LABEL: EXFirebaseFirestore
+  PROJECT_PATH: EXFirebaseFirestore.xcodeproj
+  UUID: F52E59D36C9EAD723AC79D99938FFC5F
 EXFont:
   LABEL: EXFont
   PROJECT_PATH: EXFont.xcodeproj
