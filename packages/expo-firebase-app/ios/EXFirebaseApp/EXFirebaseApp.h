@@ -6,8 +6,8 @@
 
 @interface EXFirebaseApp : UMExportedModule <UMModuleRegistryConsumer>
 
-- (instancetype) init;
-- (instancetype) initWithAppName:(NSString*)name options:(FIROptions*)options;
+- (nonnull instancetype) init;
+- (nonnull instancetype) initWithAppName:(nonnull NSString*)name options:(nullable FIROptions*)options;
 
 - (BOOL) isAppAccessible:(nonnull NSString*)name;
 

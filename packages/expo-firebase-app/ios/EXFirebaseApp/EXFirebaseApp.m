@@ -34,7 +34,7 @@
 
 UM_EXPORT_MODULE(ExpoFirebaseApp);
 
-- (instancetype) init
+- (nonnull instancetype) init
 {
   if (self = [super init]) {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"GoogleService-Info" ofType:@"plist"];
@@ -50,7 +50,7 @@ UM_EXPORT_MODULE(ExpoFirebaseApp);
   return self;
 }
 
-- (instancetype) initWithAppName:(nonnull NSString*)name options:(nullable FIROptions*)options
+- (nonnull instancetype) initWithAppName:(nonnull NSString*)name options:(nullable FIROptions*)options
 {
   if (self = [super init]) {
     _appName = name;

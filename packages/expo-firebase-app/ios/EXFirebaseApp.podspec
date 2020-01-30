@@ -22,5 +22,6 @@ Pod::Spec.new do |s|
   s.requires_arc   = true
 
   s.dependency 'UMCore'
+  s.dependency 'React'
   s.dependency 'Firebase/Core', firebase_sdk_version
 end
