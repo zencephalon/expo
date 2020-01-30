@@ -17,7 +17,7 @@
 #import "EXScopedBranch.h"
 #import "EXScopedErrorRecoveryModule.h"
 #import "EXScopedFacebook.h"
-#import "EXScopedFirebaseApp.h"
+#import "EXScopedFirebaseCore.h"
 
 #import "EXScopedReactNativeAdapter.h"
 #import "EXExpoUserNotificationCenterProxy.h"
@@ -115,9 +115,9 @@
   [moduleRegistry registerExportedModule:errorRecovery];
 #endif
   
-#if __has_include(<EXFirebaseApp/EXFirebaseApp.h>)
-  EXScopedFirebaseApp *firebaseAppModule = [[EXScopedFirebaseApp alloc] initWithExperienceId:experienceId andConstantsBinding:constantsBinding];
-  [moduleRegistry registerExportedModule:firebaseAppModule];
+#if __has_include(<EXFirebaseCore/EXFirebaseCore.h>)
+  EXScopedFirebaseCore *firebaseCoreModule = [[EXScopedFirebaseCore alloc] initWithExperienceId:experienceId andConstantsBinding:constantsBinding];
+  [moduleRegistry registerExportedModule:firebaseCoreModule];
 #endif
 
   return moduleRegistry;
