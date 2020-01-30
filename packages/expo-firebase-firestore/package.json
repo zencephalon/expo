@@ -30,8 +30,8 @@
   "license": "MIT",
   "homepage": "https://docs.expo.io/versions/latest/sdk/module-template",
   "dependencies": {
-    "@react-native-firebase/app": "file://Users/hein/repos/react/react-native-firebase/packages/app",
-    "@react-native-firebase/firestore": "file://Users/hein/repos/react/react-native-firebase/packages/firestore",
+    "@react-native-firebase/app": "6.2.0",
+    "@react-native-firebase/firestore": "6.2.0",
     "expo-module-scripts": "^1.1.1"
   },
   "jest": {
