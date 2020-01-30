@@ -30,22 +30,19 @@
   "license": "MIT",
   "homepage": "https://docs.expo.io/versions/latest/sdk/module-template",
   "dependencies": {
-    "@react-native-firebase/app": "file://Users/hein/repos/react/react-native-firebase/packages/app",
-    "@react-native-firebase/auth": "file://Users/hein/repos/react/react-native-firebase/packages/auth",
     "expo-module-scripts": "^1.1.1"
   },
   "jest": {
     "preset": "expo-module-scripts/ios"
   },
   "peerDependencies": {
-    "firebase": "*"
+    "firebase": "*",
+    "@react-native-firebase/app": "6.2.0",
+    "@react-native-firebase/auth": "6.2.0"
   },
   "optionalDependencies": {
     "expo-facebook": "*",
     "expo-google-sign-in": "*",
     "expo-apple-authentication": "*"
-  },
-  "devDependencies": {
-    "firebase": "^7.7.0"
   }
 }

@@ -1,6 +1,6 @@
 import { auth, registerModule } from 'expo-firebase-app';
-import * as jsFirebase from 'firebase/app';
+import * as firebase from 'firebase/app';
 import 'firebase/auth';
-registerModule('auth', jsFirebase);
+registerModule('auth', firebase);
 export default auth;
 //# sourceMappingURL=ExpoFirebaseAuth.web.js.map
