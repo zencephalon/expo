@@ -1,8 +1,8 @@
 import { CodedError, UnavailabilityError } from '@unimodules/core';
+import base64 from 'base-64';
 import invariant from 'invariant';
 
 import {
-  OAuthBaseProps,
   OAuthProps,
   OAuthRevokeOptions,
   OAuthServiceConfiguration,
@@ -83,17 +83,21 @@ export async function refreshAsync(
   });
 }
 
-/* JS Method */
+/**
+ * A JS helper method to revoke refresh tokens and access tokens.
+ *
+ * @deprecated use `revokeTokenAsync` instead.
+ */
+// Mostly follows the opinion of react-native-app-auth: https://github.com/FormidableLabs/react-native-app-auth
 export async function revokeAsync(
-  { clientId, issuer, serviceConfiguration }: OAuthBaseProps,
+  {
+    clientId,
+    clientSecret,
+    issuer,
+    serviceConfiguration,
+  }: Pick<OAuthProps, 'clientId' | 'clientSecret' | 'issuer' | 'serviceConfiguration'>,
   { token, isClientIdProvided = false }: OAuthRevokeOptions
 ): Promise<any> {
-  if (!token) {
-    throw new CodedError('ERR_APP_AUTH_TOKEN', 'Cannot revoke a null `token`');
-  }
-
-  assertValidClientId(clientId);
-
   let revocationEndpoint;
   if (serviceConfiguration && serviceConfiguration.revocationEndpoint) {
     revocationEndpoint = serviceConfiguration.revocationEndpoint;
@@ -110,10 +114,55 @@ export async function revokeAsync(
     revocationEndpoint = openidConfig.revocation_endpoint;
   }
 
-  const encodedClientID = encodeURIComponent(clientId);
+  return revokeTokenAsync(token, revocationEndpoint, {
+    clientId,
+    clientSecret,
+    sendClientId: isClientIdProvided,
+  });
+}
+
+/**
+ * A JS helper method to revoke refresh tokens and access tokens.
+ *
+ * @param token access token or refresh token
+ * @param revocationEndpoint url to invoke
+ * @param options
+ *   - clientId: Client ID to use
+ *   - clientSecret: Optional client secret
+ *   - sendClientId: Should the client ID be included in the revocation (defaults to `false`)
+ */
+export async function revokeTokenAsync(
+  token: string,
+  revocationEndpoint: string,
+  {
+    clientId,
+    clientSecret,
+    sendClientId = false,
+  }: { clientId: string; clientSecret?: string; sendClientId: boolean }
+) {
+  if (!token) {
+    throw new CodedError('ERR_APP_AUTH_TOKEN', 'Cannot revoke a null `token`');
+  }
+
+  assertValidClientId(clientId);
+
   const encodedToken = encodeURIComponent(token);
-  const body = `token=${encodedToken}${isClientIdProvided ? `&client_id=${encodedClientID}` : ''}`;
+  const body = `token=${encodedToken}${
+    sendClientId ? `&client_id=${encodeURIComponent(clientId)}` : ''
+  }`;
+
   const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+
+  if (clientSecret) {
+    // @ts-ignore
+    const basicAuthString = base64.encode(
+      unescape(encodeURIComponent(`${clientId}:${clientSecret}`))
+    );
+
+    console.log('basicAuthString', basicAuthString);
+    (headers as any).Authorization = `Basic ${basicAuthString}`;
+  }
+
   try {
     // https://tools.ietf.org/html/rfc7009#section-2.2
     const results = await fetch(revocationEndpoint, {
@@ -126,47 +175,6 @@ export async function revokeAsync(
   } catch (error) {
     throw new CodedError('ERR_APP_AUTH_REVOKE_FAILED', error.message);
   }
-}
-
-// NOTE: This function is unused; delete it if we don't need it
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function parseAuthRevocationResults(results: Response): Promise<any> {
-  const data = await results.json();
-  const token = results.headers['update-client-auth'];
-  // the token has been revoked successfully or the client submitted an invalid token.
-  if (results.ok) {
-    // successful op
-    return { type: 'success', status: results.status, data, token };
-  } else if (results.status === 503 && results.headers['retry-after']) {
-    // Failed op
-    const retryAfterValue = results.headers['retry-after'];
-    let retryAfter: number | undefined;
-    if (retryAfterValue) {
-      retryAfter = parseRetryTime(retryAfterValue);
-    }
-    // the client must assume the token still exists and may retry after a reasonable delay.
-    return { type: 'failed', status: results.status, data, token, retryAfter };
-  } else {
-    // Error
-    return { type: 'error', status: results.status, data, token };
-  }
-}
-
-function parseRetryTime(value: string): number {
-  // In accordance with RFC2616, Section 14.37. Timout may be of format seconds or future date time value
-  if (/^\d+$/.test(value)) {
-    return parseInt(value, 10) * 1000;
-  }
-  const retry = Date.parse(value);
-  if (isNaN(retry)) {
-    throw new CodedError(
-      'ERR_APP_AUTH_FETCH_RETRY_TIME',
-      'Cannot parse the Retry-After header value returned by the server: ' + value
-    );
-  }
-  const now = Date.now();
-  const parsedDate = new Date(retry);
-  return parsedDate.getTime() - now;
 }
 
 export const { OAuthRedirect, URLSchemes } = ExpoAppAuth;
