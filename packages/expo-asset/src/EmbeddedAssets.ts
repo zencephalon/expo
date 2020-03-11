@@ -1,10 +1,14 @@
 import Constants from 'expo-constants';
 import * as FileSystem from 'expo-file-system';
-import * as Updates from 'expo-updates';
+
+let Updates: any;
+try {
+  Updates = require('expo-updates');
+} catch (e) {}
 
 // Fast lookup check if assets are available in the local bundle
 const bundledAssets = new Set(FileSystem.bundledAssets || []);
-const localAssets = Updates.localAssets;
+const localAssets = (Updates && Updates.localAssets) ?? {};
 
 /**
  * Returns the local URI of an embedded asset from its hash and type, or null if the asset is not

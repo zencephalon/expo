@@ -39,8 +39,7 @@
   "unimodulePeerDependencies": {
     "@unimodules/core": "*",
     "expo-constants": "*",
-    "expo-file-system": "*",
-    "expo-updates": "*"
+    "expo-file-system": "*"
   },
   "peerDependencies": {
     "react": "*",
