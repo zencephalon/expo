@@ -8712,6 +8712,8 @@ CACHE_KEYS:
       - "../../packages/expo-updates/ios/EXUpdates/EXUpdatesModule.m"
       - "../../packages/expo-updates/ios/EXUpdates/EXUpdatesUtils.h"
       - "../../packages/expo-updates/ios/EXUpdates/EXUpdatesUtils.m"
+      - "../../packages/expo-updates/ios/EXUpdates/Update/EXUpdatesBareUpdate.h"
+      - "../../packages/expo-updates/ios/EXUpdates/Update/EXUpdatesBareUpdate.m"
       - "../../packages/expo-updates/ios/EXUpdates/Update/EXUpdatesLegacyUpdate.h"
       - "../../packages/expo-updates/ios/EXUpdates/Update/EXUpdatesLegacyUpdate.m"
       - "../../packages/expo-updates/ios/EXUpdates/Update/EXUpdatesNewUpdate.h"

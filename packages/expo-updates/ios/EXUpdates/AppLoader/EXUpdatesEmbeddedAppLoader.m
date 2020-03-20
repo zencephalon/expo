@@ -1,6 +1,7 @@
 //  Copyright © 2019 650 Industries. All rights reserved.
 
 #import <EXUpdates/EXUpdatesAppController.h>
+#import <EXUpdates/EXUpdatesBareUpdate.h>
 #import <EXUpdates/EXUpdatesEmbeddedAppLoader.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,24 +19,25 @@ NSString * const kEXUpdatesEmbeddedBundleFileType = @"bundle";
   static dispatch_once_t once;
   dispatch_once(&once, ^{
     if (!embeddedManifest) {
-      NSString *path = [[NSBundle mainBundle] pathForResource:kEXUpdatesEmbeddedManifestName ofType:kEXUpdatesEmbeddedManifestType];
-      NSData *manifestData = [NSData dataWithContentsOfFile:path];
-
-      NSError *err;
-      id manifest = [NSJSONSerialization JSONObjectWithData:manifestData options:kNilOptions error:&err];
-      if (!manifest) {
-        @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                       reason:@"The embedded manifest is invalid or could not be read. Make sure you have created app.manifest and app.bundle files and added them to your Xcode project. If you are using Expo CLI, make sure you have run `expo publish` or `expo export` at least once. More information at https://expo.fyi/embedded-assets"
-                                     userInfo:@{}];
-      } else {
-        NSAssert([manifest isKindOfClass:[NSDictionary class]], @"embedded manifest should be a valid JSON file");
-        embeddedManifest = [EXUpdatesUpdate updateWithManifest:(NSDictionary *)manifest];
-        if (!embeddedManifest.updateId) {
-          @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                         reason:@"The embedded manifest is invalid. If you are making a release build for the first time, make sure you have run `expo publish` at least once."
-                                       userInfo:@{}];
-        }
-      }
+//      NSString *path = [[NSBundle mainBundle] pathForResource:kEXUpdatesEmbeddedManifestName ofType:kEXUpdatesEmbeddedManifestType];
+//      NSData *manifestData = [NSData dataWithContentsOfFile:path];
+//
+//      NSError *err;
+//      id manifest = [NSJSONSerialization JSONObjectWithData:manifestData options:kNilOptions error:&err];
+//      if (!manifest) {
+//        @throw [NSException exceptionWithName:NSInternalInconsistencyException
+//                                       reason:@"The embedded manifest is invalid or could not be read. Make sure you have created app.manifest and app.bundle files and added them to your Xcode project. If you are using Expo CLI, make sure you have run `expo publish` or `expo export` at least once. More information at https://expo.fyi/embedded-assets"
+//                                     userInfo:@{}];
+//      } else {
+//        NSAssert([manifest isKindOfClass:[NSDictionary class]], @"embedded manifest should be a valid JSON file");
+//        embeddedManifest = [EXUpdatesUpdate updateWithManifest:(NSDictionary *)manifest];
+//        if (!embeddedManifest.updateId) {
+//          @throw [NSException exceptionWithName:NSInternalInconsistencyException
+//                                         reason:@"The embedded manifest is invalid. If you are making a release build for the first time, make sure you have run `expo publish` at least once."
+//                                       userInfo:@{}];
+//        }
+//      }
+      embeddedManifest = [EXUpdatesBareUpdate updateFromMainBundle];
     }
   });
   return embeddedManifest;
