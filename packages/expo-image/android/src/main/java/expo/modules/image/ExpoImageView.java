@@ -3,6 +3,7 @@ package expo.modules.image;
 import android.annotation.SuppressLint;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.content.Context;
 
@@ -96,6 +97,14 @@ public class ExpoImageView extends AppCompatImageView {
 
   void setBorderStyle(@Nullable String style) {
     getOrCreateBorderDrawable().setBorderStyle(style);
+  }
+
+  void setTintColor(@Nullable Integer color) {
+    if (color == null) {
+      clearColorFilter();
+    } else {
+      setColorFilter(color, PorterDuff.Mode.SRC_IN);
+    }
   }
 
   /* package */ void onAfterUpdateTransaction() {
