@@ -1,6 +1,7 @@
 import { ImageTestGroup } from '../types';
 import AndroidTests from './android';
 import AppearanceTests from './appearance';
+import BlurTests from './blur';
 import BorderTests from './borders';
 import EventTests from './events';
 import IOSTests from './ios';
@@ -13,6 +14,7 @@ const tests: ImageTestGroup = {
     AppearanceTests,
     BorderTests,
     ShadowsTests,
+    BlurTests,
     SourcesTests,
     EventTests,
     IOSTests,

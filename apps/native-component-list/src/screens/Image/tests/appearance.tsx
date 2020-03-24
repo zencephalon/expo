@@ -56,12 +56,6 @@ const imageTests: ImageTestGroup = {
       },
     },
     {
-      name: 'Blur radius',
-      props: ({ range }: ImageTestPropsFnInput) => ({
-        blurRadius: range(0, 60),
-      }),
-    },
-    {
       name: 'Opacity',
       props: ({ range }: ImageTestPropsFnInput) => ({
         style: {
