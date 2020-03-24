@@ -44,6 +44,8 @@ RCT_EXPORT_VIEW_PROPERTY(borderLeftWidth, NSNumber*)
 RCT_EXPORT_VIEW_PROPERTY(borderStartWidth, NSNumber*)
 RCT_EXPORT_VIEW_PROPERTY(borderEndWidth, NSNumber*)
 
+RCT_EXPORT_VIEW_PROPERTY(tintColor, UIColor)
+
 - (UIView *)view
 {
   return [[EXImageView alloc] initWithBridge:self.bridge];

@@ -21,6 +21,7 @@
 
 - (void)setSource:(NSDictionary *)sourceMap;
 - (void)setResizeMode:(RCTResizeMode)resizeMode;
+- (void)setBackgroundColor:(UIColor *)backgroundColor;
 
 - (void)didSetProps:(NSArray<NSString *> *)changedProps;
 
@@ -71,5 +72,7 @@
 @property (nonatomic, assign) RCTBorderStyle borderStartStyle;
 @property (nonatomic, assign) RCTBorderStyle borderEndStyle;
 @property (nonatomic, assign) RCTBorderStyle borderStyle;
+
+@property (nonatomic, copy) UIColor *tintColor;
 
 @end
