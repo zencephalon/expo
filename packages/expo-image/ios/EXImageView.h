@@ -74,5 +74,6 @@
 @property (nonatomic, assign) RCTBorderStyle borderStyle;
 
 @property (nonatomic, copy) UIColor *tintColor;
+@property (nonatomic, assign) CGFloat blurRadius;
 
 @end

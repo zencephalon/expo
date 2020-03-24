@@ -40,6 +40,7 @@ static NSString * const sourceHeightKey = @"height";
     _cornerRadii = EXImageCornerRadiiInit();
     _borders = EXImageBordersInit();
     _borderLayers = @{};
+    _blurRadius = 0;
 
     _imageView = [SDAnimatedImageView new];
     _imageView.frame = self.bounds;
@@ -113,6 +114,7 @@ static NSString * const sourceHeightKey = @"height";
   }
   
   NSMutableDictionary *context = [NSMutableDictionary new];
+  NSMutableArray<id<SDImageTransformer>> *transformers;
 
   // Only apply custom scale factors when neccessary. The scale factor
   // affects how the image is rendered when resizeMode `center` and `repeat`
@@ -121,10 +123,25 @@ static NSString * const sourceHeightKey = @"height";
   if (scale && scale.doubleValue != 1.0) {
     [context setValue:scale forKey:SDWebImageContextImageScaleFactor];
   }
+  
+  // Optionally add guasian blur transformer
+  if (_blurRadius > 0) {
+    id<SDImageTransformer> blurTransformer = [SDImageBlurTransformer transformerWithRadius:_blurRadius];
+    [context setValue:blurTransformer forKey:SDWebImageContextImageTransformer];
+    
+    //transformers = transformers ?: [NSMutableArray new];
+    //[transformers addObject:]blurTransformer;
+  }
+  
+  // Add the transformers to the context
+  if (transformers) {
+    id<SDImageTransformer> pipelineTransformer = [SDImagePipelineTransformer transformerWithTransformers:transformers];
+    [context setValue:pipelineTransformer forKey:SDWebImageContextImageTransformer];
+  }
 
   [_imageView sd_setImageWithURL:imageURL
           placeholderImage:nil
-                   options:SDWebImageAvoidAutoSetImage
+                   options:SDWebImageAvoidAutoSetImage | SDWebImageTransformAnimatedImage | SDWebImageDelayPlaceholder
                    context:context
                   progress:[self progressBlock]
                  completed:[self completionBlock]];
@@ -158,6 +175,8 @@ static NSString * const sourceHeightKey = @"height";
   
   __weak EXImageView *weakSelf = self;
   return ^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+    NSLog(@"+++ updating Image: %@, error: %@", image, error);
+    
     __strong EXImageView *strongSelf = weakSelf;
     if (!strongSelf) {
       // Nothing to do
@@ -425,6 +444,17 @@ setBorder(End,end)
   if (![_tintColor isEqual:tintColor]) {
     _tintColor = tintColor;
     _imageView.tintColor = tintColor;
+    _needsReload = YES;
+  }
+}
+
+#pragma mark - Tint color
+
+- (void)setBlurRadius:(CGFloat)blurRadius
+{
+  blurRadius = (blurRadius <= __FLT_EPSILON__) ? 0 : blurRadius;
+  if (_blurRadius != blurRadius) {
+    _blurRadius = blurRadius;
     _needsReload = YES;
   }
 }

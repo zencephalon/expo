@@ -45,6 +45,7 @@ RCT_EXPORT_VIEW_PROPERTY(borderStartWidth, NSNumber*)
 RCT_EXPORT_VIEW_PROPERTY(borderEndWidth, NSNumber*)
 
 RCT_EXPORT_VIEW_PROPERTY(tintColor, UIColor)
+RCT_EXPORT_VIEW_PROPERTY(blurRadius, CGFloat)
 
 - (UIView *)view
 {
