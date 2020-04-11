@@ -2,14 +2,8 @@
 
 set -eo pipefail
 
-if [ "$CONFIGURATION" == "Debug" ]; then
-  export NODE_BINARY=node
-  ../node_modules/react-native/scripts/react-native-xcode.sh
-  exit 0
-fi
+export NODE_BINARY=node
+../node_modules/react-native/scripts/react-native-xcode.sh
 
-pushd "${SRCROOT}/.."
-export PATH="$(if [ -f ~/.expo/PATH ]; then echo $PATH:$(cat ~/.expo/PATH); else echo $PATH; fi)"
 dest="$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH"
-expo bundle-assets --platform ios --dest "$dest"
-popd
+curl -o "$dest/embedded-assets.json" "http://localhost:8081/index.assets?platform=ios"
