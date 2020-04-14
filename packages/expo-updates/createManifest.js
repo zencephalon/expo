@@ -19,8 +19,8 @@ const manifest = {
   assets: [],
 };
 
-function addAsset(name, type, hash) {
-  manifest.assets.push({ name, type, hash });
+function addAsset(name, type, packagerHash) {
+  manifest.assets.push({ name, type, packagerHash });
 }
 
 assets.forEach(function(asset) {
