@@ -39,7 +39,7 @@ UM_EXPORT_MODULE(ExpoUpdates);
   } else {
     return @{
       @"isEnabled": @(YES),
-      @"manifest": launchedUpdate.rawManifest,
+      @"manifest": launchedUpdate.rawManifest ?: @{},
       @"localAssets": controller.assetFilesMap ?: @{},
       @"isEmergencyLaunch": @(controller.isEmergencyLaunch)
     };

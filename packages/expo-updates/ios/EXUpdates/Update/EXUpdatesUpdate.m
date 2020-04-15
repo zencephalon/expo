@@ -35,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
                         keep:(BOOL)keep
 {
   // for now, we store the entire managed manifest in the metadata field
-  EXUpdatesUpdate *update = [[self alloc] initWithRawManifest:metadata];
+  EXUpdatesUpdate *update = [[self alloc] initWithRawManifest:metadata ?: @{}];
   update.updateId = updateId;
   update.commitTime = commitTime;
   update.runtimeVersion = runtimeVersion;
