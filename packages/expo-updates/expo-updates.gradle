@@ -10,6 +10,9 @@ void runBefore(String dependentTaskName, Task task) {
   }
 }
 
+def config = project.hasProperty("react") ? project.react : [];
+def nodeExecutableAndArgs = config.nodeExecutableAndArgs ?: ["node"]
+
 afterEvaluate {
   def projectRoot = file("../../")
   def inputExcludes = ["android/**", "ios/**"]
@@ -26,12 +29,12 @@ afterEvaluate {
     }
 
     // Bundle task name for variant
-    def bundleExpoAssetsTaskName = "bundle${targetName}ExpoUpdatesAssets"
+    def bundleExpoAssetsTaskName = "create${targetName}ExpoManifest"
 
     def currentBundleTask = tasks.create(
         name: bundleExpoAssetsTaskName,
         type: Exec) {
-      description = "expo-updates: Bundle assets for ${targetName}."
+      description = "expo-updates: Create manifest for ${targetName}."
 
       // Create dirs if they are not there (e.g. the "clean" task just ran)
       doFirst {
@@ -46,9 +49,9 @@ afterEvaluate {
       workingDir projectRoot
 
       if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        commandLine("cmd", "/c", ".\\node_modules\\expo-updates\\run-expo.bat", "bundle-assets", projectRoot, "--platform", "android", "--dest", assetsDir)
+        commandLine("cmd", "/c", *nodeExecutableAndArgs, "./node_modules/expo-updates/createManifest.js", "http://localhost:8081/index.assets?platform=android", assetsDir)
       } else {
-        commandLine("./node_modules/expo-updates/run-expo.sh", "bundle-assets", projectRoot, "--platform", "android", "--dest", assetsDir)
+        commandLine(*nodeExecutableAndArgs, "./node_modules/expo-updates/createManifest.js", "http://localhost:8081/index.assets?platform=android", assetsDir)
       }
 
       enabled targetName.toLowerCase().contains("release")
