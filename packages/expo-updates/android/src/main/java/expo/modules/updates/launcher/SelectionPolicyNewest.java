@@ -2,6 +2,8 @@ package expo.modules.updates.launcher;
 
 import expo.modules.updates.db.entity.UpdateEntity;
 import expo.modules.updates.db.enums.UpdateStatus;
+import expo.modules.updates.loader.EmbeddedLoader;
+import expo.modules.updates.manifest.Manifest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +20,11 @@ import java.util.List;
 public class SelectionPolicyNewest implements SelectionPolicy {
 
   private String mRuntimeVersion;
+  private Manifest mEmbeddedManifest;
 
-  public SelectionPolicyNewest(String runtimeVersion) {
+  public SelectionPolicyNewest(String runtimeVersion, Manifest embeddedManifest) {
     mRuntimeVersion = runtimeVersion;
+    mEmbeddedManifest = embeddedManifest;
   }
 
   @Override
@@ -29,6 +33,14 @@ public class SelectionPolicyNewest implements SelectionPolicy {
     for (UpdateEntity update : updates) {
       if (!mRuntimeVersion.equals(update.runtimeVersion)) {
         continue;
+      }
+      // We can only run an update marked as embedded if it's actually the update embedded in the
+      // current binary. We might have an older update from a previous binary still listed as
+      // "EMBEDDED" in the database so we need to do this check.
+      if (update.status == UpdateStatus.EMBEDDED) {
+        if (!mEmbeddedManifest.getUpdateEntity().commitTime.equals(update.commitTime)) {
+          continue;
+        }
       }
       if (updateToLaunch == null || updateToLaunch.commitTime.before(update.commitTime)) {
         updateToLaunch = update;

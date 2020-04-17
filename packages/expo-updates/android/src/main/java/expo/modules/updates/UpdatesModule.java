@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.unimodules.core.ExportedModule;
 import org.unimodules.core.ModuleRegistry;
 import org.unimodules.core.Promise;
@@ -17,6 +18,7 @@ import androidx.annotation.Nullable;
 import expo.modules.updates.db.UpdatesDatabase;
 import expo.modules.updates.db.entity.AssetEntity;
 import expo.modules.updates.db.entity.UpdateEntity;
+import expo.modules.updates.db.enums.UpdateStatus;
 import expo.modules.updates.launcher.Launcher;
 import expo.modules.updates.loader.FileDownloader;
 import expo.modules.updates.manifest.Manifest;
@@ -53,7 +55,7 @@ public class UpdatesModule extends ExportedModule {
 
         UpdateEntity launchedUpdate = controller.getLaunchedUpdate();
         if (launchedUpdate != null) {
-          constants.put("manifestString", launchedUpdate.metadata.toString());
+          constants.put("manifestString", launchedUpdate.metadata != null ? launchedUpdate.metadata.toString() : "{}");
         }
 
         Map<AssetEntity, String> localAssetFiles = controller.getLocalAssetFiles();
@@ -68,7 +70,8 @@ public class UpdatesModule extends ExportedModule {
           constants.put("localAssets", localAssets);
         }
 
-        constants.put("isEnabled", controller.getUpdatesConfiguration().isEnabled());
+        constants.put("isEnabled", controller.getUpdatesConfiguration().isEnabled() &&
+          controller.getLaunchedUpdate().status != UpdateStatus.EMBEDDED);
       }
     } catch (IllegalStateException e) {
       // do nothing; this is expected in a development client

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import expo.modules.updates.db.UpdatesDatabase;
 import expo.modules.updates.db.entity.AssetEntity;
 import expo.modules.updates.db.entity.UpdateEntity;
+import expo.modules.updates.db.enums.UpdateStatus;
 import expo.modules.updates.loader.EmbeddedLoader;
 import expo.modules.updates.loader.FileDownloader;
 import expo.modules.updates.manifest.Manifest;
@@ -27,6 +28,7 @@ public class DatabaseLauncher implements Launcher {
 
   private UpdateEntity mLaunchedUpdate = null;
   private String mLaunchAssetFile = null;
+  private String mBundleAssetName = null;
   private Map<AssetEntity, String> mLocalAssetFiles = null;
 
   private int mAssetsToDownload = 0;
@@ -49,7 +51,7 @@ public class DatabaseLauncher implements Launcher {
   }
 
   public @Nullable String getBundleAssetName() {
-    return null;
+    return mBundleAssetName;
   }
 
   public @Nullable Map<AssetEntity, String> getLocalAssetFiles() {
@@ -65,6 +67,12 @@ public class DatabaseLauncher implements Launcher {
 
     if (mLaunchedUpdate == null) {
       mCallback.onFailure(new Exception("No launchable update was found"));
+      return;
+    }
+
+    if (mLaunchedUpdate.status == UpdateStatus.EMBEDDED) {
+      mBundleAssetName = EmbeddedLoader.BUNDLE_FILENAME;
+      mCallback.onSuccess();
       return;
     }
 

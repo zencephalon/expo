@@ -65,6 +65,7 @@ NSString * const kEXUpdatesEmbeddedBundleFileType = @"jsbundle";
       NSAssert(asset.mainBundleFilename, @"embedded asset mainBundleFilename must be nonnull");
       NSString *bundlePath = [[NSBundle mainBundle] pathForResource:asset.mainBundleFilename ofType:asset.type];
       if (!bundlePath) {
+        // TODO: this is making a lot of assumptions
         bundlePath = [[NSBundle mainBundle] pathForResource:asset.mainBundleFilename ofType:asset.type inDirectory:@"assets"];
       }
       NSAssert(bundlePath, @"NSBundle must contain the expected assets");

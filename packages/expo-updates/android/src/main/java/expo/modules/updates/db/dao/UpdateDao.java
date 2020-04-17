@@ -46,7 +46,7 @@ public abstract class UpdateDao {
   public abstract List<UpdateEntity> loadAllUpdates();
 
   public List<UpdateEntity> loadLaunchableUpdates() {
-    return _loadUpdatesWithStatuses(Arrays.asList(UpdateStatus.LAUNCHABLE, UpdateStatus.READY));
+    return _loadUpdatesWithStatuses(Arrays.asList(UpdateStatus.LAUNCHABLE, UpdateStatus.READY, UpdateStatus.EMBEDDED));
   }
 
   public UpdateEntity loadUpdateWithId(UUID id) {

@@ -8,6 +8,7 @@ import expo.modules.updates.UpdatesUtils;
 import expo.modules.updates.db.UpdatesDatabase;
 import expo.modules.updates.db.entity.AssetEntity;
 import expo.modules.updates.db.entity.UpdateEntity;
+import expo.modules.updates.manifest.BareManifest;
 import expo.modules.updates.manifest.Manifest;
 import expo.modules.updates.manifest.ManifestFactory;
 
@@ -27,7 +28,7 @@ public class EmbeddedLoader {
   private static final String TAG = EmbeddedLoader.class.getSimpleName();
 
   public static final String MANIFEST_FILENAME = "app.manifest";
-  public static final String BUNDLE_FILENAME = "app.bundle";
+  public static final String BUNDLE_FILENAME = "index.android.bundle";
 
   private static Manifest sEmbeddedManifest = null;
 
@@ -67,7 +68,7 @@ public class EmbeddedLoader {
     if (sEmbeddedManifest == null) {
       try (InputStream stream = context.getAssets().open(MANIFEST_FILENAME)) {
         String manifestString = IOUtils.toString(stream, "UTF-8");
-        sEmbeddedManifest = ManifestFactory.getManifest(context, new JSONObject(manifestString));
+        sEmbeddedManifest = BareManifest.fromManifestJson(new JSONObject(manifestString));
       } catch (Exception e) {
         Log.e(TAG, "Could not read embedded manifest", e);
         throw new AssertionError("The embedded manifest is invalid or could not be read. Make sure you have created app.manifest and app.bundle files and added them to the `assets` folder. If you are using Expo CLI, make sure you have run `expo publish` or `expo export` at least once. More information at https://expo.fyi/embedded-assets");
@@ -151,7 +152,7 @@ public class EmbeddedLoader {
     }
     mDatabase.assetDao().insertAssets(mFinishedAssetList, mUpdateEntity);
     if (mErroredAssetList.size() == 0) {
-      mDatabase.updateDao().markUpdateReady(mUpdateEntity);
+//      mDatabase.updateDao().markUpdateReady(mUpdateEntity);
     }
     // TODO: maybe try downloading failed assets in background
   }

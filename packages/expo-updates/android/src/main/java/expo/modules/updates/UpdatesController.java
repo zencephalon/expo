@@ -62,7 +62,6 @@ public class UpdatesController {
   private UpdatesController(Context context, UpdatesConfiguration updatesConfiguration) {
     mUpdatesConfiguration = updatesConfiguration;
     mDatabaseHolder = new DatabaseHolder(UpdatesDatabase.getInstance(context));
-    mSelectionPolicy = new SelectionPolicyNewest(UpdatesUtils.getRuntimeVersion(updatesConfiguration));
     if (context instanceof ReactApplication) {
       mReactNativeHost = new WeakReference<>(((ReactApplication) context).getReactNativeHost());
     }
@@ -258,6 +257,8 @@ public class UpdatesController {
       mTimeoutFinished = true;
       return;
     }
+
+    mSelectionPolicy = new SelectionPolicyNewest(UpdatesUtils.getRuntimeVersion(mUpdatesConfiguration), EmbeddedLoader.readEmbeddedManifest(context));
 
     if (mUpdatesConfiguration.getUpdateUrl() == null) {
       throw new AssertionError("expo-updates is enabled, but no valid updateUrl is configured in AndroidManifest.xml. If you are making a release build for the first time, make sure you have run `expo publish` at least once.");
