@@ -38,7 +38,7 @@ public class SelectionPolicyNewest implements SelectionPolicy {
       // current binary. We might have an older update from a previous binary still listed as
       // "EMBEDDED" in the database so we need to do this check.
       if (update.status == UpdateStatus.EMBEDDED) {
-        if (!mEmbeddedManifest.getUpdateEntity().commitTime.equals(update.commitTime)) {
+        if (!mEmbeddedManifest.getUpdateEntity().id.equals(update.id)) {
           continue;
         }
       }

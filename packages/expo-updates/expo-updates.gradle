@@ -49,12 +49,12 @@ afterEvaluate {
       workingDir projectRoot
 
       if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        commandLine("cmd", "/c", *nodeExecutableAndArgs, "./node_modules/expo-updates/createManifest.js", "http://localhost:8081/index.assets?platform=android", assetsDir)
+        commandLine("cmd", "/c", *nodeExecutableAndArgs, "./node_modules/expo-updates/scripts/createManifest.js", "android", "http://localhost:8081/index.assets?platform=android", assetsDir)
       } else {
-        commandLine(*nodeExecutableAndArgs, "./node_modules/expo-updates/createManifest.js", "http://localhost:8081/index.assets?platform=android", assetsDir)
+        commandLine(*nodeExecutableAndArgs, "./node_modules/expo-updates/scripts/createManifest.js", "android", "http://localhost:8081/index.assets?platform=android", assetsDir)
       }
 
-      enabled targetName.toLowerCase().contains("release")
+      // enabled targetName.toLowerCase().contains("release")
     }
 
     currentBundleTask.dependsOn("merge${targetName}Resources")

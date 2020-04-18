@@ -8,6 +8,7 @@ import expo.modules.updates.db.enums.HashType;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -53,6 +54,18 @@ public class AssetEntity {
 
   @Ignore
   public String embeddedAssetFilename = null;
+
+  @Ignore
+  public String resourcesFilename = null;
+
+  @Ignore
+  public String resourcesFolder = null;
+
+  @Ignore
+  public Float scale = null;
+
+  @Ignore
+  public Float[] scales = null;
 
   public AssetEntity(Uri url, String type) {
     this.url = url;

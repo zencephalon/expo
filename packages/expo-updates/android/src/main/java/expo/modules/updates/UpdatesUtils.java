@@ -31,7 +31,7 @@ import expo.modules.updates.db.entity.AssetEntity;
 public class UpdatesUtils {
 
   private static final String TAG = UpdatesUtils.class.getSimpleName();
-  private static final String UPDATES_DIRECTORY_NAME = ".expo-internal";
+  private static final String UPDATES_DIRECTORY_NAME = "expo-internal";
   private static final String UPDATES_EVENT_NAME = "Expo.nativeUpdatesEvent";
 
   public static File getOrCreateUpdatesDirectory(Context context) throws Exception {

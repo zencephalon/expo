@@ -28,18 +28,13 @@ public class EmbeddedLoader {
   private static final String TAG = EmbeddedLoader.class.getSimpleName();
 
   public static final String MANIFEST_FILENAME = "app.manifest";
-  public static final String BUNDLE_FILENAME = "index.android.bundle";
+  public static final String BUNDLE_FILENAME = "app.bundle";
 
   private static Manifest sEmbeddedManifest = null;
 
   private Context mContext;
   private UpdatesDatabase mDatabase;
   private File mUpdatesDirectory;
-
-  private UpdateEntity mUpdateEntity;
-  private ArrayList<AssetEntity> mErroredAssetList = new ArrayList<>();
-  private ArrayList<AssetEntity> mExistingAssetList = new ArrayList<>();
-  private ArrayList<AssetEntity> mFinishedAssetList = new ArrayList<>();
 
   public EmbeddedLoader(Context context, UpdatesDatabase database, File updatesDirectory) {
     mContext = context;
@@ -48,26 +43,23 @@ public class EmbeddedLoader {
   }
 
   public boolean loadEmbeddedUpdate() {
-    boolean success = false;
     Manifest manifest = readEmbeddedManifest(mContext);
-    if (manifest != null) {
-      success = processManifest(manifest);
-      reset();
+    if (manifest == null) {
+      return false;
     }
-    return success;
-  }
 
-  public void reset() {
-    mUpdateEntity = null;
-    mErroredAssetList = new ArrayList<>();
-    mExistingAssetList = new ArrayList<>();
-    mFinishedAssetList = new ArrayList<>();
+//    EmbeddedManagedAppLoader managedAppLoader = new EmbeddedManagedAppLoader(mContext, mDatabase, mUpdatesDirectory);
+//    return managedAppLoader.loadEmbeddedUpdate(manifest);
+
+    EmbeddedBareAppLoader bareAppLoader = new EmbeddedBareAppLoader(mContext, mDatabase, mUpdatesDirectory);
+    return bareAppLoader.loadBareUpdate(manifest);
   }
 
   public static Manifest readEmbeddedManifest(Context context) {
     if (sEmbeddedManifest == null) {
       try (InputStream stream = context.getAssets().open(MANIFEST_FILENAME)) {
         String manifestString = IOUtils.toString(stream, "UTF-8");
+//        sEmbeddedManifest = ManifestFactory.getManifest(context, new JSONObject(manifestString));
         sEmbeddedManifest = BareManifest.fromManifestJson(new JSONObject(manifestString));
       } catch (Exception e) {
         Log.e(TAG, "Could not read embedded manifest", e);
@@ -76,84 +68,5 @@ public class EmbeddedLoader {
     }
 
     return sEmbeddedManifest;
-  }
-
-  public static byte[] copyAssetAndGetHash(AssetEntity asset, File destination, Context context) throws NoSuchAlgorithmException, IOException {
-    try (
-        InputStream inputStream = context.getAssets().open(asset.embeddedAssetFilename)
-    ) {
-      return UpdatesUtils.sha256AndWriteToFile(inputStream, destination);
-    } catch (Exception e) {
-      Log.e(TAG, "Failed to copy asset " + asset.embeddedAssetFilename, e);
-      throw e;
-    }
-  }
-
-  // private helper methods
-
-  private boolean processManifest(Manifest manifest) {
-    UpdateEntity newUpdateEntity = manifest.getUpdateEntity();
-    UpdateEntity existingUpdateEntity = mDatabase.updateDao().loadUpdateWithId(newUpdateEntity.id);
-    if (existingUpdateEntity != null && existingUpdateEntity.status == UpdateStatus.READY) {
-      // hooray, we already have this update downloaded and ready to go!
-      mUpdateEntity = existingUpdateEntity;
-      return true;
-    } else {
-      if (existingUpdateEntity == null) {
-        // no update already exists with this ID, so we need to insert it and download everything.
-        mUpdateEntity = newUpdateEntity;
-        mDatabase.updateDao().insertUpdate(mUpdateEntity);
-      } else {
-        // we've already partially downloaded the update, so we should use the existing entity.
-        // however, it's not ready, so we should try to download all the assets again.
-        mUpdateEntity = existingUpdateEntity;
-      }
-      copyAllAssets(manifest.getAssetEntityList());
-      return true;
-    }
-  }
-
-  private void copyAllAssets(ArrayList<AssetEntity> assetList) {
-    for (AssetEntity asset : assetList) {
-      String filename = UpdatesUtils.createFilenameForAsset(asset);
-      File destination = new File(mUpdatesDirectory, filename);
-
-      if (destination.exists()) {
-        asset.relativePath = filename;
-        mExistingAssetList.add(asset);
-      } else {
-        try {
-          asset.hash = copyAssetAndGetHash(asset, destination, mContext);
-          asset.downloadTime = new Date();
-          asset.relativePath = filename;
-          mFinishedAssetList.add(asset);
-        } catch (FileNotFoundException e) {
-          throw new AssertionError("APK bundle must contain the expected embedded asset " + asset.embeddedAssetFilename);
-        } catch (Exception e) {
-          mErroredAssetList.add(asset);
-        }
-      }
-    }
-
-    for (AssetEntity asset : mExistingAssetList) {
-      boolean existingAssetFound = mDatabase.assetDao().addExistingAssetToUpdate(mUpdateEntity, asset.url, asset.isLaunchAsset);
-      if (!existingAssetFound) {
-        // the database and filesystem have gotten out of sync
-        // do our best to create a new entry for this file even though it already existed on disk
-        byte[] hash = null;
-        try {
-          hash = UpdatesUtils.sha256(new File(mUpdatesDirectory, asset.relativePath));
-        } catch (Exception e) {
-        }
-        asset.downloadTime = new Date();
-        asset.hash = hash;
-        mFinishedAssetList.add(asset);
-      }
-    }
-    mDatabase.assetDao().insertAssets(mFinishedAssetList, mUpdateEntity);
-    if (mErroredAssetList.size() == 0) {
-//      mDatabase.updateDao().markUpdateReady(mUpdateEntity);
-    }
-    // TODO: maybe try downloading failed assets in background
   }
 }
