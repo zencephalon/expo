@@ -71,7 +71,6 @@ public class DatabaseLauncher implements Launcher {
     }
 
     if (mLaunchedUpdate.status == UpdateStatus.EMBEDDED) {
-      // TODO: should just use NoDatabaseLauncher
       mBundleAssetName = EmbeddedLoader.BARE_BUNDLE_FILENAME;
       mCallback.onSuccess();
       return;
