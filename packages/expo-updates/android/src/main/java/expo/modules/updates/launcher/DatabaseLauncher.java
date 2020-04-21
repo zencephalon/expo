@@ -15,9 +15,7 @@ import expo.modules.updates.db.UpdatesDatabase;
 import expo.modules.updates.db.entity.AssetEntity;
 import expo.modules.updates.db.entity.UpdateEntity;
 import expo.modules.updates.db.enums.UpdateStatus;
-import expo.modules.updates.loader.EmbeddedBareAppLoader;
 import expo.modules.updates.loader.EmbeddedLoader;
-import expo.modules.updates.loader.EmbeddedManagedAppLoader;
 import expo.modules.updates.loader.FileDownloader;
 import expo.modules.updates.manifest.Manifest;
 
@@ -74,7 +72,7 @@ public class DatabaseLauncher implements Launcher {
 
     if (mLaunchedUpdate.status == UpdateStatus.EMBEDDED) {
       // TODO: should just use NoDatabaseLauncher
-      mBundleAssetName = EmbeddedBareAppLoader.BUNDLE_FILENAME;
+      mBundleAssetName = EmbeddedLoader.BARE_BUNDLE_FILENAME;
       mCallback.onSuccess();
       return;
     }
@@ -142,7 +140,7 @@ public class DatabaseLauncher implements Launcher {
 
         if (matchingEmbeddedAsset != null) {
           try {
-            byte[] hash = EmbeddedManagedAppLoader.copyAssetAndGetHash(matchingEmbeddedAsset, assetFile, context);
+            byte[] hash = EmbeddedLoader.copyAssetAndGetHash(matchingEmbeddedAsset, assetFile, context);
             if (hash != null && Arrays.equals(hash, asset.hash)) {
               assetFileExists = true;
             }

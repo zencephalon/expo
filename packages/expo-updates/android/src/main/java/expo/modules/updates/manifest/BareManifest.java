@@ -1,6 +1,5 @@
 package expo.modules.updates.manifest;
 
-import android.net.Uri;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -16,7 +15,7 @@ import expo.modules.updates.UpdatesUtils;
 import expo.modules.updates.db.entity.AssetEntity;
 import expo.modules.updates.db.entity.UpdateEntity;
 import expo.modules.updates.db.enums.UpdateStatus;
-import expo.modules.updates.loader.EmbeddedBareAppLoader;
+import expo.modules.updates.loader.EmbeddedLoader;
 
 public class BareManifest implements Manifest {
 
@@ -69,7 +68,7 @@ public class BareManifest implements Manifest {
 
     AssetEntity bundleAssetEntity = new AssetEntity("bundle-" + mCommitTime.getTime(), "js");
     bundleAssetEntity.isLaunchAsset = true;
-    bundleAssetEntity.embeddedAssetFilename = EmbeddedBareAppLoader.BUNDLE_FILENAME;
+    bundleAssetEntity.embeddedAssetFilename = EmbeddedLoader.BARE_BUNDLE_FILENAME;
     assetList.add(bundleAssetEntity);
 
     if (mAssets != null && mAssets.length() > 0) {
