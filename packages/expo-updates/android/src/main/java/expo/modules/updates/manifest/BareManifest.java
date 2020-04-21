@@ -16,12 +16,11 @@ import expo.modules.updates.UpdatesUtils;
 import expo.modules.updates.db.entity.AssetEntity;
 import expo.modules.updates.db.entity.UpdateEntity;
 import expo.modules.updates.db.enums.UpdateStatus;
+import expo.modules.updates.loader.EmbeddedBareAppLoader;
 
 public class BareManifest implements Manifest {
 
   private static String TAG = BareManifest.class.getSimpleName();
-
-  private static Uri EXPO_ASSETS_URL_BASE = Uri.parse("https://d1wp6m56sqw74a.cloudfront.net/~assets/");
 
   private UUID mId;
   private Date mCommitTime;
@@ -68,21 +67,26 @@ public class BareManifest implements Manifest {
   public ArrayList<AssetEntity> getAssetEntityList() {
     ArrayList<AssetEntity> assetList = new ArrayList<>();
 
-    // TODO: maybe add bundle?
+    AssetEntity bundleAssetEntity = new AssetEntity("bundle-" + mCommitTime.getTime(), "js");
+    bundleAssetEntity.isLaunchAsset = true;
+    bundleAssetEntity.embeddedAssetFilename = EmbeddedBareAppLoader.BUNDLE_FILENAME;
+    assetList.add(bundleAssetEntity);
 
     if (mAssets != null && mAssets.length() > 0) {
       for (int i = 0; i < mAssets.length(); i++) {
         try {
           JSONObject assetObject = mAssets.getJSONObject(i);
+          String type = assetObject.getString("type");
           AssetEntity assetEntity = new AssetEntity(
-            Uri.withAppendedPath(EXPO_ASSETS_URL_BASE, assetObject.getString("packagerHash")),
-            assetObject.getString("type")
+            assetObject.getString("packagerHash") + "." + type,
+            type
           );
           assetEntity.resourcesFilename = assetObject.optString("resourcesFilename");
           assetEntity.resourcesFolder = assetObject.optString("resourcesFolder");
+
+          JSONArray scales = assetObject.optJSONArray("scales");
           // if there's only one scale we don't to decide later on which one to copy
           // so we avoid this work now
-          JSONArray scales = assetObject.optJSONArray("scales");
           if (scales != null && scales.length() > 1) {
             assetEntity.scale = (float)assetObject.optDouble("scale");
             assetEntity.scales = new Float[scales.length()];

@@ -93,23 +93,21 @@ public class UpdatesUtils {
   }
 
   public static String createFilenameForAsset(AssetEntity asset) {
+    // for legacy purposes, we try to use the asset URL as the basis for the filename on disk
+    // and fall back to the packagerKey if it doesn't exist
+    String stringToHash = asset.url != null ? asset.url.toString() : asset.packagerKey;
     String base;
     try {
-      base = sha256(asset.url.toString());
+      base = sha256(stringToHash);
     } catch (Exception e) {
       // fall back to returning a uri-encoded string if we can't do SHA-256 for some reason
-      base = Uri.encode(asset.url.toString());
+      base = Uri.encode(stringToHash);
     }
     return base + "." + asset.type;
   }
 
   public static @Nullable String getLocalAssetsKey(AssetEntity asset) {
-    String remoteFilename = asset.url.getLastPathSegment();
-    if (remoteFilename == null) {
-      return null;
-    } else {
-      return remoteFilename + "." + asset.type;
-    }
+    return asset.packagerKey;
   }
 
   public static void sendEventToReactNative(@Nullable final WeakReference<ReactNativeHost> reactNativeHost, final String eventName, final WritableMap params) {

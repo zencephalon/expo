@@ -75,7 +75,8 @@ public class UpdatesConfiguration {
       mUpdateUrl = urlString == null ? null : Uri.parse(urlString);
 
       mIsEnabled = ai.metaData.getBoolean("expo.modules.updates.EXPO_UPDATES_ENABLED", true);
-      mRuntimeVersion = ai.metaData.getString("expo.modules.updates.EXPO_RUNTIME_VERSION");
+      // TODO: make this get instead of getInt
+      mRuntimeVersion = String.valueOf(ai.metaData.getInt("expo.modules.updates.EXPO_RUNTIME_VERSION"));
       mSdkVersion = ai.metaData.getString("expo.modules.updates.EXPO_SDK_VERSION");
       mReleaseChannel = ai.metaData.getString("expo.modules.updates.EXPO_RELEASE_CHANNEL", "default");
       mLaunchWaitMs = ai.metaData.getInt("expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS", 0);

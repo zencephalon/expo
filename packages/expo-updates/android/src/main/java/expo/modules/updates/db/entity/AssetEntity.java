@@ -8,7 +8,6 @@ import expo.modules.updates.db.enums.HashType;
 import org.json.JSONObject;
 
 import java.util.Date;
-import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -17,14 +16,19 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "assets",
-        indices = {@Index(value = {"url"}, unique = true)})
+        indices = {@Index(value = {"hash"}, unique = true),
+                   @Index(value = {"url"}, unique = true),
+                   @Index(value = {"packager_key"}, unique = true)})
 public class AssetEntity {
   @PrimaryKey(autoGenerate = true)
   // 0 is treated as unset while inserting the entity into the db
   public long id = 0;
 
+  public Uri url = null;
+
+  @ColumnInfo(name = "packager_key")
   @NonNull
-  public Uri url;
+  public String packagerKey;
 
   public JSONObject headers = null;
 
@@ -67,8 +71,8 @@ public class AssetEntity {
   @Ignore
   public Float[] scales = null;
 
-  public AssetEntity(Uri url, String type) {
-    this.url = url;
+  public AssetEntity(String packagerKey, String type) {
+    this.packagerKey = packagerKey;
     this.type = type;
   }
 }
