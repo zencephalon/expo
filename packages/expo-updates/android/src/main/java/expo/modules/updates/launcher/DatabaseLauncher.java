@@ -58,6 +58,10 @@ public class DatabaseLauncher implements Launcher {
     return mLocalAssetFiles;
   }
 
+  public boolean isUsingLocalAssetFiles() {
+    return mLocalAssetFiles != null;
+  }
+
   public synchronized void launch(UpdatesDatabase database, Context context, LauncherCallback callback) {
     if (mCallback != null) {
       throw new AssertionError("DatabaseLauncher has already started. Create a new instance in order to launch a new version.");

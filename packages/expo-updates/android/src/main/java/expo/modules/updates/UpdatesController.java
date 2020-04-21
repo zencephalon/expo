@@ -211,6 +211,13 @@ public class UpdatesController {
     return mLauncher.getLocalAssetFiles();
   }
 
+  public boolean isUsingLocalAssetFiles() {
+    if (mLauncher == null) {
+      return false;
+    }
+    return mLauncher.isUsingLocalAssetFiles();
+  }
+
   // other getters
 
   public Uri getUpdateUrl() {

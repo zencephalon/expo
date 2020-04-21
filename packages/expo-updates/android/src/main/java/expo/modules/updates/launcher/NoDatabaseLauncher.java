@@ -63,6 +63,10 @@ public class NoDatabaseLauncher implements Launcher {
     return mLocalAssetFiles;
   }
 
+  public boolean isUsingLocalAssetFiles() {
+    return false;
+  }
+
   private void writeErrorToLog(Context context, Exception fatalException) {
     try {
       File errorLogFile = new File(context.getFilesDir(), ERROR_LOG_FILENAME);
