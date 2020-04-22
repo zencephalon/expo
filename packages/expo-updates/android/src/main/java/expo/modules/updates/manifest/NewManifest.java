@@ -68,8 +68,7 @@ public class NewManifest implements Manifest {
   public ArrayList<AssetEntity> getAssetEntityList() {
     ArrayList<AssetEntity> assetList = new ArrayList<>();
 
-    AssetEntity bundleAssetEntity = new AssetEntity("bundle-" + mCommitTime.getTime(), "js");
-    bundleAssetEntity.url = mBundleUrl;
+    AssetEntity bundleAssetEntity = new AssetEntity(mBundleUrl, "js");
     bundleAssetEntity.isLaunchAsset = true;
     bundleAssetEntity.embeddedAssetFilename = BUNDLE_FILENAME;
     assetList.add(bundleAssetEntity);
@@ -78,12 +77,10 @@ public class NewManifest implements Manifest {
       for (int i = 0; i < mAssets.length(); i++) {
         try {
           JSONObject assetObject = mAssets.getJSONObject(i);
-          String type = assetObject.getString("type");
           AssetEntity assetEntity = new AssetEntity(
-            assetObject.getString("packagerKey"),
-            type
+            Uri.parse(assetObject.getString("url")),
+            assetObject.getString("type")
           );
-          assetEntity.url = Uri.parse(assetObject.getString("url"));
           assetEntity.embeddedAssetFilename = assetObject.optString("embeddedAssetFilename");
           assetList.add(assetEntity);
         } catch (JSONException e) {
