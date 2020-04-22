@@ -62,13 +62,11 @@ public abstract class UpdateDao {
   public abstract void insertUpdate(UpdateEntity update);
 
   @Transaction
-  public void markUpdateFinished(UpdateEntity update, boolean hasSkippedEmbeddedAssets) {
-    _markUpdateWithStatus(hasSkippedEmbeddedAssets ? UpdateStatus.EMBEDDED : UpdateStatus.READY, update.id);
-    _keepUpdate(update.id);
-  }
-
   public void markUpdateFinished(UpdateEntity update) {
-    markUpdateFinished(update, false);
+    if (update.status != UpdateStatus.EMBEDDED) {
+      _markUpdateWithStatus(UpdateStatus.READY, update.id);
+    }
+    _keepUpdate(update.id);
   }
 
   @Delete
