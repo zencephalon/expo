@@ -171,7 +171,8 @@ public class EmbeddedLoader {
           asset.relativePath = filename;
           mFinishedAssetList.add(asset);
         } catch (FileNotFoundException e) {
-          throw new AssertionError("APK bundle must contain the expected embedded asset " + asset.embeddedAssetFilename);
+          throw new AssertionError("APK bundle must contain the expected embedded asset " +
+            (asset.embeddedAssetFilename != null ? asset.embeddedAssetFilename : asset.resourcesFilename));
         } catch (Exception e) {
           mErroredAssetList.add(asset);
         }
@@ -194,8 +195,8 @@ public class EmbeddedLoader {
       }
     }
     mDatabase.assetDao().insertAssets(mFinishedAssetList, mUpdateEntity);
-    if (mErroredAssetList.size() == 0 && mSkippedAssetList.size() == 0) {
-      mDatabase.updateDao().markUpdateReady(mUpdateEntity);
+    if (mErroredAssetList.size() == 0) {
+      mDatabase.updateDao().markUpdateFinished(mUpdateEntity, mSkippedAssetList.size() != 0);
     }
     // TODO: maybe try downloading failed assets in background
   }

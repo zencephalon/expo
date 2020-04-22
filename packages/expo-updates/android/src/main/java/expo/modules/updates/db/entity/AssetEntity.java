@@ -16,8 +16,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "assets",
-        indices = {@Index(value = {"hash"}, unique = true),
-                   @Index(value = {"url"}, unique = true),
+        indices = {@Index(value = {"url"}, unique = true),
                    @Index(value = {"packager_key"}, unique = true)})
 public class AssetEntity {
   @PrimaryKey(autoGenerate = true)

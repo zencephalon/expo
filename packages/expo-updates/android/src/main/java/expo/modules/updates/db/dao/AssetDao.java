@@ -1,10 +1,7 @@
 package expo.modules.updates.db.dao;
 
-import android.net.Uri;
-
 import androidx.annotation.Nullable;
 import androidx.room.Update;
-import expo.modules.updates.db.enums.UpdateStatus;
 import expo.modules.updates.db.entity.AssetEntity;
 import expo.modules.updates.db.entity.UpdateAssetEntity;
 import expo.modules.updates.db.entity.UpdateEntity;
@@ -13,7 +10,6 @@ import java.util.List;
 import java.util.UUID;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -32,8 +28,8 @@ public abstract class AssetDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   public abstract void _insertUpdateAsset(UpdateAssetEntity updateAsset);
 
-  @Query("UPDATE updates SET launch_asset_id = :assetId, status = :status WHERE id = :updateId;")
-  public abstract void _setUpdateLaunchAsset(long assetId, UpdateStatus status, UUID updateId);
+  @Query("UPDATE updates SET launch_asset_id = :assetId WHERE id = :updateId;")
+  public abstract void _setUpdateLaunchAsset(long assetId, UUID updateId);
 
   @Query("UPDATE assets SET marked_for_deletion = 1;")
   public abstract void _markAllAssetsForDeletion();
@@ -74,7 +70,7 @@ public abstract class AssetDao {
       long assetId = _insertAsset(asset);
       _insertUpdateAsset(new UpdateAssetEntity(update.id, assetId));
       if (asset.isLaunchAsset) {
-        _setUpdateLaunchAsset(assetId, UpdateStatus.LAUNCHABLE, update.id);
+        _setUpdateLaunchAsset(assetId, update.id);
       }
     }
   }
@@ -104,7 +100,7 @@ public abstract class AssetDao {
     long assetId = existingAssetEntry.id;
     _insertUpdateAsset(new UpdateAssetEntity(update.id, assetId));
     if (isLaunchAsset) {
-      _setUpdateLaunchAsset(assetId, UpdateStatus.LAUNCHABLE, update.id);
+      _setUpdateLaunchAsset(assetId, update.id);
     }
     return true;
   }

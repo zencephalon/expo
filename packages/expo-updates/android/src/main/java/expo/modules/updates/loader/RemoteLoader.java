@@ -16,7 +16,6 @@ import expo.modules.updates.manifest.Manifest;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class RemoteLoader {
 
@@ -141,13 +140,13 @@ public class RemoteLoader {
       // if we already have a local copy of this asset, don't try to download it again!
       if (assetEntity.relativePath != null && new File(mUpdatesDirectory, assetEntity.relativePath).exists()) {
         handleAssetDownloadCompleted(assetEntity, true, false);
-        return;
+        continue;
       }
 
       if (assetEntity.url == null) {
         Log.e(TAG, "Failed to download asset with no URL provided");
         handleAssetDownloadCompleted(assetEntity, false, false);
-        return;
+        continue;
       }
 
       FileDownloader.downloadAsset(assetEntity, mUpdatesDirectory, mContext, new FileDownloader.AssetDownloadCallback() {
@@ -195,7 +194,7 @@ public class RemoteLoader {
         }
         mDatabase.assetDao().insertAssets(mFinishedAssetList, mUpdateEntity);
         if (mErroredAssetList.size() == 0) {
-          mDatabase.updateDao().markUpdateReady(mUpdateEntity);
+          mDatabase.updateDao().markUpdateFinished(mUpdateEntity);
         }
       } catch (Exception e) {
         finishWithError("Error while adding new update to database", e);

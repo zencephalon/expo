@@ -128,14 +128,12 @@ public class DatabaseLauncher implements Launcher {
     if (!assetFileExists) {
       // something has gone wrong, we're missing this asset
       // first we check to see if a copy is embedded in the binary
-      // TODO: fix this logic for embedded bare manifest
       Manifest embeddedManifest = EmbeddedLoader.readEmbeddedManifest(context);
       if (embeddedManifest != null) {
         ArrayList<AssetEntity> embeddedAssets = embeddedManifest.getAssetEntityList();
         AssetEntity matchingEmbeddedAsset = null;
         for (AssetEntity embeddedAsset : embeddedAssets) {
-          if ((embeddedAsset.packagerKey != null && embeddedAsset.packagerKey.equals(asset.packagerKey)) ||
-              (embeddedAsset.url != null && embeddedAsset.url.equals(asset.url))) {
+          if (embeddedAsset.packagerKey.equals(asset.packagerKey)) {
             matchingEmbeddedAsset = embeddedAsset;
             break;
           }

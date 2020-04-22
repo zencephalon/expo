@@ -14,9 +14,8 @@ import androidx.annotation.Nullable;
 import expo.modules.updates.db.entity.AssetEntity;
 import expo.modules.updates.db.entity.UpdateEntity;
 import expo.modules.updates.loader.EmbeddedLoader;
+import expo.modules.updates.manifest.BareManifest;
 import expo.modules.updates.manifest.Manifest;
-
-import static expo.modules.updates.loader.EmbeddedLoader.BUNDLE_FILENAME;
 
 public class NoDatabaseLauncher implements Launcher {
 
@@ -24,7 +23,9 @@ public class NoDatabaseLauncher implements Launcher {
 
   private static final String ERROR_LOG_FILENAME = "expo-error.log";
 
+  private String mBundleAssetName;
   private Map<AssetEntity, String> mLocalAssetFiles;
+  private boolean mIsUsingLocalAssetFiles;
 
   public NoDatabaseLauncher(Context context) {
     this(context, null);
@@ -32,18 +33,25 @@ public class NoDatabaseLauncher implements Launcher {
 
   public NoDatabaseLauncher(final Context context, final @Nullable Exception fatalException) {
     Manifest embeddedManifest = EmbeddedLoader.readEmbeddedManifest(context);
-    mLocalAssetFiles = new HashMap<>();
-    for (AssetEntity asset : embeddedManifest.getAssetEntityList()) {
-      mLocalAssetFiles.put(
-        asset,
-        "asset:///" + asset.embeddedAssetFilename
-      );
-    }
+    if (embeddedManifest instanceof BareManifest) {
+      mBundleAssetName = EmbeddedLoader.BARE_BUNDLE_FILENAME;
+      mIsUsingLocalAssetFiles = false;
+    } else {
+      mBundleAssetName = EmbeddedLoader.BUNDLE_FILENAME;
+      mIsUsingLocalAssetFiles = true;
+      mLocalAssetFiles = new HashMap<>();
+      for (AssetEntity asset : embeddedManifest.getAssetEntityList()) {
+        mLocalAssetFiles.put(
+          asset,
+          "asset:///" + asset.embeddedAssetFilename
+        );
+      }
 
-    if (fatalException != null) {
-      AsyncTask.execute(() -> {
-        writeErrorToLog(context, fatalException);
-      });
+      if (fatalException != null) {
+        AsyncTask.execute(() -> {
+          writeErrorToLog(context, fatalException);
+        });
+      }
     }
   }
 
@@ -56,7 +64,7 @@ public class NoDatabaseLauncher implements Launcher {
   }
 
   public @Nullable String getBundleAssetName() {
-    return BUNDLE_FILENAME;
+    return mBundleAssetName;
   }
 
   public @Nullable Map<AssetEntity, String> getLocalAssetFiles() {
@@ -64,7 +72,7 @@ public class NoDatabaseLauncher implements Launcher {
   }
 
   public boolean isUsingLocalAssetFiles() {
-    return false;
+    return mIsUsingLocalAssetFiles;
   }
 
   private void writeErrorToLog(Context context, Exception fatalException) {
