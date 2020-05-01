@@ -89,6 +89,7 @@ static NSString * const kEXUpdatesAppControllerErrorDomain = @"EXUpdatesAppContr
 
     return;
   }
+  NSLog(@"%@", _updatesDirectory.absoluteString);
 
   if (!EXUpdatesConfig.sharedInstance.updateUrl) {
     @throw [NSException exceptionWithName:NSInternalInconsistencyException

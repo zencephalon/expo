@@ -80,6 +80,12 @@ public class UpdatesModule extends ExportedModule {
   }
 
   @ExpoMethod
+  public void closeDatabaseAsync(final Promise promise) {
+    UpdatesController.getInstance().getDatabase().close();
+    promise.resolve(null);
+  }
+
+  @ExpoMethod
   public void reload(final Promise promise) {
     try {
       UpdatesController controller = UpdatesController.getInstance();

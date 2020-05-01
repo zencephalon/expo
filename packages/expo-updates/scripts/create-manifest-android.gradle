@@ -54,7 +54,7 @@ afterEvaluate {
         commandLine(*nodeExecutableAndArgs, "./node_modules/expo-updates/scripts/createManifest.js", "android", "http://localhost:8081/index.assets?platform=android", assetsDir)
       }
 
-      enabled targetName.toLowerCase().contains("release")
+      // enabled targetName.toLowerCase().contains("release")
     }
 
     currentBundleTask.dependsOn("merge${targetName}Resources")
