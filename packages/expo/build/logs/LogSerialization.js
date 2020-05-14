@@ -102,7 +102,9 @@ async function _symbolicateErrorAsync(error) {
     const parsedStack = parseErrorStack(error);
     let symbolicatedStack;
     try {
-        symbolicatedStack = await symbolicateStackTrace(parsedStack);
+        // @ts-ignore: symbolicateStackTrace has different real/Flow declaration
+        // than the one in DefinietelyTyped.
+        symbolicatedStack = (await symbolicateStackTrace(parsedStack))?.stack;
     }
     catch (error) {
         return parsedStack;
