@@ -6,7 +6,7 @@ const readline = require('readline');
 const shell = require('shelljs');
 const chalk = require('chalk');
 const yesno = require('yesno');
-const spawnAsync = require('@exponent/spawn-async');
+const spawnAsync = require('@expo/spawn-async');
 const path = require('path');
 const xml2js = require('xml2js');
 const { dirSync } = require('tmp');
@@ -17,38 +17,43 @@ const generateAndCompileSharedObjects = require('./gen-compile-libs');
 
 const DEBUG = process.env.EXPO_DEBUG && process.env.EXPO_DEBUG === 'true';
 
-const NAMESPACE = 'expolib_v1';
+const NAMESPACE = 'abi38_0_0';
 const LIBRARIES = [
+  // {
+  //   group: 'com.squareup.okhttp3',
+  //   name: 'okhttp',
+  //   version: '3.6.0',
+  // },
+  // {
+  //   group: 'com.squareup.okhttp3',
+  //   name: 'okhttp-urlconnection',
+  //   version: '3.6.0',
+  // },
+  // {
+  //   group: 'com.squareup.okio',
+  //   name: 'okio',
+  //   version: '1.13.0',
+  // },
+  // {
+  //   group: 'com.facebook.fresco',
+  //   name: 'imagepipeline-okhttp3',
+  //   version: '1.0.1',
+  // },
+  // {
+  //   group: 'com.google.android.exoplayer',
+  //   name: 'extension-okhttp',
+  //   version: '2.6.1',
+  // },
+  // {
+  //   group: 'com.facebook.infer.annotation',
+  //   name: 'infer-annotation',
+  //   version: '0.11.2',
+  // },
   {
-    group: 'com.squareup.okhttp3',
-    name: 'okhttp',
-    version: '3.6.0',
+    group: 'com.facebook.fbjni',
+    name: 'fbjni-java-only',
+    version: '0.0.3',
   },
-  {
-    group: 'com.squareup.okhttp3',
-    name: 'okhttp-urlconnection',
-    version: '3.6.0',
-  },
-  {
-    group: 'com.squareup.okio',
-    name: 'okio',
-    version: '1.13.0',
-  },
-  {
-    group: 'com.facebook.fresco',
-    name: 'imagepipeline-okhttp3',
-    version: '1.0.1',
-  },
-  {
-    group: 'com.google.android.exoplayer',
-    name: 'extension-okhttp',
-    version: '2.6.1',
-  },
-  {
-    group: 'com.facebook.infer.annotation',
-    name: 'infer-annotation',
-    version: '0.11.2',
-  }
 ];
 
 const AAR_LIBRARY = {
@@ -92,9 +97,7 @@ function gradleFile(libraries) {
   let deps = '';
   for (let i = 0; i < libraries.length; i++) {
     let library = libraries[i];
-    deps += `  runtime group: '${library.group}', name: '${library.name}', version: '${
-      library.version
-    }'
+    deps += `  runtime group: '${library.group}', name: '${library.name}', version: '${library.version}'
 `;
   }
 
@@ -187,7 +190,7 @@ async function writeGlobalJarJarRulesAsync(rootClassNames, namespace) {
 async function runJarJarAsync(jarFilename, rulesFile = 'jarjar-rules.txt') {
   await spawnAsync('java', [
     '-jar',
-    path.join(TOOLS_DIR, 'jarjar-1.4.jar'),
+    path.join(TOOLS_DIR, 'jarjar-1.4.1.jar'),
     'process',
     rulesFile,
     jarFilename,
@@ -402,6 +405,21 @@ exports.versionLibrary = async function versionLibraries() {
     } catch (e) {
       console.log(`Issue with fix maven metadata for ${jarFilename} & namespace: ${NAMESPACE}`);
       console.log(e);
+      if (jarFilename === 'downloaded-jars/fbjni-java-only-0.0.3.jar') {
+        await installJarToLocalMavenRepoAsync(
+          jarFilename,
+          `${NAMESPACE}.com.facebook.fbjni`,
+          'fbjni-java-only',
+          '0.0.3'
+        );
+      } else if (jarFilename === 'downloaded-jars/nativeloader-0.8.0.jar') {
+        await installJarToLocalMavenRepoAsync(
+          jarFilename,
+          `${NAMESPACE}.com.facebook.soloader`,
+          'nativeloader',
+          '0.8.0'
+        );
+      }
     }
   }
 
@@ -467,11 +485,13 @@ const aarTransform = aarPathAndFilename => {
 // wrapped
 exports.showGeneratedStubs = async ({ src }) => {
   const { result } = await aarTransform(src);
-  const willBeWrapped = result.nativeLibraries.map(s => s.split('/')).map(row => {
-    const arch = row[row.length - 2];
-    const lib = row[row.length - 1];
-    return { arch, lib };
-  });
+  const willBeWrapped = result.nativeLibraries
+    .map(s => s.split('/'))
+    .map(row => {
+      const arch = row[row.length - 2];
+      const lib = row[row.length - 1];
+      return { arch, lib };
+    });
   console.log(willBeWrapped);
 };
 

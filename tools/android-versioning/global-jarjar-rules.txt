@@ -1,2 +1,5 @@
 rule okhttp3.** expolib_v1.okhttp3.@1
 rule okio.** expolib_v1.okio.@1
+
+rule expolib_v1.** expolib_v1.expolib_v1.@1
+rule com.** abi38_0_0.com.@1
