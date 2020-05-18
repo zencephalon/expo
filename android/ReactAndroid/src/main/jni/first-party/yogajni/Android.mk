@@ -17,10 +17,10 @@ LOCAL_CFLAGS += -fvisibility=hidden -fexceptions -frtti -O3
 
 LOCAL_LDLIBS += -landroid -llog
 LOCAL_STATIC_LIBRARIES := libyogacore
-LOCAL_SHARED_LIBRARIES := libfb libfbjni
+LOCAL_SHARED_LIBRARIES := libfb libexpolib-v1fbjni
 
 include $(BUILD_SHARED_LIBRARY)
 
 $(call import-module,yoga)
 $(call import-module,fb)
-$(call import-module,fbjni)
+$(call import-module,expolib-v1fbjni)

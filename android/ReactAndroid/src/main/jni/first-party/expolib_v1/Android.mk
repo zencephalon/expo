@@ -6,9 +6,9 @@
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
-LOCAL_SRC_FILES := $(LOCAL_PATH)/jni/$(TARGET_ARCH_ABI)/libfbjni.so
+LOCAL_SRC_FILES := $(LOCAL_PATH)/jni/$(TARGET_ARCH_ABI)/libexpolib_v1-fbjni.so
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/headers
-LOCAL_MODULE := libfbjni
+LOCAL_MODULE := libexpolib_v1-fbjni
 
 include $(PREBUILT_SHARED_LIBRARY)
