@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>expolib_v1.com.facebook.fbjni</groupId>
+  <artifactId>expolib_v1-fbjni-java-only</artifactId>
+  <versioning>
+    <versions>
+      <version>0.0.4-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20200518121312</lastUpdated>
+  </versioning>
+</metadata>

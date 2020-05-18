@@ -296,7 +296,7 @@ def getNdkBuildFullPath() {
 }
 
 def buildReactNdkLib = tasks.register("buildReactNdkLib", Exec) {
-    dependsOn(prepareJSC, prepareHermes, prepareBoost, prepareDoubleConversion, prepareFolly, prepareGlog)
+    dependsOn(prepareJSC, prepareHermes, prepareBoost, prepareDoubleConversion, prepareFolly, prepareGlog, extractAARHeaders, extractJNIFiles)
 
     inputs.dir("$projectDir/../ReactCommon")
     inputs.dir("src/main/jni")
@@ -450,9 +450,9 @@ dependencies {
     api("com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}")
     api("com.squareup.okhttp3:okhttp-urlconnection:${OKHTTP_VERSION}")
     api("com.squareup.okio:okio:1.15.0")
-    api("com.facebook.fbjni:fbjni-java-only:0.0.3")
-    extractHeaders("com.facebook.fbjni:fbjni:0.0.2:headers")
-    extractJNI("com.facebook.fbjni:fbjni:0.0.2")
+    api("expolib_v1.com.facebook.fbjni:expolib_v1-fbjni-java-only:0.0.4-SNAPSHOT")
+    extractHeaders("expolib_v1.com.facebook.fbjni:expolib_v1-fbjni:0.0.4-SNAPSHOT:headers")
+    extractJNI("expolib_v1.com.facebook.fbjni:expolib_v1-fbjni:0.0.4-SNAPSHOT")
 
     testImplementation("junit:junit:${JUNIT_VERSION}")
     testImplementation("org.powermock:powermock-api-mockito:${POWERMOCK_VERSION}")
