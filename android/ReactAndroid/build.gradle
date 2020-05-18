@@ -296,7 +296,7 @@ def getNdkBuildFullPath() {
 }
 
 def buildReactNdkLib = tasks.register("buildReactNdkLib", Exec) {
-    dependsOn(prepareJSC, prepareHermes, prepareBoost, prepareDoubleConversion, prepareFolly, prepareGlog, extractAARHeaders, extractJNIFiles)
+    dependsOn(prepareJSC, prepareHermes, prepareBoost, prepareDoubleConversion, prepareFolly, prepareGlog)
 
     inputs.dir("$projectDir/../ReactCommon")
     inputs.dir("src/main/jni")
