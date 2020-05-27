@@ -21,12 +21,13 @@ jobs:
           result-encoding: string
           script: |
             log = (o) => console.info(JSON.stringify(o, null, 4))
-            const workflowRuns = await github.actions.listRepoWorkflowRuns({
+            const branch = context.ref.replace('refs/heads/', '');
+            const checks = github.checks.listForRef({
               ...context.repo,
-              branch: context.ref.replace('refs/heads/', ''),
               status: 'completed',
+              ref: 'master'
             });
-            log(workflowRuns);
+            log(checks);
       - run: exit 1
       - name: Check out repository
         uses: actions/checkout@v2
