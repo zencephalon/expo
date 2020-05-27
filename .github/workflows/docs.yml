@@ -22,7 +22,7 @@ jobs:
           script: |
             log = (o) => console.info(JSON.stringify(o, null, 4))
             const branch = context.ref.replace('refs/heads/', '');
-            const checks = github.checks.listForRef({
+            const checks = await github.checks.listForRef({
               owner: 'expo',
               repo: 'expo',
               status: 'completed',
@@ -30,7 +30,7 @@ jobs:
               ref: 'master'
             });
             log(checks);
-            const suites = github.checks.listSuitesForRef({
+            const suites = await github.checks.listSuitesForRef({
               owner: 'expo',
               repo: 'expo',
               ref: 'master'
