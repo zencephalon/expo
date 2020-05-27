@@ -25,6 +25,7 @@ jobs:
             const checks = github.checks.listForRef({
               ...context.repo,
               status: 'completed',
+              filter: 'all',
               ref: 'master'
             });
             log(checks);
