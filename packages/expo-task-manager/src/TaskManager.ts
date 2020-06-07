@@ -1,74 +1,21 @@
 import { EventEmitter, UnavailabilityError } from '@unimodules/core';
 
 import ExpoTaskManager from './ExpoTaskManager';
-
-/**
- * Error object that can be received through TaskManagerTaskBody when the task fails.
- */
-export interface TaskManagerError {
-  code: string | number;
-  message: string;
-}
-
-/**
- * Represents the object that is passed to the task executor.
- */
-export interface TaskManagerTaskBody {
-  /**
-   * An object of data passed to the task executor. Its properties depends on the type of the task.
-   */
-  data: object;
-
-  /**
-   * Error object if the task failed or `null` otherwise.
-   */
-  error: TaskManagerError | null;
-
-  /**
-   * Additional details containing unique ID of task event and name of the task.
-   */
-  executionInfo: {
-    eventId: string;
-    taskName: string;
-  };
-}
-
-/**
- * Represents an already registered task.
- */
-export interface TaskManagerTask {
-  /**
-   * Name that the task is registered with.
-   */
-  taskName: string;
-
-  /**
-   * Type of the task which depends on how the task was registered.
-   */
-  taskType: string;
-
-  /**
-   * Provides `options` that the task was registered with.
-   */
-  options: any;
-}
-
-/**
- * @deprecated in favor of TaskManagerTask.
- */
-export interface RegisteredTask extends TaskManagerTask {}
-
-/**
- * Type of task executor – a function that handles the task.
- */
-export type TaskManagerTaskExecutor = (body: TaskManagerTaskBody) => void;
+import {
+  TaskManagerError,
+  TaskManagerTaskBody,
+  TaskManagerTask,
+  RegisteredTask,
+  TaskManagerTaskExecutor,
+} from './TaskManager.types';
 
 const tasks: Map<string, TaskManagerTaskExecutor> = new Map<string, TaskManagerTaskExecutor>();
 
-function _validateTaskName(taskName) {
+function _validateTaskName(taskName: any): taskName is string {
   if (!taskName || typeof taskName !== 'string') {
     throw new TypeError('`taskName` must be a non-empty string.');
   }
+  return true;
 }
 
 /**
@@ -78,7 +25,7 @@ function _validateTaskName(taskName) {
  * @param taskName Name of the task. It must be the same as the name you provided when registering the task.
  * @param taskExecutor A function that handles the task.
  */
-export function defineTask(taskName: string, taskExecutor: TaskManagerTaskExecutor) {
+export function defineTask(taskName: string, taskExecutor: TaskManagerTaskExecutor): void {
   if (!taskName || typeof taskName !== 'string') {
     console.warn(`TaskManager.defineTask: 'taskName' argument must be a non-empty string.`);
     return;
@@ -125,7 +72,7 @@ export async function getTaskOptionsAsync<TaskOptions>(taskName: string): Promis
   }
 
   _validateTaskName(taskName);
-  return ExpoTaskManager.getTaskOptionsAsync(taskName);
+  return ExpoTaskManager.getTaskOptionsAsync<TaskOptions>(taskName);
 }
 
 /**
@@ -184,18 +131,26 @@ if (ExpoTaskManager) {
           console.error(`TaskManager: Task "${taskName}" failed:`, error);
         } finally {
           // Notify manager the task is finished.
-          await ExpoTaskManager.notifyTaskFinishedAsync(taskName, { eventId, result });
+          await ExpoTaskManager.notifyTaskFinishedAsync?.(taskName, { eventId, result });
         }
       } else {
         console.warn(
           `TaskManager: Task "${taskName}" has been executed but looks like it is not defined. Please make sure that "TaskManager.defineTask" is called during initialization phase.`
         );
         // No tasks defined -> we need to notify about finish anyway.
-        await ExpoTaskManager.notifyTaskFinishedAsync(taskName, { eventId, result });
+        await ExpoTaskManager.notifyTaskFinishedAsync?.(taskName, { eventId, result });
         // We should also unregister such tasks automatically as the task might have been removed
         // from the app or just renamed - in that case it needs to be registered again (with the new name).
-        await ExpoTaskManager.unregisterTaskAsync(taskName);
+        await ExpoTaskManager.unregisterTaskAsync?.(taskName);
       }
     }
   );
 }
+
+export {
+  TaskManagerError,
+  TaskManagerTaskBody,
+  TaskManagerTask,
+  RegisteredTask,
+  TaskManagerTaskExecutor,
+};

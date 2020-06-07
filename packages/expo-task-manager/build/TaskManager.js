@@ -5,6 +5,7 @@ function _validateTaskName(taskName) {
     if (!taskName || typeof taskName !== 'string') {
         throw new TypeError('`taskName` must be a non-empty string.');
     }
+    return true;
 }
 /**
  * Method that you use to define a task – it saves given task executor under given task name
@@ -106,16 +107,16 @@ if (ExpoTaskManager) {
             }
             finally {
                 // Notify manager the task is finished.
-                await ExpoTaskManager.notifyTaskFinishedAsync(taskName, { eventId, result });
+                await ExpoTaskManager.notifyTaskFinishedAsync?.(taskName, { eventId, result });
             }
         }
         else {
             console.warn(`TaskManager: Task "${taskName}" has been executed but looks like it is not defined. Please make sure that "TaskManager.defineTask" is called during initialization phase.`);
             // No tasks defined -> we need to notify about finish anyway.
-            await ExpoTaskManager.notifyTaskFinishedAsync(taskName, { eventId, result });
+            await ExpoTaskManager.notifyTaskFinishedAsync?.(taskName, { eventId, result });
             // We should also unregister such tasks automatically as the task might have been removed
             // from the app or just renamed - in that case it needs to be registered again (with the new name).
-            await ExpoTaskManager.unregisterTaskAsync(taskName);
+            await ExpoTaskManager.unregisterTaskAsync?.(taskName);
         }
     });
 }
