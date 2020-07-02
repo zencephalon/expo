@@ -29,6 +29,7 @@ import org.unimodules.core.interfaces.Package;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -37,6 +38,9 @@ import javax.inject.Inject;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import de.greenrobot.event.EventBus;
+import expo.modules.updates.UpdatesConfiguration;
+import expo.modules.updates.UpdatesController;
+import expo.modules.updates.db.entity.UpdateEntity;
 import host.exp.exponent.ABIVersion;
 import host.exp.exponent.AppLoader;
 import host.exp.exponent.Constants;
@@ -202,53 +206,38 @@ public class ExperienceActivity extends BaseExperienceActivity implements Expone
 
     if (mManifestUrl != null && shouldOpenImmediately) {
       boolean forceCache = getIntent().getBooleanExtra(KernelConstants.LOAD_FROM_CACHE_KEY, false);
-      new AppLoader(mManifestUrl, forceCache) {
+      HashMap<String, Object> configuration = new HashMap<>();
+      configuration.put(UpdatesConfiguration.UPDATES_CONFIGURATION_UPDATE_URL_KEY, Uri.parse(mManifestUrl.replaceFirst("exp", "https")));
+      configuration.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SDK_VERSION_KEY, mSDKVersion);
+      if (forceCache) {
+        configuration.put(UpdatesConfiguration.UPDATES_CONFIGURATION_CHECK_ON_LAUNCH_KEY, "NEVER");
+      }
+      UpdatesController.initialize(this, configuration, new UpdatesController.UpdatesControllerCallback() {
         @Override
-        public void onOptimisticManifest(final JSONObject optimisticManifest) {
-          Exponent.getInstance().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-              setLoadingScreenManifest(optimisticManifest);
-            }
-          });
+        public void onFailure(Exception e) {
+          mKernel.handleError(e);
         }
 
         @Override
-        public void onManifestCompleted(final JSONObject manifest) {
+        public void onSuccess() {
           Exponent.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+              JSONObject manifest = UpdatesController.getInstance().getLaunchedUpdate().metadata;
+              setLoadingScreenManifest(manifest);
               try {
+                manifest.put("isVerified", true);
                 String bundleUrl = ExponentUrls.toHttp(manifest.getString("bundleUrl"));
 
                 setManifest(mManifestUrl, manifest, bundleUrl, null);
+                setBundle(UpdatesController.getInstance().getLaunchAssetFile());
               } catch (JSONException e) {
                 mKernel.handleError(e);
               }
             }
           });
         }
-
-        @Override
-        public void onBundleCompleted(String localBundlePath) {
-          setBundle(localBundlePath);
-        }
-
-        @Override
-        public void emitEvent(JSONObject params) {
-          emitUpdatesEvent(params);
-        }
-
-        @Override
-        public void onError(Exception e) {
-          mKernel.handleError(e);
-        }
-
-        @Override
-        public void onError(String e) {
-          mKernel.handleError(e);
-        }
-      }.start();
+      });
     }
 
     mKernel.setOptimisticActivity(this, getTaskId());

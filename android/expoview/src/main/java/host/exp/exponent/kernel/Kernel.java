@@ -50,6 +50,8 @@ import javax.inject.Inject;
 import de.greenrobot.event.EventBus;
 import expo.modules.notifications.notifications.model.NotificationResponse;
 import expo.modules.notifications.notifications.service.NotificationResponseReceiver;
+import expo.modules.updates.UpdatesConfiguration;
+import expo.modules.updates.UpdatesController;
 import host.exp.exponent.AppLoader;
 import host.exp.exponent.LauncherActivity;
 import host.exp.exponent.ReactNativeStaticHelpers;
@@ -651,57 +653,37 @@ public class Kernel extends KernelInterface {
 
     final ActivityManager.AppTask finalExistingTask = existingTask;
     if (existingTask == null) {
-      new AppLoader(manifestUrl, forceCache) {
+      HashMap<String, Object> configuration = new HashMap<>();
+      configuration.put(UpdatesConfiguration.UPDATES_CONFIGURATION_UPDATE_URL_KEY, Uri.parse(manifestUrl.replaceFirst("exp", "https")));
+      configuration.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SDK_VERSION_KEY, "38.0.0");
+      if (forceCache) {
+        configuration.put(UpdatesConfiguration.UPDATES_CONFIGURATION_CHECK_ON_LAUNCH_KEY, "NEVER");
+      }
+      UpdatesController.initialize(mContext, configuration, new UpdatesController.UpdatesControllerCallback() {
         @Override
-        public void onOptimisticManifest(final JSONObject optimisticManifest) {
-          Exponent.getInstance().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-              sendLoadingScreenManifestToExperienceActivity(optimisticManifest);
-            }
-          });
+        public void onFailure(Exception e) {
+          handleError(e);
         }
 
         @Override
-        public void onManifestCompleted(final JSONObject manifest) {
+        public void onSuccess() {
           Exponent.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+              JSONObject manifest = UpdatesController.getInstance().getLaunchedUpdate().metadata;
+              sendLoadingScreenManifestToExperienceActivity(manifest);
+
               try {
+                manifest.put("isVerified", true);
                 openManifestUrlStep2(manifestUrl, manifest, finalExistingTask);
+                sendBundleToExperienceActivity(UpdatesController.getInstance().getLaunchAssetFile());
               } catch (JSONException e) {
                 handleError(e);
               }
             }
           });
         }
-
-        @Override
-        public void onBundleCompleted(String localBundlePath) {
-          sendBundleToExperienceActivity(localBundlePath);
-        }
-
-        @Override
-        public void emitEvent(JSONObject params) {
-          ExperienceActivityTask task = sManifestUrlToExperienceActivityTask.get(manifestUrl);
-          if (task != null) {
-            ExperienceActivity experienceActivity = task.experienceActivity.get();
-            if (experienceActivity != null) {
-              experienceActivity.emitUpdatesEvent(params);
-            }
-          }
-        }
-
-        @Override
-        public void onError(Exception e) {
-          handleError(e);
-        }
-
-        @Override
-        public void onError(String e) {
-          handleError(e);
-        }
-      }.start();
+      });
     }
   }
 

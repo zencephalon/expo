@@ -45,6 +45,7 @@ public class UpdatesController {
 
   private WeakReference<ReactNativeHost> mReactNativeHost;
 
+  private UpdatesControllerCallback mCallback;
   private UpdatesConfiguration mUpdatesConfiguration;
   private File mUpdatesDirectory;
   private Exception mUpdatesDirectoryException;
@@ -59,8 +60,14 @@ public class UpdatesController {
   private boolean mIsEmergencyLaunch = false;
   private HandlerThread mHandlerThread;
 
-  private UpdatesController(Context context, UpdatesConfiguration updatesConfiguration) {
+  public interface UpdatesControllerCallback{
+    void onFailure(Exception e);
+    void onSuccess();
+  }
+
+  private UpdatesController(Context context, UpdatesConfiguration updatesConfiguration, UpdatesControllerCallback callback) {
     mUpdatesConfiguration = updatesConfiguration;
+    mCallback = callback;
     mDatabaseHolder = new DatabaseHolder(UpdatesDatabase.getInstance(context));
     mSelectionPolicy = new SelectionPolicyNewest(UpdatesUtils.getRuntimeVersion(updatesConfiguration));
     if (context instanceof ReactApplication) {
@@ -92,7 +99,7 @@ public class UpdatesController {
   public static void initialize(Context context) {
     if (sInstance == null) {
       UpdatesConfiguration updatesConfiguration = new UpdatesConfiguration().loadValuesFromMetadata(context);
-      sInstance = new UpdatesController(context, updatesConfiguration);
+      sInstance = new UpdatesController(context, updatesConfiguration, null);
       sInstance.start(context);
     }
   }
@@ -104,11 +111,15 @@ public class UpdatesController {
    * @param context the base context of the application, ideally a {@link ReactApplication}
    */
   public static void initialize(Context context, Map<String, Object> configuration) {
+    initialize(context, configuration, null);
+  }
+
+  public static void initialize(Context context, Map<String, Object> configuration, UpdatesControllerCallback callback) {
     if (sInstance == null) {
       UpdatesConfiguration updatesConfiguration = new UpdatesConfiguration()
         .loadValuesFromMetadata(context)
         .loadValuesFromMap(configuration);
-      sInstance = new UpdatesController(context, updatesConfiguration);
+      sInstance = new UpdatesController(context, updatesConfiguration, callback);
       sInstance.start(context);
     }
   }
@@ -234,6 +245,9 @@ public class UpdatesController {
   }
 
   public UpdateEntity getLaunchedUpdate() {
+    if (mLauncher == null) {
+      return null;
+    }
     return mLauncher.getLaunchedUpdate();
   }
 
@@ -279,33 +293,34 @@ public class UpdatesController {
       mTimeoutFinished = true;
     }
 
-    UpdatesDatabase database = getDatabase();
-    DatabaseLauncher launcher = new DatabaseLauncher(mUpdatesDirectory, mSelectionPolicy);
-    mLauncher = launcher;
-    if (mSelectionPolicy.shouldLoadNewUpdate(EmbeddedLoader.readEmbeddedManifest(context).getUpdateEntity(), launcher.getLaunchableUpdate(database, context))) {
-      new EmbeddedLoader(context, database, mUpdatesDirectory).loadEmbeddedUpdate();
-    }
-    launcher.launch(database, context, new Launcher.LauncherCallback() {
-      private void finish() {
-        releaseDatabase();
-        synchronized (UpdatesController.this) {
-          mIsReadyToLaunch = true;
-          UpdatesController.this.notify();
-        }
-      }
-
-      @Override
-      public void onFailure(Exception e) {
-        mLauncher = new NoDatabaseLauncher(context, e);
-        mIsEmergencyLaunch = true;
-        finish();
-      }
-
-      @Override
-      public void onSuccess() {
-        finish();
-      }
-    });
+//    UpdatesDatabase database = getDatabase();
+//    DatabaseLauncher launcher = new DatabaseLauncher(mUpdatesDirectory, mSelectionPolicy);
+//    mLauncher = launcher;
+//    if (mSelectionPolicy.shouldLoadNewUpdate(EmbeddedLoader.readEmbeddedManifest(context).getUpdateEntity(), launcher.getLaunchableUpdate(database, context))) {
+//      new EmbeddedLoader(context, database, mUpdatesDirectory).loadEmbeddedUpdate();
+//    }
+//    launcher.launch(database, context, new Launcher.LauncherCallback() {
+//      private void finish() {
+//        releaseDatabase();
+//        synchronized (UpdatesController.this) {
+//          mIsReadyToLaunch = true;
+//          UpdatesController.this.notify();
+//          maybeFireCallback();
+//        }
+//      }
+//
+//      @Override
+//      public void onFailure(Exception e) {
+//        mLauncher = new NoDatabaseLauncher(context, e);
+//        mIsEmergencyLaunch = true;
+//        finish();
+//      }
+//
+//      @Override
+//      public void onSuccess() {
+//        finish();
+//      }
+//    });
 
     if (shouldCheckForUpdate) {
       AsyncTask.execute(() -> {
@@ -327,7 +342,7 @@ public class UpdatesController {
               @Override
               public void onSuccess(@Nullable UpdateEntity update) {
                 final DatabaseLauncher newLauncher = new DatabaseLauncher(mUpdatesDirectory, mSelectionPolicy);
-                newLauncher.launch(database, context, new Launcher.LauncherCallback() {
+                newLauncher.launch(db, context, new Launcher.LauncherCallback() {
                   @Override
                   public void onFailure(Exception e) {
                     releaseDatabase();
@@ -367,11 +382,24 @@ public class UpdatesController {
     }
   }
 
+  private void maybeFireCallback() {
+    if (mCallback != null && mIsReadyToLaunch && mTimeoutFinished) {
+      if (mLauncher == null) {
+        mCallback.onFailure(new Exception("No launcher"));
+      } else {
+        mCallback.onSuccess();
+      }
+      mCallback = null;
+    }
+  }
+
   private synchronized void finishTimeout() {
     if (!mTimeoutFinished) {
       mTimeoutFinished = true;
       notify();
     }
+    mIsReadyToLaunch = true;
+    maybeFireCallback();
     mHandlerThread.quitSafely();
   }
 
