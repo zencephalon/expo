@@ -208,7 +208,7 @@ public class ExperienceActivity extends BaseExperienceActivity implements Expone
       boolean forceCache = getIntent().getBooleanExtra(KernelConstants.LOAD_FROM_CACHE_KEY, false);
       HashMap<String, Object> configuration = new HashMap<>();
       configuration.put(UpdatesConfiguration.UPDATES_CONFIGURATION_UPDATE_URL_KEY, Uri.parse(mManifestUrl.replaceFirst("exp", "https")));
-      configuration.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SDK_VERSION_KEY, mSDKVersion);
+      configuration.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SDK_VERSION_KEY, "38.0.0");
       if (forceCache) {
         configuration.put(UpdatesConfiguration.UPDATES_CONFIGURATION_CHECK_ON_LAUNCH_KEY, "NEVER");
       }
