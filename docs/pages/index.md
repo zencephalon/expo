@@ -18,3 +18,5 @@ Follow us through a choose-your-own-adventure learning journey and we'll teach y
 
 - ️🛠 **If you are a hands-on, learn-by-doing, practical learner** then you can [continue to the "Installation" guide](get-started/installation/).
 - 📚 **If you prefer to have a theoretical understanding before installing tools and writing code** then the sections in this introduction will help you by explaining in more detail what Expo is. It will help you build a mental model for how to think about app development the Expo way and equip you with the knowledge to know which pieces of Expo are a good fit for your specific needs. [Continue to the "Workflows" page](introduction/managed-vs-bare/).
+
+Hi Jess
