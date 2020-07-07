@@ -133,27 +133,36 @@ static NSString * const kEXUpdatesAppControllerErrorDomain = @"EXUpdatesAppContr
     [self _emergencyLaunchWithFatalError:dbError];
     return;
   }
-
-  [self _loadEmbeddedUpdateWithCompletion:^{
-    [self _launchWithCompletion:^(NSError * _Nullable error, BOOL success) {
-      if (!success) {
-        [self _emergencyLaunchWithFatalError:error ?: [NSError errorWithDomain:kEXUpdatesAppControllerErrorDomain
-                                                                     code:1010
-                                                                 userInfo:@{NSLocalizedDescriptionKey: @"Failed to find or load launch asset"}]];
-      } else {
-        self->_isReadyToLaunch = YES;
-        [self _maybeFinish];
-      }
-
-      if (shouldCheckForUpdate) {
-        [self _loadRemoteUpdateWithCompletion:^(NSError * _Nullable error, EXUpdatesUpdate * _Nullable update) {
-          [self _handleRemoteUpdateLoaded:update error:error];
-        }];
-      } else {
-        [self _runReaper];
-      }
+  
+  _isReadyToLaunch = YES;
+  if (shouldCheckForUpdate) {
+    [self _loadRemoteUpdateWithCompletion:^(NSError * _Nullable error, EXUpdatesUpdate * _Nullable update) {
+      [self _handleRemoteUpdateLoaded:update error:error];
     }];
-  }];
+  } else {
+    [self _runReaper];
+  }
+
+//  [self _loadEmbeddedUpdateWithCompletion:^{
+//    [self _launchWithCompletion:^(NSError * _Nullable error, BOOL success) {
+//      if (!success) {
+//        [self _emergencyLaunchWithFatalError:error ?: [NSError errorWithDomain:kEXUpdatesAppControllerErrorDomain
+//                                                                     code:1010
+//                                                                 userInfo:@{NSLocalizedDescriptionKey: @"Failed to find or load launch asset"}]];
+//      } else {
+//        self->_isReadyToLaunch = YES;
+//        [self _maybeFinish];
+//      }
+//
+//      if (shouldCheckForUpdate) {
+//        [self _loadRemoteUpdateWithCompletion:^(NSError * _Nullable error, EXUpdatesUpdate * _Nullable update) {
+//          [self _handleRemoteUpdateLoaded:update error:error];
+//        }];
+//      } else {
+//        [self _runReaper];
+//      }
+//    }];
+//  }];
 }
 
 - (void)startAndShowLaunchScreen:(UIWindow *)window

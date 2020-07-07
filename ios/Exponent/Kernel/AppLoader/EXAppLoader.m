@@ -26,6 +26,7 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
 @property (nonatomic, strong) NSURL * _Nullable manifestUrl;
 @property (nonatomic, strong) NSDictionary * _Nullable localManifest; // used by Home. TODO: ben: clean up
 @property (nonatomic, strong) NSURL * _Nullable httpManifestUrl;
+@property (nonatomic, strong) NSData * _Nullable bundle;
 
 @property (nonatomic, strong) NSDictionary * _Nullable confirmedManifest; // manifest that is actually being used
 @property (nonatomic, strong) NSDictionary * _Nullable cachedManifest; // manifest that is cached and we definitely have, may fall back to it
@@ -37,6 +38,8 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
 
 @property (nonatomic, assign) BOOL hasFinished;
 @property (nonatomic, assign) BOOL shouldUseCacheOnly;
+
+@property (nonatomic, weak) EXUpdatesAppController *controller;
 
 @end
 
@@ -75,6 +78,9 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
 
 - (EXAppLoaderStatus)status
 {
+  if (_controller.launchedUpdate) {
+    return kEXAppLoaderStatusHasManifestAndBundle;
+  }
   if (_error || (_appFetcher && _appFetcher.error)) {
     return kEXAppLoaderStatusError;
   } else if (_appFetcher && _appFetcher.bundle && _confirmedManifest) {
@@ -105,6 +111,9 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
   if (_appFetcher) {
     return _appFetcher.bundle;
   }
+  if (_bundle) {
+    return _bundle;
+  }
   return nil;
 }
 
@@ -132,7 +141,14 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
   if (_localManifest) {
     [self _beginRequestWithLocalManifest];
   } else if (_manifestUrl) {
-    [self _beginRequestWithRemoteManifest];
+//    [self _beginRequestWithRemoteManifest];
+    _controller = [EXUpdatesAppController sharedInstance];
+    _controller.delegate = self;
+    [_controller setConfiguration:@{
+      @"EXUpdatesURL": _httpManifestUrl.absoluteString,
+      @"EXUpdatesSDKVersion": @"38.0.0"
+    }];
+    [_controller start];
   } else {
     [self _finishWithError:RCTErrorWithMessage(@"Can't load app with no remote url nor local manifest.")];
   }
@@ -140,15 +156,16 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
 
 - (void)requestFromCache
 {
-  [self _reset];
-  _shouldUseCacheOnly = YES;
-  if (_localManifest) {
-    [self _beginRequestWithLocalManifest];
-  } else if (_manifestUrl) {
-    [self _beginRequestWithRemoteManifest];
-  } else {
-    [self _finishWithError:RCTErrorWithMessage(@"Can't load app with no remote url nor local manifest.")];
-  }
+//  [self _reset];
+//  _shouldUseCacheOnly = YES;
+//  if (_localManifest) {
+//    [self _beginRequestWithLocalManifest];
+//  } else if (_manifestUrl) {
+//    [self _beginRequestWithRemoteManifest];
+//  } else {
+//    [self _finishWithError:RCTErrorWithMessage(@"Can't load app with no remote url nor local manifest.")];
+//  }
+  [self request];
 }
 
 - (void)writeManifestToCache
@@ -156,6 +173,18 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
   if (_manifestResource) {
     [_manifestResource writeToCache];
     _manifestResource = nil;
+  }
+}
+
+#pragma mark - EXUpdatesAppControllerDelegate
+
+- (void)appController:(EXUpdatesAppController *)appController didStartWithSuccess:(BOOL)success
+{
+  _confirmedManifest = appController.launchedUpdate.rawManifest;
+  _cachedManifest = appController.launchedUpdate.rawManifest;
+  _bundle = [NSData dataWithContentsOfURL:appController.launchAssetUrl];
+  if (_delegate) {
+    [_delegate appLoader:self didFinishLoadingManifest:_confirmedManifest bundle:_bundle];
   }
 }
 

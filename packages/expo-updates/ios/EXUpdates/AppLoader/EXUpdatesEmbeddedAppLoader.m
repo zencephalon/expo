@@ -22,6 +22,9 @@ NSString * const kEXUpdatesBareEmbeddedBundleFileType = @"jsbundle";
     if (!embeddedManifest) {
       NSString *path = [[NSBundle mainBundle] pathForResource:kEXUpdatesEmbeddedManifestName ofType:kEXUpdatesEmbeddedManifestType];
       NSData *manifestData = [NSData dataWithContentsOfFile:path];
+      if (!manifestData) {
+        return;
+      }
 
       NSError *err;
       id manifest = [NSJSONSerialization JSONObjectWithData:manifestData options:kNilOptions error:&err];
