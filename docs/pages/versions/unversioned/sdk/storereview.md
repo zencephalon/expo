@@ -110,3 +110,12 @@ It is important that you follow the [Human Interface Guidelines](https://develop
 - Don't call `StoreReview.requestReview()` from a button - instead try calling it after the user has finished some signature interaction in the app.
 - Don't spam the user
 - Don't request a review when the user is doing something time sensitive like navigating.
+
+### Write iOS Reviews
+
+You can redirect someone to the "Write a Review" screen for an app in the iOS App Store by using the query parameter `action=write-review`. For example:
+
+```ts
+const itunesItemId = 982107779;
+Linking.openURL(`https://apps.apple.com/app/apple-store/id${itunesItemId}?action=write-review`);
+```
