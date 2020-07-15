@@ -1,11 +1,11 @@
 import { StackNavigationProp } from '@react-navigation/stack';
+import { Platform } from '@unimodules/core';
 import * as StoreReview from 'expo-store-review';
 import React from 'react';
-import { StyleSheet, TextInput, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import Button from '../components/Button';
 import Colors from '../constants/Colors';
-import { Platform } from '@unimodules/core';
 
 type Props = {
   navigation: StackNavigationProp<any>;
@@ -53,7 +53,7 @@ function StoreReviewScreen({ navigation }: Props) {
         onPress={() => {
           StoreReview.presentPreviewAsync({
             itemId: 982107779,
-          }).then(result => console.log('normal preview result: ', result));
+          }).then(result => console.log('normal preview result:', result));
         }}
         style={styles.button}
         title="Preview another app"
@@ -65,10 +65,10 @@ function StoreReviewScreen({ navigation }: Props) {
           StoreReview.presentPreviewAsync({
             itemId: 98,
           })
-            .then(result => console.log('invalid preview result: ', result))
+            .then(result => console.log('invalid preview result:', result))
             .catch(error => {
               alert('Expected Error: ' + error.message);
-              console.log('Expected iTunes error: ', error);
+              console.log('Expected iTunes error:', error);
             });
         }}
         style={styles.button}
@@ -81,10 +81,10 @@ function StoreReviewScreen({ navigation }: Props) {
           StoreReview.presentPreviewAsync({
             itemId: 98,
           })
-            .then(result => console.log('unexpected preview result: ', result))
+            .then(result => console.log('unexpected preview result:', result))
             .catch(error => {
               alert('Expected Error: ' + error.message);
-              console.log('Expected iTunes error: ', error);
+              console.log('Expected iTunes error:', error);
             });
           StoreReview.dismissPreviewAsync();
         }}
@@ -97,7 +97,7 @@ function StoreReviewScreen({ navigation }: Props) {
         onPress={() => {
           StoreReview.presentPreviewAsync({
             itemId: 982107779,
-          });
+          }).then(result => console.log('cancelled preview result:', result));
           setTimeout(() => {
             StoreReview.dismissPreviewAsync();
           }, 2000);
@@ -105,34 +105,10 @@ function StoreReviewScreen({ navigation }: Props) {
         style={styles.button}
         title="Dismiss preview in 2 seconds"
       />
-      {Platform.OS === 'ios' && <UpdateTintTextInput />}
     </View>
   );
 }
 
-function UpdateTintTextInput() {
-  const [value, setValue] = React.useState(Colors.tintColor);
-
-  React.useEffect(() => {
-    try {
-      StoreReview.setTintColor(value);
-    } catch {}
-  }, []);
-  return (
-    <TextInput
-      style={{
-        padding: 10,
-        width: 100,
-        color: 'black',
-      }}
-      onSubmitEditing={() => {
-        StoreReview.setTintColor(value);
-      }}
-      onChangeText={setValue}
-      value={value}
-    />
-  );
-}
 StoreReviewScreen.navigationOptions = { title: 'Store Review' };
 
 const styles = StyleSheet.create({

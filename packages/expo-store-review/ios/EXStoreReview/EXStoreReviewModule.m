@@ -25,22 +25,8 @@ UM_EXPORT_METHOD_AS(isAvailableAsync,
                     isAvailableAsync:(UMPromiseResolveBlock)resolve
                             rejecter:(UMPromiseRejectBlock)reject)
 {
-  if (@available(iOS 10.3, *)) {
-    BOOL isAvailable = [SKStoreReviewController class] ? YES : NO;
-    
-    resolve(@(isAvailable));
-  } else {
-    resolve(@(NO));
-  }
-}
-
-UM_EXPORT_METHOD_AS(setTintColor,
-                    setTintColor:(NSString *)tintColor
-                    resolver:(UMPromiseResolveBlock)resolve
-                    rejecter:(UMPromiseRejectBlock)reject)
-{
-    UIColor *tint = [EXStoreReviewModule convertHexColorString:tintColor];
-    [[UIView appearance] setTintColor:tint];
+  BOOL isAvailable = NSClassFromString(@"SKStoreReviewController") != nil;
+  resolve(@(isAvailable));
 }
 
 UM_EXPORT_METHOD_AS(requestReviewAsync,
@@ -62,21 +48,21 @@ UM_EXPORT_METHOD_AS(presentPreviewAsync,
                     resolver:(UMPromiseResolveBlock)resolve
                     rejecter:(UMPromiseRejectBlock)reject)
 {
-  if (![self isPreviewAvailable:reject]) {
-    return;
-  }
-  if (![self initializeControllerWithResolver:resolve andRejecter:reject]) {
+  // Ensure the API is available and no other preview is currently pending.
+  if (![self isPreviewAvailable:reject] || ![self initializeControllerWithResolver:resolve andRejecter:reject]) {
     return;
   }
   dispatch_async(dispatch_get_main_queue(), ^{
     SKStoreProductViewController *controller = [[SKStoreProductViewController alloc] init];
     controller.delegate = self;
-    self->_controller = controller;
+    self.controller = controller;
     
     __weak typeof(self) weakSelf = self;
 
     [controller loadProductWithParameters:[EXStoreReviewModule propertiesFromOptions:options] completionBlock:^(BOOL result, NSError * _Nullable error) {
           if (result) return;
+          // Something went wrong and the controller was dismissed.
+      
           __strong typeof(self) strongSelf = weakSelf;
           // This can be invoked after the controller is dismissed when it was loaded with invalid options, or when the controller was dismissed before the content could be loaded over the network.
           if (strongSelf.redirectReject) {
@@ -161,9 +147,9 @@ UM_EXPORT_METHOD_AS(dismissPreviewAsync,
  */
 -(void)productViewControllerDidFinish:(nonnull SKStoreProductViewController *)controller
 {
-  [_controller dismissViewControllerAnimated:true completion:^{
+  [controller dismissViewControllerAnimated:true completion:^{
     if (self.redirectResolve) {
-      self.redirectResolve(@{ @"type": @"dismiss" });
+      self.redirectResolve(@{ @"type": @"cancel" });
     }
     [self flowDidFinish];
   }];
@@ -214,26 +200,5 @@ UM_EXPORT_METHOD_AS(dismissPreviewAsync,
   
     return properties;
 }
-
-
-+ (UIColor *)convertHexColorString:(NSString *)stringToConvert {
-  NSString *strippedString = [stringToConvert stringByReplacingOccurrencesOfString:@"#" withString:@""];
-  NSScanner *scanner = [NSScanner scannerWithString:strippedString];
-  unsigned hexNum;
-  if (![scanner scanHexInt:&hexNum]) return nil;
-  return [EXStoreReviewModule colorWithRGBHex:hexNum];
-}
-
-+ (UIColor *)colorWithRGBHex:(UInt32)hex {
-  int r = (hex >> 16) & 0xFF;
-  int g = (hex >> 8) & 0xFF;
-  int b = (hex) & 0xFF;
-
-  return [UIColor colorWithRed:r / 255.0f
-                         green:g / 255.0f
-                          blue:b / 255.0f
-                         alpha:1.0f];
-}
-
 
 @end

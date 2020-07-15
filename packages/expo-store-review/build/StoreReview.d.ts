@@ -27,20 +27,13 @@ export declare function storeUrl(): string | null;
  */
 export declare function hasAction(): Promise<boolean>;
 /**
- * Dangerously set the global view tint controls.
- * This can be used to change the tint color of the store review alert and in-app App Store preview.
- *
- * @param color
- */
-export declare function setTintColor(color: string): void;
-/**
  * Present an iOS App Store preview for a published app.
  * iOS only.
  *
  * @param options
  */
 export declare function presentPreviewAsync(options: StoreReviewPreviewOptions): Promise<{
-    type: 'dismiss';
+    type: 'dismiss' | 'cancel';
 }>;
 /**
  * Dismiss the currently presented App Store preview controller.

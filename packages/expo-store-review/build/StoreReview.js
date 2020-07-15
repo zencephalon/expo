@@ -69,17 +69,6 @@ export async function hasAction() {
     return !!storeUrl() || (await isAvailableAsync());
 }
 /**
- * Dangerously set the global view tint controls.
- * This can be used to change the tint color of the store review alert and in-app App Store preview.
- *
- * @param color
- */
-export function setTintColor(color) {
-    if (!StoreReview.setTintColor)
-        throw new UnavailabilityError('StoreReview', 'setTintColor');
-    StoreReview.setTintColor(color);
-}
-/**
  * Present an iOS App Store preview for a published app.
  * iOS only.
  *

@@ -9,7 +9,6 @@ export default {
     },
     // Unimplemented on web and Android
     requestReviewAsync: null,
-    setTintColor: null,
     presentPreviewAsync: null,
     dismissPreviewAsync: null,
 };

@@ -11,9 +11,8 @@ export default {
   },
   // Unimplemented on web and Android
   requestReviewAsync: null as null | (() => Promise<void>),
-  setTintColor: null as null | ((color: string) => Promise<void>),
   presentPreviewAsync: null as
     | null
-    | ((options: StoreReviewPreviewOptions) => Promise<{ type: 'dismiss' }>),
+    | ((options: StoreReviewPreviewOptions) => Promise<{ type: 'dismiss' | 'cancel' }>),
   dismissPreviewAsync: null as null | (() => Promise<void>),
 };

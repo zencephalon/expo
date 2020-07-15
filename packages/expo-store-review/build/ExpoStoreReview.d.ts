@@ -3,9 +3,8 @@ declare const _default: {
     readonly name: string;
     isAvailableAsync(): Promise<boolean>;
     requestReviewAsync: (() => Promise<void>) | null;
-    setTintColor: ((color: string) => Promise<void>) | null;
     presentPreviewAsync: ((options: StoreReviewPreviewOptions) => Promise<{
-        type: 'dismiss';
+        type: 'dismiss' | 'cancel';
     }>) | null;
     dismissPreviewAsync: (() => Promise<void>) | null;
 };
