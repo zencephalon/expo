@@ -68,6 +68,37 @@ if (await StoreReview.hasAction()) {
 }
 ```
 
+### `StoreReview.presentPreviewAsync()`
+
+Open an in-app iOS App Store preview of a published app.
+
+#### Arguments
+
+- **options (_StoreReviewPreviewOptions_)** -- Options used to select the app (and optional in-app purchase) to show. `itemId` property is required and must be a `number`.
+
+#### Returns
+
+- **result (_{ type: 'dismiss' }_)** -- Returns when the controller is closed. There is no way natively to detect if the user made any selection.
+
+### `StoreReview.dismissPreviewAsync()`
+
+Dismiss the currently open iOS App Store preview controller.
+
+## Types
+
+### StoreReviewPreviewOptions
+
+Options for presenting an iOS App Store preview in-app. This can only be used on a physical iOS device.
+
+| Name      | Type     | Description                                                                                 |
+| --------- | -------- | ------------------------------------------------------------------------------------------- |
+| itemId    | `number` | iTunes Store item identifier of the product.                                                |
+| itemId    | `string` | iTunes Store affiliate token.                                                               |
+| itemId    | `string` | iTunes Store affiliate campaign token.                                                      |
+| itemId    | `string` | Analytics provider token.                                                                   |
+| itemId    | `string` | Advertising partner token.                                                                  |
+| productId | `string` | SKU for the In-App Purchase product to render at the top of the product page. iOS 11+ only. |
+
 ---
 
 ## Usage

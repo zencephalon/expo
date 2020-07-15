@@ -1,4 +1,4 @@
-import { deprecate, Platform, UnavailabilityError } from '@unimodules/core';
+import { deprecate, Platform, UnavailabilityError, CodedError } from '@unimodules/core';
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
 import StoreReview from './ExpoStoreReview';
@@ -88,6 +88,8 @@ export function setTintColor(color) {
 export async function presentPreviewAsync(options) {
     if (!StoreReview.presentPreviewAsync)
         throw new UnavailabilityError('StoreReview', 'presentPreviewAsync');
+    if (typeof options.itemId !== 'number')
+        throw new CodedError('E_STORE_REVIEW_PREVIEW_INVALID_OPTIONS', 'A valid itemId number must be provided.');
     return StoreReview.presentPreviewAsync(options);
 }
 /**
