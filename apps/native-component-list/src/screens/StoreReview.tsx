@@ -63,6 +63,20 @@ function StoreReviewScreen({ navigation }: Props) {
         disabled={Platform.OS !== 'ios'}
         onPress={() => {
           StoreReview.presentPreviewAsync({
+            itemId: 982107779,
+          }).then(result => console.log('normal preview result:', result));
+          StoreReview.presentPreviewAsync({
+            itemId: 982107779,
+          }).then(result => console.log('locked preview result:', result));
+        }}
+        style={styles.button}
+        title="Emulate locked state"
+      />
+      <Button
+        buttonStyle={{ marginTop: 16 }}
+        disabled={Platform.OS !== 'ios'}
+        onPress={() => {
+          StoreReview.presentPreviewAsync({
             itemId: 98,
           })
             .then(result => console.log('invalid preview result:', result))

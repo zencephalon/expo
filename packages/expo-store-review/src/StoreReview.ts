@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
 
 import StoreReview from './ExpoStoreReview';
-import { StoreReviewPreviewOptions } from './StoreReview.types';
+import { StoreReviewPreviewOptions, StoreReviewPreviewResultType } from './StoreReview.types';
 
 /**
  * Determine if the platform has the capabilities to use `requestedReview`
@@ -75,6 +75,8 @@ export async function hasAction(): Promise<boolean> {
   return !!storeUrl() || (await isAvailableAsync());
 }
 
+let controllerLocked = false;
+
 /**
  * Present an iOS App Store preview for a published app.
  * iOS only.
@@ -83,17 +85,39 @@ export async function hasAction(): Promise<boolean> {
  */
 export async function presentPreviewAsync(
   options: StoreReviewPreviewOptions
-): Promise<{ type: 'dismiss' | 'cancel' }> {
+): Promise<{ type: StoreReviewPreviewResultType }> {
   if (!StoreReview.presentPreviewAsync)
     throw new UnavailabilityError('StoreReview', 'presentPreviewAsync');
-
   if (typeof options.itemId !== 'number')
     throw new CodedError(
       'E_STORE_REVIEW_PREVIEW_INVALID_OPTIONS',
       'A valid itemId number must be provided.'
     );
 
-  return StoreReview.presentPreviewAsync(options);
+  // Prevent multiple sessions from running at the same time, WebBrowser doesn't
+  // support it this makes the behavior predictable.
+  if (controllerLocked) {
+    if (__DEV__) {
+      console.warn(
+        'Attempted to call StoreReview.presentPreviewAsync multiple times while already active. Only one iTunes preview can be active at any given time.'
+      );
+    }
+
+    return { type: 'locked' };
+  }
+
+  // About to present preview, set lock
+  controllerLocked = true;
+
+  let result;
+  try {
+    result = await StoreReview.presentPreviewAsync(options);
+  } finally {
+    // Preview complete, unset lock
+    controllerLocked = false;
+  }
+
+  return result;
 }
 
 /**
@@ -106,4 +130,4 @@ export async function dismissPreviewAsync(): Promise<void> {
   return StoreReview.dismissPreviewAsync();
 }
 
-export { StoreReviewPreviewOptions };
+export { StoreReviewPreviewOptions, StoreReviewPreviewResultType };

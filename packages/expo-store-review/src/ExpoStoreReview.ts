@@ -1,5 +1,5 @@
 import { Platform } from '@unimodules/core';
-import { StoreReviewPreviewOptions } from './StoreReview.types';
+import { StoreReviewPreviewOptions, StoreReviewPreviewResultType } from './StoreReview.types';
 
 export default {
   get name(): string {
@@ -13,6 +13,6 @@ export default {
   requestReviewAsync: null as null | (() => Promise<void>),
   presentPreviewAsync: null as
     | null
-    | ((options: StoreReviewPreviewOptions) => Promise<{ type: 'dismiss' | 'cancel' }>),
+    | ((options: StoreReviewPreviewOptions) => Promise<{ type: StoreReviewPreviewResultType }>),
   dismissPreviewAsync: null as null | (() => Promise<void>),
 };

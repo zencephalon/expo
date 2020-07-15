@@ -1,4 +1,4 @@
-import { StoreReviewPreviewOptions } from './StoreReview.types';
+import { StoreReviewPreviewOptions, StoreReviewPreviewResultType } from './StoreReview.types';
 /**
  * Determine if the platform has the capabilities to use `requestedReview`
  * - iOS: `true` if iOS 10.3 or greater and the StoreKit framework is linked
@@ -33,11 +33,11 @@ export declare function hasAction(): Promise<boolean>;
  * @param options
  */
 export declare function presentPreviewAsync(options: StoreReviewPreviewOptions): Promise<{
-    type: 'dismiss' | 'cancel';
+    type: StoreReviewPreviewResultType;
 }>;
 /**
  * Dismiss the currently presented App Store preview controller.
  * iOS only.
  */
 export declare function dismissPreviewAsync(): Promise<void>;
-export { StoreReviewPreviewOptions };
+export { StoreReviewPreviewOptions, StoreReviewPreviewResultType };

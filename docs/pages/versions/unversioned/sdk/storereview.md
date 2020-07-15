@@ -5,6 +5,7 @@ sourceCodeUrl: 'https://github.com/expo/expo/tree/sdk-36/packages/expo-store-rev
 
 import InstallSection from '~/components/plugins/InstallSection';
 import PlatformsSection from '~/components/plugins/PlatformsSection';
+import TableOfContentSection from '~/components/plugins/TableOfContentSection';
 
 **`expo-store-review`** provides access to the `SKStoreReviewController` API in iOS 10.3+ devices, allowing you to ask the user to rate your app without ever having to leave the app itself.
 
@@ -24,10 +25,16 @@ import PlatformsSection from '~/components/plugins/PlatformsSection';
 import * as StoreReview from 'expo-store-review';
 ```
 
+<TableOfContentSection title='Error Codes' contents={['E_STORE_REVIEW_UNSUPPORTED', 'E_STORE_REVIEW_PREVIEW_UNSUPPORTED', 'E_STORE_REVIEW_PREVIEW_LOADING', 'E_STORE_REVIEW_PREVIEW_PENDING', 'E_STORE_REVIEW_PREVIEW_INVALID_OPTIONS']} />
+
 ### `StoreReview.requestReview()`
 
 In the ideal circumstance this will open a native modal and allow the user to select a star rating that will then be applied to the App Store without leaving the app.
 If the users device is running a version of iOS lower than 10.3, or the user is on an Android device, this will attempt to get the store URL and link the user to it.
+
+#### Error Codes
+
+- [`E_STORE_REVIEW_UNSUPPORTED`](#e_store_review_unsupported)
 
 #### Example
 
@@ -70,7 +77,9 @@ if (await StoreReview.hasAction()) {
 
 ### `StoreReview.presentPreviewAsync()`
 
-Open an in-app iOS App Store preview of a published app.
+Open an in-app iOS App Store preview of a published app. If the `itemId` is not a valid iTunes App ID, a screen saying "Cannot Connect to iTunes Store" may be presented.
+
+This is **not supported** in the iOS simulator.
 
 #### Arguments
 
@@ -78,11 +87,21 @@ Open an in-app iOS App Store preview of a published app.
 
 #### Returns
 
-- **result (_{ type: 'dismiss' }_)** -- Returns when the controller is closed. There is no way natively to detect if the user made any selection.
+- **result (_{ type: StoreReviewPreviewResultType }_)** -- Returns when the controller is closed. There is no way natively to detect if the user made any selection.
+
+#### Error Codes
+
+- [`E_STORE_REVIEW_PREVIEW_UNSUPPORTED`](#e_store_review_preview_unsupported)
+- [`E_STORE_REVIEW_PREVIEW_LOADING`](#e_store_review_preview_loading)
+- [`E_STORE_REVIEW_PREVIEW_INVALID_OPTIONS`](#e_store_review_preview_invalid_options)
 
 ### `StoreReview.dismissPreviewAsync()`
 
 Dismiss the currently open iOS App Store preview controller.
+
+#### Error Codes
+
+- [`E_STORE_REVIEW_PREVIEW_UNSUPPORTED`](#e_store_review_preview_unsupported)
 
 ## Types
 
@@ -98,6 +117,38 @@ Options for presenting an iOS App Store preview in-app. This can only be used on
 | itemId    | `string` | Analytics provider token.                                                                   |
 | itemId    | `string` | Advertising partner token.                                                                  |
 | productId | `string` | SKU for the In-App Purchase product to render at the top of the product page. iOS 11+ only. |
+
+### StoreReviewPreviewResultType
+
+The `type` returned from `StoreReview.presentPreviewAsync(...)`.
+
+- **`cancel`**: The iTunes preview was closed by the user.
+- **`dismiss`**: The iTunes preview is programmatically closed using `StoreReview.dismissPreviewAsync()`.
+- **`locked`**: A pending preview was already in progress when `StoreReview.presentPreviewAsync()` was invoked extraneously. This can occur when a user spams an interaction that presents the preview before the preview has time to cover the button.
+
+## Error Codes
+
+### `E_STORE_REVIEW_UNSUPPORTED`
+
+Requesting an App Store review is not supported on this device. The device must be iOS 10.3 or greater. Android and web are not supported. Be sure to check for support with `isAvailableAsync()` to avoid this error.
+
+### `E_STORE_REVIEW_PREVIEW_UNSUPPORTED`
+
+iTunes previews are not supported on the device. iTunes previews are not supported in the iOS simulator.
+
+### `E_STORE_REVIEW_PREVIEW_LOADING`
+
+Failed to load the iTunes preview. This happens after the controller is dismissed when it was loaded with invalid options, or when the controller was dismissed before the content could be loaded over the network.
+
+If there is an undocumented or unexpected error it will use this error code too.
+
+### `E_STORE_REVIEW_PREVIEW_PENDING`
+
+Thrown when an iTunes preview is already being presented. In theory this shouldn't be thrown because `{ type: 'locked' }` exists.
+
+### `E_STORE_REVIEW_PREVIEW_INVALID_OPTIONS`
+
+Thrown when `presentPreviewAsync` is invoked without a valid numeric `itemId` option. Note that an invalid `itemId` can still be provided but iTunes won't be able to load the preview, if this happens then `E_STORE_REVIEW_PREVIEW_LOADING` is thrown after the controller is closed.
 
 ---
 
@@ -119,3 +170,5 @@ You can redirect someone to the "Write a Review" screen for an app in the iOS Ap
 const itunesItemId = 982107779;
 Linking.openURL(`https://apps.apple.com/app/apple-store/id${itunesItemId}?action=write-review`);
 ```
+
+This can occur when the options were invalid, when the network connection is weak, or when the preview is dismissed before the content could finish loading.

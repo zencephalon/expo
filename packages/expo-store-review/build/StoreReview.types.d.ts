@@ -29,3 +29,4 @@ export declare type StoreReviewPreviewOptions = {
      */
     productId?: string;
 };
+export declare type StoreReviewPreviewResultType = 'dismiss' | 'cancel' | 'locked';

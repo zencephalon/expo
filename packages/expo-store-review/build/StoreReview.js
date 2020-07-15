@@ -68,6 +68,7 @@ export function storeUrl() {
 export async function hasAction() {
     return !!storeUrl() || (await isAvailableAsync());
 }
+let controllerLocked = false;
 /**
  * Present an iOS App Store preview for a published app.
  * iOS only.
@@ -79,7 +80,25 @@ export async function presentPreviewAsync(options) {
         throw new UnavailabilityError('StoreReview', 'presentPreviewAsync');
     if (typeof options.itemId !== 'number')
         throw new CodedError('E_STORE_REVIEW_PREVIEW_INVALID_OPTIONS', 'A valid itemId number must be provided.');
-    return StoreReview.presentPreviewAsync(options);
+    // Prevent multiple sessions from running at the same time, WebBrowser doesn't
+    // support it this makes the behavior predictable.
+    if (controllerLocked) {
+        if (__DEV__) {
+            console.warn('Attempted to call StoreReview.presentPreviewAsync multiple times while already active. Only one iTunes preview can be active at any given time.');
+        }
+        return { type: 'locked' };
+    }
+    // About to present preview, set lock
+    controllerLocked = true;
+    let result;
+    try {
+        result = await StoreReview.presentPreviewAsync(options);
+    }
+    finally {
+        // Preview complete, unset lock
+        controllerLocked = false;
+    }
+    return result;
 }
 /**
  * Dismiss the currently presented App Store preview controller.

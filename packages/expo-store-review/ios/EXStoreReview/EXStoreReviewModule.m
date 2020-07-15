@@ -133,7 +133,7 @@ UM_EXPORT_METHOD_AS(dismissPreviewAsync,
 
 - (BOOL)initializeControllerWithResolver:(UMPromiseResolveBlock)resolve andRejecter:(UMPromiseRejectBlock)reject {
   if (_redirectResolve) {
-    reject(@"E_STORE_REVIEW_PREVIEW_PENDING", @"Another Store Review preview is already being presented.", nil);
+    reject(@"E_STORE_REVIEW_PREVIEW_PENDING", @"Another iTunes preview is already being presented.", nil);
     return NO;
   }
   _redirectReject = reject;

@@ -29,3 +29,5 @@ export type StoreReviewPreviewOptions = {
    */
   productId?: string;
 };
+
+export type StoreReviewPreviewResultType = 'dismiss' | 'cancel' | 'locked';
