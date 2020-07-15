@@ -1,3 +1,4 @@
+import { StoreReviewPreviewOptions } from './StoreReview.types';
 /**
  * Determine if the platform has the capabilities to use `requestedReview`
  * - iOS: `true` if iOS 10.3 or greater and the StoreKit framework is linked
@@ -25,3 +26,25 @@ export declare function storeUrl(): string | null;
  * A flag to detect if this module can do anything.
  */
 export declare function hasAction(): Promise<boolean>;
+/**
+ * Dangerously set the global view tint controls.
+ * This can be used to change the tint color of the store review alert and in-app App Store preview.
+ *
+ * @param color
+ */
+export declare function setTintColor(color: string): void;
+/**
+ * Present an iOS App Store preview for a published app.
+ * iOS only.
+ *
+ * @param options
+ */
+export declare function presentPreviewAsync(options: StoreReviewPreviewOptions): Promise<{
+    type: 'dismiss';
+}>;
+/**
+ * Dismiss the currently presented App Store preview controller.
+ * iOS only.
+ */
+export declare function dismissPreviewAsync(): Promise<void>;
+export { StoreReviewPreviewOptions };

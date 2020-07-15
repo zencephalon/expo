@@ -1,8 +1,9 @@
-import { Platform, deprecate } from '@unimodules/core';
+import { deprecate, Platform, UnavailabilityError } from '@unimodules/core';
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
 
 import StoreReview from './ExpoStoreReview';
+import { StoreReviewPreviewOptions } from './StoreReview.types';
 
 /**
  * Determine if the platform has the capabilities to use `requestedReview`
@@ -28,8 +29,8 @@ export function isSupported(): void {
  * or open a web browser to the play store on Android.
  */
 export async function requestReview(): Promise<void> {
-  if (StoreReview?.requestReview) {
-    await StoreReview.requestReview();
+  if (StoreReview?.requestReviewAsync) {
+    await StoreReview.requestReviewAsync();
     return;
   }
   // If StoreReview is unavailable then get the store URL from `app.config.js` or `app.json` and open the store
@@ -73,3 +74,40 @@ export function storeUrl(): string | null {
 export async function hasAction(): Promise<boolean> {
   return !!storeUrl() || (await isAvailableAsync());
 }
+
+/**
+ * Dangerously set the global view tint controls.
+ * This can be used to change the tint color of the store review alert and in-app App Store preview.
+ *
+ * @param color
+ */
+export function setTintColor(color: string): void {
+  if (!StoreReview.setTintColor) throw new UnavailabilityError('StoreReview', 'setTintColor');
+  StoreReview.setTintColor(color);
+}
+
+/**
+ * Present an iOS App Store preview for a published app.
+ * iOS only.
+ *
+ * @param options
+ */
+export async function presentPreviewAsync(
+  options: StoreReviewPreviewOptions
+): Promise<{ type: 'dismiss' }> {
+  if (!StoreReview.presentPreviewAsync)
+    throw new UnavailabilityError('StoreReview', 'presentPreviewAsync');
+  return StoreReview.presentPreviewAsync(options);
+}
+
+/**
+ * Dismiss the currently presented App Store preview controller.
+ * iOS only.
+ */
+export async function dismissPreviewAsync(): Promise<void> {
+  if (!StoreReview.dismissPreviewAsync)
+    throw new UnavailabilityError('StoreReview', 'dismissPreviewAsync');
+  return StoreReview.dismissPreviewAsync();
+}
+
+export { StoreReviewPreviewOptions };

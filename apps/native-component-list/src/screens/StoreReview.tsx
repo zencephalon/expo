@@ -1,10 +1,11 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import * as StoreReview from 'expo-store-review';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, TextInput, Text, View } from 'react-native';
 
 import Button from '../components/Button';
 import Colors from '../constants/Colors';
+import { Platform } from '@unimodules/core';
 
 type Props = {
   navigation: StackNavigationProp<any>;
@@ -46,7 +47,52 @@ function StoreReviewScreen({ navigation }: Props) {
         buttonStyle={!StoreReview.hasAction() ? styles.disabled : undefined}
         title="Request a Review!"
       />
+      <Button
+        buttonStyle={{ marginTop: 16 }}
+        disabled={Platform.OS !== 'ios'}
+        onPress={() => {
+          StoreReview.presentPreviewAsync({ itemId: 1332439319 });
+        }}
+        style={styles.button}
+        title="Preview another app"
+      />
+      <Button
+        buttonStyle={{ marginVertical: 16 }}
+        disabled={Platform.OS !== 'ios'}
+        onPress={() => {
+          setTimeout(() => {
+            StoreReview.dismissPreviewAsync();
+          }, 5000);
+        }}
+        style={styles.button}
+        title="Dismiss preview in 5 seconds"
+      />
+      {Platform.OS === 'ios' && <UpdateTintTextInput />}
     </View>
+  );
+}
+
+function UpdateTintTextInput() {
+  const [value, setValue] = React.useState(Colors.tintColor);
+
+  React.useEffect(() => {
+    try {
+      StoreReview.setTintColor(value);
+    } catch {}
+  }, []);
+  return (
+    <TextInput
+      style={{
+        padding: 10,
+        width: 100,
+        color: 'black',
+      }}
+      onSubmitEditing={() => {
+        StoreReview.setTintColor(value);
+      }}
+      onChangeText={setValue}
+      value={value}
+    />
   );
 }
 StoreReviewScreen.navigationOptions = { title: 'Store Review' };

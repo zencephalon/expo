@@ -8,6 +8,9 @@ export default {
         return Platform.OS === 'android';
     },
     // Unimplemented on web and Android
-    requestReview: null,
+    requestReviewAsync: null,
+    setTintColor: null,
+    presentPreviewAsync: null,
+    dismissPreviewAsync: null,
 };
 //# sourceMappingURL=ExpoStoreReview.js.map
