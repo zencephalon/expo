@@ -51,21 +51,59 @@ function StoreReviewScreen({ navigation }: Props) {
         buttonStyle={{ marginTop: 16 }}
         disabled={Platform.OS !== 'ios'}
         onPress={() => {
-          StoreReview.presentPreviewAsync({ itemId: 982107779 });
+          StoreReview.presentPreviewAsync({
+            itemId: 982107779,
+          }).then(result => console.log('normal preview result: ', result));
         }}
         style={styles.button}
         title="Preview another app"
       />
       <Button
+        buttonStyle={{ marginTop: 16 }}
+        disabled={Platform.OS !== 'ios'}
+        onPress={() => {
+          StoreReview.presentPreviewAsync({
+            itemId: 98,
+          })
+            .then(result => console.log('invalid preview result: ', result))
+            .catch(error => {
+              alert('Expected Error: ' + error.message);
+              console.log('Expected iTunes error: ', error);
+            });
+        }}
+        style={styles.button}
+        title="Preview invalid app"
+      />
+      <Button
+        buttonStyle={{ marginTop: 16 }}
+        disabled={Platform.OS !== 'ios'}
+        onPress={() => {
+          StoreReview.presentPreviewAsync({
+            itemId: 98,
+          })
+            .then(result => console.log('unexpected preview result: ', result))
+            .catch(error => {
+              alert('Expected Error: ' + error.message);
+              console.log('Expected iTunes error: ', error);
+            });
+          StoreReview.dismissPreviewAsync();
+        }}
+        style={styles.button}
+        title="Cancel preview before it can load (unstable)"
+      />
+      <Button
         buttonStyle={{ marginVertical: 16 }}
         disabled={Platform.OS !== 'ios'}
         onPress={() => {
+          StoreReview.presentPreviewAsync({
+            itemId: 982107779,
+          });
           setTimeout(() => {
             StoreReview.dismissPreviewAsync();
-          }, 5000);
+          }, 2000);
         }}
         style={styles.button}
-        title="Dismiss preview in 5 seconds"
+        title="Dismiss preview in 2 seconds"
       />
       {Platform.OS === 'ios' && <UpdateTintTextInput />}
     </View>
