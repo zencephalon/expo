@@ -51,7 +51,7 @@ function StoreReviewScreen({ navigation }: Props) {
         buttonStyle={{ marginTop: 16 }}
         disabled={Platform.OS !== 'ios'}
         onPress={() => {
-          StoreReview.presentPreviewAsync({ itemId: 1332439319 });
+          StoreReview.presentPreviewAsync({ itemId: 982107779 });
         }}
         style={styles.button}
         title="Preview another app"
