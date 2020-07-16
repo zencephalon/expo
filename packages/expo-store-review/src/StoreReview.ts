@@ -90,7 +90,7 @@ export async function presentPreviewAsync(
     throw new UnavailabilityError('StoreReview', 'presentPreviewAsync');
   if (typeof options.itemId !== 'number')
     throw new CodedError(
-      'E_STORE_REVIEW_PREVIEW_INVALID_OPTIONS',
+      'ERR_STORE_REVIEW_PREVIEW_INVALID_OPTIONS',
       'A valid itemId number must be provided.'
     );
 

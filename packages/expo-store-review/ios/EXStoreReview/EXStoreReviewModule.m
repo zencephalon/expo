@@ -39,7 +39,7 @@ UM_EXPORT_METHOD_AS(requestReviewAsync,
       resolve(nil);
     });
   } else {
-    reject(@"E_STORE_REVIEW_UNSUPPORTED", @"Store review is not supported.", nil);
+    reject(@"ERR_STORE_REVIEW_UNSUPPORTED", @"Store review is not supported.", nil);
   }
 }
 
@@ -67,9 +67,9 @@ UM_EXPORT_METHOD_AS(presentPreviewAsync,
           // This can be invoked after the controller is dismissed when it was loaded with invalid options, or when the controller was dismissed before the content could be loaded over the network.
           if (strongSelf.redirectReject) {
             if (error) {
-              strongSelf.redirectReject(@"E_STORE_REVIEW_PREVIEW_LOADING", [@"Failed to load iTunes preview: " stringByAppendingString:error.localizedDescription], nil);
+              strongSelf.redirectReject(@"ERR_STORE_REVIEW_PREVIEW_LOADING", [@"Failed to load iTunes preview: " stringByAppendingString:error.localizedDescription], nil);
             } else {
-              strongSelf.redirectReject(@"E_STORE_REVIEW_PREVIEW_LOADING", @"An unknown error occurred while attempting to load iTunes preview.", nil);
+              strongSelf.redirectReject(@"ERR_STORE_REVIEW_PREVIEW_LOADING", @"An unknown error occurred while attempting to load iTunes preview.", nil);
             }
           }
           [strongSelf flowDidFinish];
@@ -121,11 +121,11 @@ UM_EXPORT_METHOD_AS(dismissPreviewAsync,
 
 - (BOOL)isPreviewAvailable:(UMPromiseRejectBlock)reject {
   if (NSClassFromString(@"SKStoreProductViewController") == nil) {
-    reject(@"E_STORE_REVIEW_PREVIEW_UNSUPPORTED", @"iTunes preview is not supported.", nil);
+    reject(@"ERR_STORE_REVIEW_PREVIEW_UNSUPPORTED", @"iTunes preview is not supported.", nil);
     return NO;
   }
   #if TARGET_IPHONE_SIMULATOR
-  reject(@"E_STORE_REVIEW_PREVIEW_UNSUPPORTED", @"iTunes preview is not supported in the simulator.", nil);
+  reject(@"ERR_STORE_REVIEW_PREVIEW_UNSUPPORTED", @"iTunes preview is not supported in the simulator.", nil);
   return NO;
   #endif
   return YES;
@@ -133,7 +133,7 @@ UM_EXPORT_METHOD_AS(dismissPreviewAsync,
 
 - (BOOL)initializeControllerWithResolver:(UMPromiseResolveBlock)resolve andRejecter:(UMPromiseRejectBlock)reject {
   if (_redirectResolve) {
-    reject(@"E_STORE_REVIEW_PREVIEW_PENDING", @"Another iTunes preview is already being presented.", nil);
+    reject(@"ERR_STORE_REVIEW_PREVIEW_PENDING", @"Another iTunes preview is already being presented.", nil);
     return NO;
   }
   _redirectReject = reject;

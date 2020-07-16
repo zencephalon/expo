@@ -1,4 +1,5 @@
 import { Platform } from '@unimodules/core';
+
 import { StoreReviewPreviewOptions, StoreReviewPreviewResultType } from './StoreReview.types';
 
 export default {

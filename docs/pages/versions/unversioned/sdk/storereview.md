@@ -25,7 +25,7 @@ import TableOfContentSection from '~/components/plugins/TableOfContentSection';
 import * as StoreReview from 'expo-store-review';
 ```
 
-<TableOfContentSection title='Error Codes' contents={['E_STORE_REVIEW_UNSUPPORTED', 'E_STORE_REVIEW_PREVIEW_UNSUPPORTED', 'E_STORE_REVIEW_PREVIEW_LOADING', 'E_STORE_REVIEW_PREVIEW_PENDING', 'E_STORE_REVIEW_PREVIEW_INVALID_OPTIONS']} />
+<TableOfContentSection title='Error Codes' contents={['ERR_STORE_REVIEW_UNSUPPORTED', 'ERR_STORE_REVIEW_PREVIEW_UNSUPPORTED', 'ERR_STORE_REVIEW_PREVIEW_LOADING', 'ERR_STORE_REVIEW_PREVIEW_PENDING', 'ERR_STORE_REVIEW_PREVIEW_INVALID_OPTIONS']} />
 
 ### `StoreReview.requestReview()`
 
@@ -34,7 +34,7 @@ If the users device is running a version of iOS lower than 10.3, or the user is 
 
 #### Error Codes
 
-- [`E_STORE_REVIEW_UNSUPPORTED`](#e_store_review_unsupported)
+- [`ERR_STORE_REVIEW_UNSUPPORTED`](#err_store_review_unsupported)
 
 #### Example
 
@@ -91,9 +91,9 @@ This is **not supported** in the iOS simulator.
 
 #### Error Codes
 
-- [`E_STORE_REVIEW_PREVIEW_UNSUPPORTED`](#e_store_review_preview_unsupported)
-- [`E_STORE_REVIEW_PREVIEW_LOADING`](#e_store_review_preview_loading)
-- [`E_STORE_REVIEW_PREVIEW_INVALID_OPTIONS`](#e_store_review_preview_invalid_options)
+- [`ERR_STORE_REVIEW_PREVIEW_UNSUPPORTED`](#err_store_review_preview_unsupported)
+- [`ERR_STORE_REVIEW_PREVIEW_LOADING`](#err_store_review_preview_loading)
+- [`ERR_STORE_REVIEW_PREVIEW_INVALID_OPTIONS`](#err_store_review_preview_invalid_options)
 
 ### `StoreReview.dismissPreviewAsync()`
 
@@ -101,7 +101,7 @@ Dismiss the currently open iOS App Store preview controller.
 
 #### Error Codes
 
-- [`E_STORE_REVIEW_PREVIEW_UNSUPPORTED`](#e_store_review_preview_unsupported)
+- [`ERR_STORE_REVIEW_PREVIEW_UNSUPPORTED`](#err_store_review_preview_unsupported)
 
 ## Types
 
@@ -128,27 +128,27 @@ The `type` returned from `StoreReview.presentPreviewAsync(...)`.
 
 ## Error Codes
 
-### `E_STORE_REVIEW_UNSUPPORTED`
+### `ERR_STORE_REVIEW_UNSUPPORTED`
 
 Requesting an App Store review is not supported on this device. The device must be iOS 10.3 or greater. Android and web are not supported. Be sure to check for support with `isAvailableAsync()` to avoid this error.
 
-### `E_STORE_REVIEW_PREVIEW_UNSUPPORTED`
+### `ERR_STORE_REVIEW_PREVIEW_UNSUPPORTED`
 
 iTunes previews are not supported on the device. iTunes previews are not supported in the iOS simulator.
 
-### `E_STORE_REVIEW_PREVIEW_LOADING`
+### `ERR_STORE_REVIEW_PREVIEW_LOADING`
 
 Failed to load the iTunes preview. This happens after the controller is dismissed when it was loaded with invalid options, or when the controller was dismissed before the content could be loaded over the network.
 
 If there is an undocumented or unexpected error it will use this error code too.
 
-### `E_STORE_REVIEW_PREVIEW_PENDING`
+### `ERR_STORE_REVIEW_PREVIEW_PENDING`
 
 Thrown when an iTunes preview is already being presented. In theory this shouldn't be thrown because `{ type: 'locked' }` exists.
 
-### `E_STORE_REVIEW_PREVIEW_INVALID_OPTIONS`
+### `ERR_STORE_REVIEW_PREVIEW_INVALID_OPTIONS`
 
-Thrown when `presentPreviewAsync` is invoked without a valid numeric `itemId` option. Note that an invalid `itemId` can still be provided but iTunes won't be able to load the preview, if this happens then `E_STORE_REVIEW_PREVIEW_LOADING` is thrown after the controller is closed.
+Thrown when `presentPreviewAsync` is invoked without a valid numeric `itemId` option. Note that an invalid `itemId` can still be provided but iTunes won't be able to load the preview, if this happens then `ERR_STORE_REVIEW_PREVIEW_LOADING` is thrown after the controller is closed.
 
 ---
 

@@ -79,7 +79,7 @@ export async function presentPreviewAsync(options) {
     if (!StoreReview.presentPreviewAsync)
         throw new UnavailabilityError('StoreReview', 'presentPreviewAsync');
     if (typeof options.itemId !== 'number')
-        throw new CodedError('E_STORE_REVIEW_PREVIEW_INVALID_OPTIONS', 'A valid itemId number must be provided.');
+        throw new CodedError('ERR_STORE_REVIEW_PREVIEW_INVALID_OPTIONS', 'A valid itemId number must be provided.');
     // Prevent multiple sessions from running at the same time, WebBrowser doesn't
     // support it this makes the behavior predictable.
     if (controllerLocked) {
