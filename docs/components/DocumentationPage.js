@@ -83,7 +83,7 @@ export default class DocumentationPage extends React.Component {
     this.setState({
       isMenuActive: true,
     });
-    this._handleHideSearch();
+    this._handleToggleSearch();
   };
 
   _handleHideMenu = () => {
@@ -92,17 +92,10 @@ export default class DocumentationPage extends React.Component {
     });
   };
 
-  _handleShowSearch = () => {
-    this.setState({
-      isMobileSearchActive: true,
-    });
-  };
-
-  _handleHideSearch = () => {
-    this.setState({
-      isMobileSearchActive: false,
-    });
-    this._handleEndMobileSearchText();
+  _handleToggleSearch = () => {
+    this.setState(prevState => ({
+      isMobileSearchActive: !prevState.isMobileSearchActive,
+    }));
   };
 
   _handleStartMobileSearchText = () => {
@@ -189,14 +182,11 @@ export default class DocumentationPage extends React.Component {
         version={this._version}
         isMenuActive={this.state.isMenuActive}
         isMobileSearchActive={this.state.isMobileSearchActive}
-        isMobileSearchTextActive={this.state.isMobileSearchTextActive}
         isAlogiaSearchHidden={this.state.isMenuActive}
         onSetVersion={this._handleSetVersion}
         onShowMenu={this._handleShowMenu}
         onHideMenu={this._handleHideMenu}
-        onHideSearch={this._handleHideSearch}
-        onShowSearch={this._handleShowSearch}
-        onStartMobileSearchText={this._handleStartMobileSearchText}
+        onToggleSearch={this._handleToggleSearch}
       />
     );
 

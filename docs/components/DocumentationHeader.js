@@ -126,6 +126,7 @@ const SECTION_LINK = css`
   align-items: center;
   justify-content: space-between;
   border-radius: 2px;
+
   :hover {
     background-color: ${Constants.expoColors.gray[100]};
   }
@@ -137,12 +138,12 @@ const SECTION_LINK = css`
 `;
 
 const SECTION_LINK_ACTIVE = css`
-  color: #000 !important;
   background-color: ${Constants.expoColors.gray[200]};
 `;
 
-const SECTION_LINK_INACTIVE = css`
+const SECTION_LINK_TEXT = css`
   color: #000 !important;
+  transform: translateY(1px);
 `;
 
 function SectionContainer({ spaceBetween = 0, spaceAround = 0, children, style, className }) {
@@ -189,7 +190,7 @@ export default class DocumentationHeader extends React.PureComponent {
 
             {!this.props.isMenuActive && (
               <div className={STYLES_MENU_BUTTON_CONTAINER}>
-                <span className={STYLES_MENU_BUTTON} onClick={this.props.onShowSearch}>
+                <span className={STYLES_MENU_BUTTON} onClick={this.props.onToggleSearch}>
                   <img src={'/static/images/header/search.svg'} />
                 </span>
                 <span className={STYLES_MENU_BUTTON} onClick={this.props.onShowMenu}>
@@ -211,14 +212,13 @@ export default class DocumentationHeader extends React.PureComponent {
               router={this.props.router}
               version={this.props.version}
               hiddenOnMobile={SHOW_ON_MOBILE}
-              onHideSearch={this.props.onHideSearch}
-              onStartMobileSearchText={this.props.onStartMobileSearchText}
+              onToggleSearch={this.props.onToggleSearch}
             />
           ) : (
             this._renderSectionLinks(SHOW_ON_MOBILE)
           )}
         </header>
-        <div className={`${this.props.isMobileSearchTextActive && STYLES_SEARCH_OVERLAY}`} />
+        <div className={`${this.props.isMobileSearchActive && STYLES_SEARCH_OVERLAY}`} />
       </div>
     );
   }
@@ -229,36 +229,25 @@ export default class DocumentationHeader extends React.PureComponent {
         <SectionContainer spaceBetween={hiddenOnMobile ? 8 : 0}>
           <Link href="/">
             <a
-              className={`${SECTION_LINK} ${
-                this.props.activeSection === 'starting'
-                  ? SECTION_LINK_ACTIVE
-                  : SECTION_LINK_INACTIVE
-              } `}>
-              Get Started
+              className={`${SECTION_LINK} ${this.props.activeSection === 'starting' &&
+                SECTION_LINK_ACTIVE} `}>
+              <span className={SECTION_LINK_TEXT}>Get Started</span>
             </a>
           </Link>
           <Link href="/guides">
             <a
               className={`${SECTION_LINK}
-                    ${
-                      this.props.activeSection === 'general'
-                        ? SECTION_LINK_ACTIVE
-                        : SECTION_LINK_INACTIVE
-                    }
+                    ${this.props.activeSection === 'general' && SECTION_LINK_ACTIVE}
                   `}>
-              Guides
+              <span className={SECTION_LINK_TEXT}>Guides</span>
             </a>
           </Link>
           <Link href="/versions/latest/">
             <a
               className={`${SECTION_LINK}
-                    ${
-                      this.props.activeSection === 'reference'
-                        ? SECTION_LINK_ACTIVE
-                        : SECTION_LINK_INACTIVE
-                    }
+                    ${this.props.activeSection === 'reference' && SECTION_LINK_ACTIVE}
                   `}>
-              API Reference
+              <span className={SECTION_LINK_TEXT}>API Reference</span>
             </a>
           </Link>
         </SectionContainer>
