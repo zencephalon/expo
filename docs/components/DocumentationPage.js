@@ -62,7 +62,7 @@ export default class DocumentationPage extends React.Component {
   }
 
   _handleResize = () => {
-    if (WindowUtils.getViewportSize().width >= Constants.breakpoints.mobileValue) {
+    if (WindowUtils.getViewportSize().width >= Constants.breakpoints.mobileStrictValue) {
       window.scrollTo(0, 0);
     }
   };
@@ -96,18 +96,6 @@ export default class DocumentationPage extends React.Component {
     this.setState(prevState => ({
       isMobileSearchActive: !prevState.isMobileSearchActive,
     }));
-  };
-
-  _handleStartMobileSearchText = () => {
-    this.setState({
-      isMobileSearchTextActive: true,
-    });
-  };
-
-  _handleEndMobileSearchText = () => {
-    this.setState({
-      isMobileSearchTextActive: false,
-    });
   };
 
   _isReferencePath = () => {
@@ -208,7 +196,6 @@ export default class DocumentationPage extends React.Component {
         sidebar={sidebarElement}
         isMenuActive={this.state.isMenuActive}
         isMobileSearchActive={this.state.isMobileSearchActive}
-        isMobileSearchTextActive={this.state.mobileSearchText}
         sidebarScrollPosition={sidebarScrollPosition}>
         <Head title={`${this.props.title} - Expo Documentation`}>
           <AlgoliaDocsearchMeta
