@@ -9,6 +9,22 @@ const STYLES_LOGO = css`
   display: flex;
 `;
 
+const STYLES_UNSTYLED_ANCHOR = css`
+  color: inherit;
+  text-decoration: none;
+`;
+
+const STYLES_TITLE_TEXT = css`
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  padding-left: 8px;
+  font-size: 1.2rem;
+  display: flex;
+  font-family: ${Constants.fonts.demi};
+  cursor: pointer;
+`;
+
 const STYLES_LEFT = css`
   flex-shrink: 0;
   padding-right: 24px;
@@ -44,15 +60,12 @@ const STYLES_NAV = css`
   height: 60px;
   width: 100%;
   max-width: 1440px;
-
-  @media screen and (max-width: ${Constants.breakpoints.mobileStrict}) {
-    border-bottom: 1px solid ${Constants.expoColors.gray[250]};
-  }
 `;
 
 const STYLES_MOBILE_NAV = css`
   padding: 0px;
   height: 56px;
+  margin-bottom: 1px;
 
   @media screen and (min-width: ${Constants.breakpoints.mobileStrict}) {
     display: none;
@@ -60,6 +73,10 @@ const STYLES_MOBILE_NAV = css`
 
   @media screen and (max-width: ${Constants.breakpoints.mobileStrict}) {
     border-bottom: none;
+  }
+
+  @media screen and (max-width: ${Constants.breakpoints.mobileStrict}) {
+    border-top: 1px solid ${Constants.expoColors.gray[250]};
   }
 `;
 
@@ -172,8 +189,14 @@ export default class DocumentationHeader extends React.PureComponent {
             <div className={STYLES_LOGO_CONTAINER}>
               <Link href="/">
                 <span className={STYLES_LOGO}>
-                  <img src={'/static/images/header/docs-logo.svg'} />
+                  <img src="/static/images/header/sdk.svg" />
                 </span>
+              </Link>
+
+              <Link href="/">
+                <a className={STYLES_UNSTYLED_ANCHOR}>
+                  <h1 className={STYLES_TITLE_TEXT}>Expo</h1>
+                </a>
               </Link>
 
               {this._renderSectionLinks(HIDE_ON_MOBILE)}
