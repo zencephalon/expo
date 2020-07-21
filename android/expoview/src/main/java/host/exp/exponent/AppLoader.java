@@ -78,8 +78,7 @@ public abstract class AppLoader {
     HashMap<String, Object> configMap = new HashMap<>();
     configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_UPDATE_URL_KEY, Uri.parse(mManifestUrl.replaceFirst("exp", "https")));
     configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SCOPE_KEY_KEY, mManifestUrl);
-//    configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SDK_VERSION_KEY, Constants.SDK_VERSIONS);
-    configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SDK_VERSION_KEY, "38.0.0");
+    configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SDK_VERSION_KEY, Constants.SDK_VERSIONS);
     configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_HAS_EMBEDDED_UPDATE, false);
     configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_ENABLED_KEY, Constants.ARE_REMOTE_UPDATES_ENABLED);
     if (mUseCacheOnly) {
@@ -102,7 +101,7 @@ public abstract class AppLoader {
     UpdatesConfiguration configuration = new UpdatesConfiguration();
     configuration.loadValuesFromMap(configMap);
 
-    SelectionPolicy selectionPolicy = new SelectionPolicyNewest("38.0.0");
+    SelectionPolicy selectionPolicy = new SelectionPolicyNewest(Constants.SDK_VERSIONS_LIST);
 
     File directory;
     try {
