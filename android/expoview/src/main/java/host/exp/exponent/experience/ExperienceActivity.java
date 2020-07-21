@@ -27,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.unimodules.core.interfaces.Package;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -202,7 +203,7 @@ public class ExperienceActivity extends BaseExperienceActivity implements Expone
 
     if (mManifestUrl != null && shouldOpenImmediately) {
       boolean forceCache = getIntent().getBooleanExtra(KernelConstants.LOAD_FROM_CACHE_KEY, false);
-      new AppLoader(mManifestUrl, forceCache) {
+      new AppLoader(mManifestUrl, forceCache, this) {
         @Override
         public void onOptimisticManifest(final JSONObject optimisticManifest) {
           Exponent.getInstance().runOnUiThread(new Runnable() {
@@ -231,7 +232,9 @@ public class ExperienceActivity extends BaseExperienceActivity implements Expone
 
         @Override
         public void onBundleCompleted(String localBundlePath) {
-          setBundle(localBundlePath);
+          Exponent.getInstance().runOnUiThread(() -> {
+            setBundle(localBundlePath);
+          });
         }
 
         @Override

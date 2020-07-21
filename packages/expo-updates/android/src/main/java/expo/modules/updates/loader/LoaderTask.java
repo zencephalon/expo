@@ -124,6 +124,9 @@ public class LoaderTask {
 
         @Override
         public void onSuccess() {
+          synchronized (LoaderTask.this) {
+            mIsReadyToLaunch = true;
+          }
           finish(null);
         }
       });
@@ -138,6 +141,7 @@ public class LoaderTask {
   private synchronized void finish(@Nullable Exception e) {
     if (mHasLaunched) {
       // we've already fired once, don't do it again
+      return;
     }
     mHasLaunched = true;
 
@@ -228,6 +232,7 @@ public class LoaderTask {
 
           @Override
           public boolean onManifestLoaded(Manifest manifest) {
+            mCallback.onManifestLoaded(manifest);
             return mSelectionPolicy.shouldLoadNewUpdate(
               manifest.getUpdateEntity(),
               mLauncher.getLaunchedUpdate()

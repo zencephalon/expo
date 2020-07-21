@@ -19,6 +19,7 @@ import org.unimodules.apploader.AppLoaderProvider;
 import org.unimodules.core.interfaces.Package;
 import org.unimodules.core.interfaces.SingletonModule;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +85,7 @@ public class InternalHeadlessAppLoader implements AppLoaderInterface, Exponent.S
     mCallback = callback;
     mActivityId = ExpoActivityIds.getNextHeadlessActivityId();
 
-    new AppLoader(mManifestUrl, true) {
+    new AppLoader(mManifestUrl, true, mContext) {
       @Override
       public void onOptimisticManifest(final JSONObject optimisticManifest) {
       }
