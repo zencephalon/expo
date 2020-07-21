@@ -24,6 +24,7 @@ import expo.modules.updates.db.DatabaseHolder;
 import expo.modules.updates.launcher.Launcher;
 import expo.modules.updates.launcher.SelectionPolicy;
 import expo.modules.updates.launcher.SelectionPolicyNewest;
+import expo.modules.updates.loader.FileDownloader;
 import expo.modules.updates.loader.LoaderTask;
 import expo.modules.updates.manifest.Manifest;
 import host.exp.exponent.analytics.Analytics;
@@ -37,6 +38,9 @@ import host.exp.expoview.ExpoViewBuildConfig;
 import host.exp.expoview.Exponent;
 
 public abstract class AppLoader {
+
+  @Inject
+  ExponentManifest mExponentManifest;
 
   @Inject
   ExponentSharedPreferences mExponentSharedPreferences;
@@ -68,15 +72,57 @@ public abstract class AppLoader {
     mContext = context;
   }
 
+  public void startDevMode() {
+    HashMap<String, Object> configMap = new HashMap<>();
+    configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_UPDATE_URL_KEY, mExponentManifest.httpManifestUrl(mManifestUrl));
+    configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SCOPE_KEY_KEY, mManifestUrl);
+    configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SDK_VERSION_KEY, Constants.SDK_VERSIONS);
+    HashMap<String, String> headers = new HashMap<>();
+    headers.put("Expo-Updates-Environment", "EXPO_CLIENT");
+    configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_REQUEST_HEADERS_KEY, headers);
+    UpdatesConfiguration configuration = new UpdatesConfiguration();
+    configuration.loadValuesFromMap(configMap);
+
+    FileDownloader.downloadManifest(configuration, mContext, new FileDownloader.ManifestDownloadCallback() {
+      @Override
+      public void onFailure(String message, Exception e) {
+        onError(e);
+      }
+
+      @Override
+      public void onSuccess(Manifest manifest) {
+        JSONObject manifestJson = manifest.getRawManifestJson();
+
+        String bundleUrl;
+        try {
+          // TODO
+          manifestJson.put("isVerified", true);
+          bundleUrl = ExponentUrls.toHttp(manifestJson.getString(ExponentManifest.MANIFEST_BUNDLE_URL_KEY));
+        } catch (JSONException ex) {
+          onError(ex);
+          return;
+        }
+
+        Analytics.markEvent(Analytics.TimedEvent.FINISHED_FETCHING_MANIFEST);
+
+        mExponentSharedPreferences.updateManifest(mManifestUrl, manifestJson, bundleUrl);
+        ExponentDB.saveExperience(mManifestUrl, manifestJson, bundleUrl);
+
+        onManifestCompleted(manifestJson);
+      }
+    });
+  }
+
   public void start() {
-//    if (ExponentManifest.isDebugModeEnabled(mManifest)) {
-//      mLocalBundlePath = "";
-//      resolve();
-//      return;
-//    }
+    Uri manifestUrl = mExponentManifest.httpManifestUrl(mManifestUrl);
+    // TODO: also need to check for debug mode once manifest is downloaded and abort loadertask, if so
+    if ("localhost".equals(manifestUrl.getHost())) {
+      startDevMode();
+      return;
+    }
 
     HashMap<String, Object> configMap = new HashMap<>();
-    configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_UPDATE_URL_KEY, Uri.parse(mManifestUrl.replaceFirst("exp", "https")));
+    configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_UPDATE_URL_KEY, manifestUrl);
     configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SCOPE_KEY_KEY, mManifestUrl);
     configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SDK_VERSION_KEY, Constants.SDK_VERSIONS);
     configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_HAS_EMBEDDED_UPDATE, false);
