@@ -80,6 +80,8 @@ public abstract class AppLoader {
     HashMap<String, String> headers = new HashMap<>();
     headers.put("Expo-Updates-Environment", "EXPO_CLIENT");
     headers.put("Exponent-Accept-Signature", "true");
+    headers.put("Exponent-Platform", "android");
+    headers.put("Exponent-SDK-Version", Constants.SDK_VERSIONS);
     String sessionSecret = mExponentSharedPreferences.getSessionSecret();
     if (sessionSecret != null) {
       headers.put("Expo-Session", sessionSecret);
@@ -153,6 +155,8 @@ public abstract class AppLoader {
     HashMap<String, String> headers = new HashMap<>();
     headers.put("Expo-Updates-Environment", "EXPO_CLIENT");
     headers.put("Exponent-Accept-Signature", "true");
+    headers.put("Exponent-Platform", "android");
+    headers.put("Exponent-SDK-Version", Constants.SDK_VERSIONS);
     String sessionSecret = mExponentSharedPreferences.getSessionSecret();
     if (sessionSecret != null) {
       headers.put("Expo-Session", sessionSecret);
