@@ -79,6 +79,7 @@ public abstract class AppLoader {
     configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SDK_VERSION_KEY, Constants.SDK_VERSIONS);
     HashMap<String, String> headers = new HashMap<>();
     headers.put("Expo-Updates-Environment", "EXPO_CLIENT");
+    headers.put("Exponent-Accept-Signature", "true");
     String sessionSecret = mExponentSharedPreferences.getSessionSecret();
     if (sessionSecret != null) {
       headers.put("Expo-Session", sessionSecret);
@@ -100,7 +101,7 @@ public abstract class AppLoader {
         String bundleUrl;
         try {
           // TODO
-          manifestJson.put("isVerified", true);
+          manifestJson.put(ExponentManifest.MANIFEST_IS_VERIFIED_KEY, true);
           bundleUrl = ExponentUrls.toHttp(manifestJson.getString(ExponentManifest.MANIFEST_BUNDLE_URL_KEY));
         } catch (JSONException ex) {
           onError(ex);
@@ -121,6 +122,11 @@ public abstract class AppLoader {
     Uri manifestUrl = mExponentManifest.httpManifestUrl(mManifestUrl);
     // TODO: also need to check for debug mode once manifest is downloaded and abort loadertask, if so
     if ("localhost".equals(manifestUrl.getHost())) {
+      startDevMode();
+      return;
+    }
+
+    if (true) {
       startDevMode();
       return;
     }
@@ -146,6 +152,7 @@ public abstract class AppLoader {
 
     HashMap<String, String> headers = new HashMap<>();
     headers.put("Expo-Updates-Environment", "EXPO_CLIENT");
+    headers.put("Exponent-Accept-Signature", "true");
     String sessionSecret = mExponentSharedPreferences.getSessionSecret();
     if (sessionSecret != null) {
       headers.put("Expo-Session", sessionSecret);
@@ -183,7 +190,7 @@ public abstract class AppLoader {
         String bundleUrl;
         try {
           // TODO
-          manifest.put("isVerified", true);
+          manifest.put(ExponentManifest.MANIFEST_IS_VERIFIED_KEY, true);
           bundleUrl = ExponentUrls.toHttp(manifest.getString(ExponentManifest.MANIFEST_BUNDLE_URL_KEY));
         } catch (JSONException ex) {
           onError(ex);
