@@ -79,6 +79,10 @@ public abstract class AppLoader {
     configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_SDK_VERSION_KEY, Constants.SDK_VERSIONS);
     HashMap<String, String> headers = new HashMap<>();
     headers.put("Expo-Updates-Environment", "EXPO_CLIENT");
+    String sessionSecret = mExponentSharedPreferences.getSessionSecret();
+    if (sessionSecret != null) {
+      headers.put("Expo-Session", sessionSecret);
+    }
     configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_REQUEST_HEADERS_KEY, headers);
     UpdatesConfiguration configuration = new UpdatesConfiguration();
     configuration.loadValuesFromMap(configMap);
@@ -142,6 +146,10 @@ public abstract class AppLoader {
 
     HashMap<String, String> headers = new HashMap<>();
     headers.put("Expo-Updates-Environment", "EXPO_CLIENT");
+    String sessionSecret = mExponentSharedPreferences.getSessionSecret();
+    if (sessionSecret != null) {
+      headers.put("Expo-Session", sessionSecret);
+    }
     configMap.put(UpdatesConfiguration.UPDATES_CONFIGURATION_REQUEST_HEADERS_KEY, headers);
 
     UpdatesConfiguration configuration = new UpdatesConfiguration();
