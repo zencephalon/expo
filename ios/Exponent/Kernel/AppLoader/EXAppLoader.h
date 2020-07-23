@@ -6,6 +6,8 @@
 #import "EXAppFetcherWithTimeout.h"
 #import "EXCachedResource.h"
 
+#import <EXUpdates/EXUpdatesAppLoaderTask.h>
+
 @class EXKernelAppRecord;
 @class EXAppLoader;
 
@@ -31,7 +33,7 @@ typedef enum EXAppLoaderStatus {
 
 @end
 
-@interface EXAppLoader : NSObject <EXAppFetcherDelegate, EXAppFetcherDevelopmentModeDelegate, EXAppFetcherWithTimeoutDelegate, EXAppFetcherCacheDataSource>
+@interface EXAppLoader : NSObject <EXUpdatesAppLoaderTaskDelegate, EXAppFetcherDelegate, EXAppFetcherDevelopmentModeDelegate, EXAppFetcherWithTimeoutDelegate, EXAppFetcherCacheDataSource>
 
 @property (nonatomic, readonly) NSURL *manifestUrl;
 @property (nonatomic, readonly) NSDictionary * _Nullable manifest; // possibly optimistic

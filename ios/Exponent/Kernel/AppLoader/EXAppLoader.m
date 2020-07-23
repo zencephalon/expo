@@ -13,7 +13,13 @@
 #import "EXKernelAppRegistry.h"
 #import "EXKernelLinkingManager.h"
 #import "EXManifestResource.h"
+#import "EXVersions.h"
 
+#import <EXUpdates/EXUpdatesAppLoaderTask.h>
+#import <EXUpdates/EXUpdatesConfig.h>
+#import <EXUpdates/EXUpdatesDatabase.h>
+#import <EXUpdates/EXUpdatesSelectionPolicyNewest.h>
+#import <EXUpdates/EXUpdatesUtils.h>
 #import <React/RCTUtils.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -30,6 +36,7 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
 @property (nonatomic, strong) NSDictionary * _Nullable confirmedManifest; // manifest that is actually being used
 @property (nonatomic, strong) NSDictionary * _Nullable cachedManifest; // manifest that is cached and we definitely have, may fall back to it
 @property (nonatomic, strong) EXManifestResource * _Nullable manifestResource;
+@property (nonatomic, strong) NSData * _Nullable bundle;
 
 @property (nonatomic, strong) EXAppFetcher * _Nullable appFetcher;
 @property (nonatomic, strong) EXAppFetcher * _Nullable previousAppFetcherWaitingForBundle;
@@ -77,6 +84,8 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
 {
   if (_error || (_appFetcher && _appFetcher.error)) {
     return kEXAppLoaderStatusError;
+  } else if (_bundle) {
+    return kEXAppLoaderStatusHasManifestAndBundle;
   } else if (_appFetcher && _appFetcher.bundle && _confirmedManifest) {
     return kEXAppLoaderStatusHasManifestAndBundle;
   } else if (_cachedManifest || (_appFetcher && _appFetcher.manifest)) {
@@ -102,6 +111,9 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
 
 - (NSData * _Nullable)bundle
 {
+  if (_bundle) {
+    return _bundle;
+  }
   if (_appFetcher) {
     return _appFetcher.bundle;
   }
@@ -159,6 +171,38 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
   }
 }
 
+#pragma mark - EXUpdatesAppLoaderTaskDelegate
+
+- (void)appLoaderTask:(EXUpdatesAppLoaderTask *)appLoaderTask didStartLoadingUpdate:(EXUpdatesUpdate *)update
+{
+  if (_delegate) {
+    [_delegate appLoader:self didLoadOptimisticManifest:update.rawManifest];
+  }
+}
+
+- (void)appLoaderTask:(EXUpdatesAppLoaderTask *)appLoaderTask didFinishWithLauncher:(id<EXUpdatesAppLauncher>)launcher
+{
+  _confirmedManifest = launcher.launchedUpdate.rawManifest;
+  _cachedManifest = _confirmedManifest;
+  _bundle = [NSData dataWithContentsOfURL:launcher.launchAssetUrl];
+  if (_delegate) {
+    [_delegate appLoader:self didFinishLoadingManifest:_confirmedManifest bundle:_bundle];
+  }
+}
+
+- (void)appLoaderTask:(EXUpdatesAppLoaderTask *)appLoaderTask didFinishWithError:(NSError *)error
+{
+  _error = error;
+  if (_delegate) {
+    [_delegate appLoader:self didFailWithError:error];
+  }
+}
+
+- (void)appLoaderTask:(EXUpdatesAppLoaderTask *)appLoaderTask didFireEventWithType:(NSString *)type body:(NSDictionary *)body
+{
+  // TODO
+}
+
 #pragma mark - internal
 
 + (NSURL *)_httpUrlFromManifestUrl:(NSURL *)url
@@ -191,8 +235,53 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
     // we can't pre-detect if this person is using a developer tool, but using localhost is a pretty solid indicator.
     [self _startAppFetcher:[[EXAppFetcherDevelopmentMode alloc] initWithAppLoader:self]];
   } else {
-    [self _fetchCachedManifest];
+    [self _startLoaderTask];
   }
+}
+
+- (void)_startLoaderTask
+{
+  NSString *sdkVersions;
+  NSArray *versionsAvailable = [EXVersions sharedInstance].versions[@"sdkVersions"];
+  if (versionsAvailable) {
+    sdkVersions = [versionsAvailable componentsJoinedByString:@","];
+  } else {
+    sdkVersions = [EXVersions sharedInstance].temporarySdkVersion;
+  }
+
+  EXUpdatesConfig *config = [EXUpdatesConfig configWithDictionary:@{
+    @"EXUpdatesURL": [[self class] _httpUrlFromManifestUrl:_manifestUrl].absoluteString,
+    @"EXUpdatesSDKVersion": sdkVersions,
+    @"EXUpdatesScopeKey": _manifestUrl.absoluteString,
+    @"EXUpdatesHasEmbeddedUpdate": @(NO),
+    @"EXUpdatesEnabled": @(YES),
+    @"EXUpdatesLaunchWaitMs": _shouldUseCacheOnly ? @(0) : @(10000),
+    @"EXUpdatesCheckOnLaunch": _shouldUseCacheOnly ? @"NEVER" : @"ALWAYS",
+    @"EXUpdatesRequestHeaders": @{
+        @"Exponent-SDK-Version": sdkVersions,
+        @"Exponent-Accept-Signature": @"true",
+        @"Exponent-Platform": @"ios"
+        // TODO: add others
+    }
+  }];
+
+  NSError *fsError;
+  NSURL *updatesDirectory = [EXUpdatesUtils initializeUpdatesDirectoryWithError:&fsError];
+  __block NSError *dbError;
+  EXUpdatesDatabase *database = [[EXUpdatesDatabase alloc] init];
+  dispatch_sync(database.databaseQueue, ^{
+    [database openDatabaseInDirectory:updatesDirectory withError:&dbError];
+  });
+
+  EXUpdatesSelectionPolicyNewest *selectionPolicy = [[EXUpdatesSelectionPolicyNewest alloc] initWithRuntimeVersions:versionsAvailable ?: @[[EXVersions sharedInstance].temporarySdkVersion]];
+
+  EXUpdatesAppLoaderTask *loaderTask = [[EXUpdatesAppLoaderTask alloc] initWithConfig:config
+                                                                             database:database
+                                                                            directory:updatesDirectory
+                                                                      selectionPolicy:selectionPolicy
+                                                                        delegateQueue:dispatch_get_main_queue()];
+  loaderTask.delegate = self;
+  [loaderTask start];
 }
 
 - (void)_fetchCachedManifest
