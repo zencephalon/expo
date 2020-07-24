@@ -6,30 +6,38 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-export declare type Cursor = 'alias' | 'all-scroll' | 'auto' | 'cell' | 'context-menu' | 'copy' | 'crosshair' | 'default' | 'grab' | 'grabbing' | 'help' | 'pointer' | 'progress' | 'wait' | 'text' | 'vertical-text' | 'move' | 'none' | 'no-drop' | 'not-allowed' | 'zoom-in' | 'zoom-out' | 'col-resize' | 'e-resize' | 'ew-resize' | 'n-resize' | 'ne-resize' | 'ns-resize' | 'nw-resize' | 'row-resize' | 's-resize' | 'se-resize' | 'sw-resize' | 'w-resize' | 'nesw-resize' | 'nwse-resize';
-export declare type TouchAction = 'auto' | 'inherit' | 'manipulation' | 'none' | 'pan-down' | 'pan-left' | 'pan-right' | 'pan-up' | 'pan-x' | 'pan-y' | 'pinch-zoom';
-export declare type UserSelect = 'all' | 'auto' | 'contain' | 'none' | 'text';
+/**
+ * Styles related to interacting with elements and interfaces.
+ *
+ * @platform web
+ */
 export declare type InteractionStyles = {
     /**
-     * https://developer.mozilla.org/en-US/docs/Web/CSS/cursor#Formal_syntax
-     * @platform web
-     */
-    cursor?: Cursor;
-    /**
-     * https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action#Formal_syntax
-     * @platform web
-     */
-    touchAction?: TouchAction;
-    /**
-     * https://developer.mozilla.org/en-US/docs/Web/CSS/user-select#Formal_syntax_2
+     * Define the type of mouse cursor (if any), to show when the mouse hovers over a component.
      *
+     * @see [CSS/cursor](https://developer.mozilla.org/en-US/docs/Web/CSS/cursor)
      * @platform web
      */
-    userSelect?: UserSelect;
+    cursor?: 'alias' | 'all-scroll' | 'auto' | 'cell' | 'context-menu' | 'copy' | 'crosshair' | 'default' | 'grab' | 'grabbing' | 'help' | 'pointer' | 'progress' | 'wait' | 'text' | 'vertical-text' | 'move' | 'none' | 'no-drop' | 'not-allowed' | 'zoom-in' | 'zoom-out' | 'col-resize' | 'e-resize' | 'ew-resize' | 'n-resize' | 'ne-resize' | 'ns-resize' | 'nw-resize' | 'row-resize' | 's-resize' | 'se-resize' | 'sw-resize' | 'w-resize' | 'nesw-resize' | 'nwse-resize';
     /**
-     * https://developer.mozilla.org/en-US/docs/Web/CSS/will-change
+     * How an element's region can be manipulated by a touchable user interface.
      *
+     * @see [CSS/touch-action](https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action)
      * @platform web
      */
-    willChange?: string;
+    touchAction?: 'auto' | 'inherit' | 'manipulation' | 'none' | 'pan-down' | 'pan-left' | 'pan-right' | 'pan-up' | 'pan-x' | 'pan-y' | 'pinch-zoom';
+    /**
+     * Whether the user can select text. This doesn't have any effect on content loaded as [chrome](https://developer.mozilla.org/en-US/docs/Glossary/Chrome), except in textboxes.
+     *
+     * @see [CSS/user-select](https://developer.mozilla.org/en-US/docs/Web/CSS/user-select)
+     * @platform web
+     */
+    userSelect?: 'all' | 'auto' | 'contain' | 'none' | 'text';
+    /**
+     * Hints to browsers how an element is expected to change.
+     *
+     * @see [CSS/will-change](https://developer.mozilla.org/en-US/docs/Web/CSS/will-change)
+     * @platform web
+     */
+    willChange?: string | string[];
 };

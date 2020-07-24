@@ -6,31 +6,17 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import {
-  AnimationStyles,
-  GridStyles,
-  InteractionStyles,
-  TransformStyles,
-  TransitionStyles,
-} from 'expo-style-sheet';
 import { TextStyle as NativeTextStyle } from 'react-native';
+
+import { AnimationStyles } from './AnimationStyles';
+import { GridStyles } from './GridStyles';
+import { InteractionStyles } from './InteractionStyles';
+import { TransformStyles } from './TransformStyles';
+import { TransitionStyles } from './TransitionStyles';
 
 type StringOrNumber = string | number;
 
 export type TextOverflow = string | 'each-line' | 'hanging';
-
-export type FontWeight =
-  | 'normal'
-  | 'bold'
-  | '100'
-  | '200'
-  | '300'
-  | '400'
-  | '500'
-  | '600'
-  | '700'
-  | '800'
-  | '900';
 
 export type TextRendering = 'auto' | 'geometricPrecision' | 'optimizeLegibility' | 'optimizeSpeed';
 
@@ -69,7 +55,18 @@ export interface WebTextStyle {
   /**
    *
    */
-  fontWeight?: FontWeight;
+  fontWeight?:
+    | 'normal'
+    | 'bold'
+    | '100'
+    | '200'
+    | '300'
+    | '400'
+    | '500'
+    | '600'
+    | '700'
+    | '800'
+    | '900';
   /**
    *
    */
