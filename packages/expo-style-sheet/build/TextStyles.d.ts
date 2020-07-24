@@ -12,7 +12,8 @@ import { GridStyles } from './GridStyles';
 import { InteractionStyles } from './InteractionStyles';
 import { TransformStyles } from './TransformStyles';
 import { TransitionStyles } from './TransitionStyles';
-declare type StringOrNumber = string | number;
+import { WebViewStyles } from './ViewStyles';
+declare type NumberOrString = string | number;
 export declare type TextOverflow = string | 'each-line' | 'hanging';
 export declare type TextRendering = 'auto' | 'geometricPrecision' | 'optimizeLegibility' | 'optimizeSpeed';
 export declare type UnicodeBidi = 'normal' | 'bidi-override' | 'embed' | 'isolate' | 'isolate-override' | 'plaintext';
@@ -22,7 +23,6 @@ export declare type WordWrap = 'normal' | 'anywhere' | 'break-word';
 export declare type FontVariant = 'small-caps' | 'oldstyle-nums' | 'lining-nums' | 'tabular-nums' | 'proportional-nums';
 export declare type TextTransform = 'uppercase' | 'lowercase' | 'none' | 'capitalize' | 'full-width' | 'full-size-kana';
 export interface WebTextStyle {
-    position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
     /**
      *
      */
@@ -47,7 +47,7 @@ export interface WebTextStyle {
      * https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings
      * @platform web
      */
-    fontFeatureSettings?: StringOrNumber | StringOrNumber[];
+    fontFeatureSettings?: NumberOrString | NumberOrString[];
     /**
      *
      * https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform
@@ -59,7 +59,7 @@ export interface WebTextStyle {
      *
      * @platform web
      */
-    textIndent?: StringOrNumber;
+    textIndent?: NumberOrString;
     /**
      * @platform web
      */
@@ -108,5 +108,5 @@ export interface WebTextStyle {
      */
     WebkitFontSmoothing?: string;
 }
-export declare type TextStyle = Omit<NativeTextStyle, 'transform' | 'position' | 'fontSize' | 'fontWeight' | 'fontVariant' | 'lineHeight'> & WebTextStyle & AnimationStyles & TransitionStyles & InteractionStyles & GridStyles & TransformStyles;
+export declare type TextStyle = Omit<NativeTextStyle, 'transform' | 'position' | 'fontSize' | 'fontWeight' | 'fontVariant' | 'lineHeight'> & WebViewStyles & WebTextStyle & AnimationStyles & TransitionStyles & InteractionStyles & GridStyles & TransformStyles;
 export {};

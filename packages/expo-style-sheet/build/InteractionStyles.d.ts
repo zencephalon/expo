@@ -28,6 +28,7 @@ export declare type InteractionStyles = {
     touchAction?: 'auto' | 'inherit' | 'manipulation' | 'none' | 'pan-down' | 'pan-left' | 'pan-right' | 'pan-up' | 'pan-x' | 'pan-y' | 'pinch-zoom';
     /**
      * Whether the user can select text. This doesn't have any effect on content loaded as [chrome](https://developer.mozilla.org/en-US/docs/Glossary/Chrome), except in textboxes.
+     * For `Text` use the `selectable` prop instead.
      *
      * @see [CSS/user-select](https://developer.mozilla.org/en-US/docs/Web/CSS/user-select)
      * @platform web

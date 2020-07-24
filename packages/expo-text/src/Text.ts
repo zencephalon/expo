@@ -5,29 +5,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 import { TextStyle } from 'expo-style-sheet/build/TextStyles';
-import { ClassAttributes, ComponentProps, ComponentType } from 'react';
-import { AccessibilityRole, StyleProp, Text as NativeText } from 'react-native';
+import { ComponentType } from 'react';
+import { Text as NativeText } from 'react-native';
 
-type NativeTextProps = ComponentProps<typeof NativeText> & ClassAttributes<typeof NativeText>;
-
-type TextProps = Omit<NativeTextProps, 'style' | 'accessibilityRole'> & {
-  style?: StyleProp<TextStyle>;
-  /**
-   * https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex
-   *
-   * @platform web
-   */
-  tabIndex?: number;
-  /**
-   * Accessibility Role tells a person using either VoiceOver on iOS or TalkBack on Android the type of element that is focused on.
-   */
-  accessibilityRole?: 'listitem' | AccessibilityRole;
-  /**
-   *
-   * @platform web
-   */
-  href?: string;
-};
+import { TextProps } from './TextProps';
 
 const Text = NativeText as ComponentType<TextProps>;
 

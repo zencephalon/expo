@@ -13,8 +13,9 @@ import { GridStyles } from './GridStyles';
 import { InteractionStyles } from './InteractionStyles';
 import { TransformStyles } from './TransformStyles';
 import { TransitionStyles } from './TransitionStyles';
+import { WebViewStyles } from './ViewStyles';
 
-type StringOrNumber = string | number;
+type NumberOrString = string | number;
 
 export type TextOverflow = string | 'each-line' | 'hanging';
 
@@ -51,7 +52,6 @@ export type TextTransform =
   | 'full-size-kana';
 
 export interface WebTextStyle {
-  position?: 'absolute' | 'fixed' | 'relative' | 'static' | 'sticky';
   /**
    *
    */
@@ -87,7 +87,7 @@ export interface WebTextStyle {
    * https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings
    * @platform web
    */
-  fontFeatureSettings?: StringOrNumber | StringOrNumber[];
+  fontFeatureSettings?: NumberOrString | NumberOrString[];
   /**
    *
    * https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform
@@ -99,7 +99,7 @@ export interface WebTextStyle {
    *
    * @platform web
    */
-  textIndent?: StringOrNumber;
+  textIndent?: NumberOrString;
   /**
    * @platform web
    */
@@ -153,6 +153,7 @@ export type TextStyle = Omit<
   NativeTextStyle,
   'transform' | 'position' | 'fontSize' | 'fontWeight' | 'fontVariant' | 'lineHeight'
 > &
+  WebViewStyles &
   WebTextStyle &
   AnimationStyles &
   TransitionStyles &

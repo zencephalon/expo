@@ -1,9 +1,9 @@
 {
-  "name": "expo-text",
+  "name": "expo-view",
   "version": "1.0.0",
-  "description": "Provides the same interface as the React Native Text API, but with proper types for Expo environments.",
-  "main": "build/Text.js",
-  "types": "build/Text.d.ts",
+  "description": "Provides the same interface as the React Native View API, but with proper types for Expo environments.",
+  "main": "build/View.js",
+  "types": "build/View.d.ts",
   "scripts": {
     "build": "expo-module build",
     "clean": "expo-module clean",
@@ -18,12 +18,12 @@
     "react-native",
     "react-native-web",
     "expo",
-    "expo-text"
+    "expo-view"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/expo/expo.git",
-    "directory": "packages/expo-text"
+    "directory": "packages/expo-view"
   },
   "bugs": {
     "url": "https://github.com/expo/expo/issues"
@@ -35,8 +35,7 @@
     "expo-module-scripts": "^1.2.0"
   },
   "dependencies": {
-    "expo-style-sheet": "~1.0.0",
-    "expo-view": "~1.0.0"
+    "expo-style-sheet": "~1.0.0"
   },
   "jest": {
     "preset": "expo-module-scripts/enzyme"
