@@ -1,0 +1,41 @@
+{
+  "name": "expo-style-sheet",
+  "version": "1.0.0",
+  "description": "Provides the same interface as the React Native StyleSheet API, but with proper types for Expo environments.",
+  "main": "build/StyleSheet.js",
+  "types": "build/StyleSheet.d.ts",
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "lint": "expo-module lint",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "react-native-web",
+    "expo",
+    "css-in-js",
+    "expo-style-sheet"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/expo/expo.git",
+    "directory": "packages/expo-style-sheet"
+  },
+  "bugs": {
+    "url": "https://github.com/expo/expo/issues"
+  },
+  "author": "650 Industries, Inc.",
+  "license": "MIT",
+  "homepage": "https://docs.expo.io/versions/latest/sdk/module-template",
+  "devDependencies": {
+    "expo-module-scripts": "^1.2.0"
+  },
+  "jest": {
+    "preset": "expo-module-scripts/enzyme"
+  }
+}
