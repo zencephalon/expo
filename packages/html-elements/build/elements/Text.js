@@ -1,7 +1,7 @@
+import { Text } from 'expo-text';
 import React, { forwardRef } from 'react';
 import { StyleSheet, Platform } from 'react-native';
 import { em } from '../css/units';
-import Text from '../primitives/Text';
 import View from '../primitives/View';
 export const P = forwardRef(({ style, ...props }, ref) => {
     return React.createElement(Text, Object.assign({}, props, { style: [styles.p, style], ref: ref }));

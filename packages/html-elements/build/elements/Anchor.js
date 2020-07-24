@@ -1,6 +1,6 @@
+import { Text } from 'expo-text';
 import React, { forwardRef } from 'react';
 import { Linking, Platform } from 'react-native';
-import Text from '../primitives/Text';
 export const A = forwardRef(({ href, target, ...props }, ref) => {
     const nativeProps = Platform.select({
         web: {

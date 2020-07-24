@@ -1,8 +1,8 @@
+import { Text, TextProps } from 'expo-text';
 import React, { ComponentType, forwardRef } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 
 import { em } from '../css/units';
-import Text, { TextProps } from '../primitives/Text';
 
 function createHeadingComponent(level: number): ComponentType<TextProps> {
   const nativeProps: any = Platform.select({

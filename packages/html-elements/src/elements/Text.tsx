@@ -1,8 +1,8 @@
+import { Text, TextProps } from 'expo-text';
 import React, { ComponentType, forwardRef } from 'react';
 import { StyleSheet, Platform } from 'react-native';
 
 import { em } from '../css/units';
-import Text, { TextProps } from '../primitives/Text';
 import View, { ViewProps } from '../primitives/View';
 import { BlockQuoteProps, QuoteProps, TimeProps } from './Text.types';
 

@@ -1,8 +1,8 @@
+import { TextProps } from 'expo-text';
 import { ComponentType, forwardRef } from 'react';
 import { StyleSheet } from 'react-native';
 import createElement from 'react-native-web/dist/exports/createElement';
 
-import { TextProps } from '../primitives/Text';
 import { BlockQuoteProps, QuoteProps, TimeProps } from './Text.types';
 
 export const P = forwardRef(({ style, ...props }: TextProps, ref) => {

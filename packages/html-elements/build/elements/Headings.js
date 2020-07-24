@@ -1,7 +1,7 @@
+import { Text } from 'expo-text';
 import React, { forwardRef } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { em } from '../css/units';
-import Text from '../primitives/Text';
 function createHeadingComponent(level) {
     const nativeProps = Platform.select({
         web: {

@@ -1,9 +1,9 @@
+import { TextProps } from 'expo-text';
 import { ComponentType, forwardRef } from 'react';
 import { StyleSheet } from 'react-native';
 import createElement from 'react-native-web/dist/exports/createElement';
 
 import { TableTextProps } from '../primitives/Table';
-import { TextProps } from '../primitives/Text';
 import { ViewProps } from '../primitives/View';
 
 export const Table = forwardRef((props: ViewProps, ref) => {

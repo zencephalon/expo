@@ -1,7 +1,7 @@
+import { Text } from 'expo-text';
 import React, { ComponentType, forwardRef } from 'react';
 import { Linking, Platform } from 'react-native';
 
-import Text from '../primitives/Text';
 import { LinkProps } from './Text.types';
 
 export const A = forwardRef(({ href, target, ...props }: LinkProps, ref) => {

@@ -1,7 +1,7 @@
+import { Text, TextProps } from 'expo-text';
 import React, { ComponentType, forwardRef, PropsWithChildren } from 'react';
 import { Platform } from 'react-native';
 
-import Text, { TextProps } from '../primitives/Text';
 import View, { ViewProps } from '../primitives/View';
 
 function createView(nativeProps: ViewProps = {}): ComponentType<ViewProps> {
