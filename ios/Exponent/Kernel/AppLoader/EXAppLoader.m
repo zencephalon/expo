@@ -35,6 +35,7 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
 
 @property (nonatomic, strong) NSDictionary * _Nullable confirmedManifest; // manifest that is actually being used
 @property (nonatomic, strong) NSDictionary * _Nullable cachedManifest; // manifest that is cached and we definitely have, may fall back to it
+@property (nonatomic, strong) NSDictionary * _Nullable optimisticManifest;
 @property (nonatomic, strong) EXManifestResource * _Nullable manifestResource;
 @property (nonatomic, strong) NSData * _Nullable bundle;
 
@@ -72,6 +73,7 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
 {
   _confirmedManifest = nil;
   _cachedManifest = nil;
+  _optimisticManifest = nil;
   _error = nil;
   _appFetcher = nil;
   _previousAppFetcherWaitingForBundle = nil;
@@ -84,11 +86,9 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
 {
   if (_error || (_appFetcher && _appFetcher.error)) {
     return kEXAppLoaderStatusError;
-  } else if (_bundle) {
+  } else if (_bundle || (_appFetcher && _appFetcher.bundle && _confirmedManifest)) {
     return kEXAppLoaderStatusHasManifestAndBundle;
-  } else if (_appFetcher && _appFetcher.bundle && _confirmedManifest) {
-    return kEXAppLoaderStatusHasManifestAndBundle;
-  } else if (_cachedManifest || (_appFetcher && _appFetcher.manifest)) {
+  } else if (_optimisticManifest || _cachedManifest || (_appFetcher && _appFetcher.manifest)) {
     return kEXAppLoaderStatusHasManifest;
   }
   return kEXAppLoaderStatusNew;
@@ -105,6 +105,9 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
   }
   if (_cachedManifest) {
     return _cachedManifest;
+  }
+  if (_optimisticManifest) {
+    return _optimisticManifest;
   }
   return nil;
 }
@@ -175,6 +178,7 @@ NSTimeInterval const kEXJSBundleTimeout = 60 * 5;
 
 - (void)appLoaderTask:(EXUpdatesAppLoaderTask *)appLoaderTask didStartLoadingUpdate:(EXUpdatesUpdate *)update
 {
+  _optimisticManifest = update.rawManifest;
   if (_delegate) {
     [_delegate appLoader:self didLoadOptimisticManifest:update.rawManifest];
   }
