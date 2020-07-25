@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 
 import { em } from '../css/units';
 import { TableText, TableTextProps } from '../primitives/Table';
-import View, { ViewProps } from '../primitives/View';
+import { View, ViewProps } from 'expo-view';
 
 export const Table = forwardRef((props: ViewProps, ref) => {
   return <View {...props} ref={ref} />;

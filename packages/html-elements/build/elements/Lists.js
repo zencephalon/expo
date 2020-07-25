@@ -1,7 +1,7 @@
 import { Text } from 'expo-text';
 import React, { forwardRef } from 'react';
 import { Platform } from 'react-native';
-import View from '../primitives/View';
+import { View } from 'expo-view';
 function createView(nativeProps = {}) {
     return forwardRef((props, ref) => {
         return React.createElement(View, Object.assign({}, nativeProps, props, { ref: ref }));

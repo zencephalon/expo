@@ -1,5 +1,5 @@
 import { ClassAttributes, ComponentProps, ComponentType } from 'react';
-import Text from './Text';
+import { Text } from 'expo-text';
 declare type NativeTextProps = ComponentProps<typeof Text> & ClassAttributes<typeof Text>;
 export declare type TableTextProps = NativeTextProps & {
     /** @platform web */

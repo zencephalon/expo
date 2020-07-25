@@ -1,6 +1,6 @@
 import { ClassAttributes, ComponentProps, ComponentType } from 'react';
 
-import Text from './Text';
+import { Text } from 'expo-text';
 
 type NativeTextProps = ComponentProps<typeof Text> & ClassAttributes<typeof Text>;
 

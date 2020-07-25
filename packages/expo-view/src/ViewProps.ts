@@ -75,7 +75,18 @@ type ModifiedNativeViewProps = Omit<
   /**
    * Accessibility Role tells a person using either VoiceOver on iOS or TalkBack on Android the type of element that is focused on.
    */
-  accessibilityRole?: 'listitem' | AccessibilityRole;
+  accessibilityRole?:
+    | 'list'
+    | 'listitem'
+    | 'complementary'
+    | 'contentinfo'
+    | 'region'
+    | 'navigation'
+    | 'main'
+    | 'article'
+    | 'banner'
+    | AccessibilityRole;
+
   /**
    * Lets the user select text, to use the native copy and paste functionality.
    *

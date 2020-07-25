@@ -1,5 +1,5 @@
 import { TextProps } from 'expo-text';
-import { ViewProps } from '../primitives/View';
+import { ViewProps } from 'expo-view';
 export declare type QuoteProps = React.PropsWithChildren<TextProps & {
     cite?: string;
 }>;

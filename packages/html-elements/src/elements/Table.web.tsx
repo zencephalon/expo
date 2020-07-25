@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import createElement from 'react-native-web/dist/exports/createElement';
 
 import { TableTextProps } from '../primitives/Table';
-import { ViewProps } from '../primitives/View';
+import { ViewProps } from 'expo-view';
 
 export const Table = forwardRef((props: ViewProps, ref) => {
   return createElement('table', { ...props, style: [styles.reset, props.style], ref });

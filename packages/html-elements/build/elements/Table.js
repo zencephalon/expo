@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 import { StyleSheet } from 'react-native';
 import { em } from '../css/units';
 import { TableText } from '../primitives/Table';
-import View from '../primitives/View';
+import { View } from 'expo-view';
 export const Table = forwardRef((props, ref) => {
     return React.createElement(View, Object.assign({}, props, { ref: ref }));
 });

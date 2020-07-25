@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "expo-text": "~1.0.0",
-    "expo-style-sheet": "~1.0.0"
+    "expo-view": "~1.0.0"
   },
   "devDependencies": {
     "expo-module-scripts": "~1.2.0"

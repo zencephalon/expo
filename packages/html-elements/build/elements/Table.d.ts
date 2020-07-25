@@ -1,7 +1,7 @@
 import { TextProps } from 'expo-text';
 import React from 'react';
 import { TableTextProps } from '../primitives/Table';
-import { ViewProps } from '../primitives/View';
+import { ViewProps } from 'expo-view';
 export declare const Table: React.ComponentType<ViewProps>;
 export declare const THead: React.ComponentType<ViewProps>;
 export declare const TBody: React.ComponentType<ViewProps>;

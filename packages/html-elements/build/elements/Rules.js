@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { StyleSheet } from 'react-native';
-import View from '../primitives/View';
+import { View } from 'expo-view';
 export const HR = forwardRef((props, ref) => {
     return React.createElement(View, Object.assign({}, props, { style: [styles.hr, props.style], ref: ref }));
 });

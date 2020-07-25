@@ -1,5 +1,5 @@
 import { TextProps } from 'expo-text';
 import React from 'react';
-import { ViewProps } from '../primitives/View';
+import { ViewProps } from 'expo-view';
 export declare const UL: React.ComponentType<ViewProps>;
-export declare const LI: React.ComponentType<TextProps | ViewProps>;
+export declare const LI: React.ComponentType<ViewProps | TextProps>;

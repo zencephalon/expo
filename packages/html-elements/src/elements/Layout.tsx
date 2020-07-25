@@ -1,7 +1,7 @@
 import React, { ComponentType, forwardRef } from 'react';
 import { Platform } from 'react-native';
 
-import View, { ViewProps } from '../primitives/View';
+import { View, ViewProps } from 'expo-view';
 
 function createView(nativeProps: ViewProps = {}): ComponentType<ViewProps> {
   return forwardRef((props: ViewProps, ref) => {

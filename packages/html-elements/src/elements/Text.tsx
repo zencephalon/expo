@@ -3,7 +3,7 @@ import React, { ComponentType, forwardRef } from 'react';
 import { StyleSheet, Platform } from 'react-native';
 
 import { em } from '../css/units';
-import View, { ViewProps } from '../primitives/View';
+import { View, ViewProps } from 'expo-view';
 import { BlockQuoteProps, QuoteProps, TimeProps } from './Text.types';
 
 export const P = forwardRef(({ style, ...props }: TextProps, ref) => {

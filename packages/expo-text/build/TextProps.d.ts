@@ -6,8 +6,8 @@
  */
 import { TextStyle } from 'expo-style-sheet/build/TextStyles';
 import { ViewProps } from 'expo-view';
-import { AccessibilityRole, StyleProp } from 'react-native';
-declare type WebTextProps = {
+import { TextPropsIOS, TextPropsAndroid, TextProps as NativeTextProps, StyleProp } from 'react-native';
+declare type TextPropsWeb = {
     /**
      *
      * @platform web
@@ -15,18 +15,14 @@ declare type WebTextProps = {
      */
     href?: string;
 };
-declare type ModifiedNativeTextProps = Omit<ViewProps, 'style' | 'selectable' | 'accessibilityRole'> & {
+declare type ModifiedNativeTextProps = Omit<ViewProps, 'style'> & TextPropsIOS & Omit<TextPropsAndroid, 'selectable'> & {
     style?: StyleProp<TextStyle>;
-    /**
-     * Accessibility Role tells a person using either VoiceOver on iOS or TalkBack on Android the type of element that is focused on.
-     */
-    accessibilityRole?: 'listitem' | AccessibilityRole;
     /**
      * Lets the user select text, to use the native copy and paste functionality.
      *
      * @platform web, android
      */
     selectable?: boolean;
-};
-export declare type TextProps = WebTextProps & ModifiedNativeTextProps;
+} & Pick<NativeTextProps, 'allowFontScaling' | 'ellipsizeMode' | 'lineBreakMode' | 'numberOfLines' | 'onPress' | 'onLongPress' | 'maxFontSizeMultiplier'>;
+export declare type TextProps = TextPropsWeb & ModifiedNativeTextProps;
 export {};
