@@ -109,14 +109,14 @@ Dismiss the currently open iOS App Store preview controller.
 
 Options for presenting an iOS App Store preview in-app. This can only be used on a physical iOS device.
 
-| Name      | Type     | Description                                                                                 |
-| --------- | -------- | ------------------------------------------------------------------------------------------- |
-| itemId    | `number` | iTunes Store item identifier of the product.                                                |
-| itemId    | `string` | iTunes Store affiliate token.                                                               |
-| itemId    | `string` | iTunes Store affiliate campaign token.                                                      |
-| itemId    | `string` | Analytics provider token.                                                                   |
-| itemId    | `string` | Advertising partner token.                                                                  |
-| productId | `string` | SKU for the In-App Purchase product to render at the top of the product page. iOS 11+ only. |
+| Name                    | Type     | Description                                                                                 |
+| ----------------------- | -------- | ------------------------------------------------------------------------------------------- |
+| itemId                  | `number` | iTunes Store item identifier of the product.                                                |
+| affiliateToken          | `string` | iTunes Store affiliate token.                                                               |
+| campaignToken           | `string` | iTunes Store affiliate campaign token.                                                      |
+| providerToken           | `string` | Analytics provider token.                                                                   |
+| advertisingPartnerToken | `string` | Advertising partner token.                                                                  |
+| productId               | `string` | SKU for the In-App Purchase product to render at the top of the product page. iOS 11+ only. |
 
 ### StoreReviewPreviewResultType
 
