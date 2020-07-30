@@ -104,7 +104,6 @@ export default function FirebaseRecaptcha(props) {
     const [loaded, setLoaded] = React.useState(false);
     React.useEffect(() => {
         if (webview.current && loaded && verify) {
-            console.log('SIMULATING BUTTON PRESS');
             // @ts-ignore: Object is possibly null
             webview.current.injectJavaScript(`
     (function(){
