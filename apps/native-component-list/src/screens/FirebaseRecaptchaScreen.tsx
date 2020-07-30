@@ -1,10 +1,10 @@
 import {
   FirebaseAuthApplicationVerifier,
   FirebaseRecaptchaVerifierModal,
-  FirebaseInvisibleRecaptcha,
+  FirebaseRecaptchaBanner,
 } from 'expo-firebase-recaptcha';
 import * as React from 'react';
-import { Alert, ScrollView, StyleSheet, StyleProp, TextStyle, Text } from 'react-native';
+import { Alert, ScrollView, StyleSheet, StyleProp, TextStyle } from 'react-native';
 
 import HeadingText from '../components/HeadingText';
 import ListButton from '../components/ListButton';
@@ -23,11 +23,11 @@ const firebaseConfig = {
 interface State {
   title?: string;
   cancelLabel?: string;
+  invisible: boolean;
   firebaseConfig?: any;
-  inProgress: 'none' | 'modal' | 'invisible';
+  inProgress: boolean;
   textStyle?: StyleProp<TextStyle>;
   linkStyle?: StyleProp<TextStyle>;
-  customBanner?: React.ReactElement;
 }
 
 export default class FirebaseRecaptchaScreen extends React.Component<object, State> {
@@ -37,24 +37,23 @@ export default class FirebaseRecaptchaScreen extends React.Component<object, Sta
 
   state: State = {
     firebaseConfig,
-    inProgress: 'none',
+    invisible: false,
+    inProgress: false,
     textStyle: undefined,
     linkStyle: undefined,
-    customBanner: undefined,
   };
 
-  invisibleRecaptcha: FirebaseAuthApplicationVerifier | null = null;
-  modalRecaptcha: FirebaseAuthApplicationVerifier | null = null;
+  recaptchaVerifier: FirebaseAuthApplicationVerifier | null = null;
 
   render() {
     const {
       title,
       cancelLabel,
+      invisible,
       firebaseConfig,
       inProgress,
       textStyle,
       linkStyle,
-      customBanner,
     } = this.state;
     const modalProps: any = {
       ...(title && { title }),
@@ -63,77 +62,63 @@ export default class FirebaseRecaptchaScreen extends React.Component<object, Sta
     };
     return (
       <ScrollView style={{ padding: 10 }}>
-        <HeadingText>Modal based reCAPTCHA</HeadingText>
         <ListButton
-          onPress={() => this.requestRecaptchaToken(this.modalRecaptcha)}
-          title="Request reCAPTCHA token"
+          onPress={this.requestRecaptchaToken}
+          title={inProgress ? 'Requesting reCAPTCHA token...' : 'Request reCAPTCHA token'}
         />
         <ListButton
-          onPress={() => this.setState({ title: 'Prove you are human!' })}
-          title="Set custom title"
+          onPress={() => this.setState(state => ({ invisible: !state.invisible }))}
+          title={`Toggle invisible reCAPTCHA (${invisible ? 'On' : 'Off'})`}
         />
         <ListButton
-          onPress={() => this.setState({ cancelLabel: 'Close' })}
-          title="Set custom cancel label"
-        />
-        <ListButton
-          onPress={() => this.setState({ title: undefined })}
-          title="Reset custom title"
-        />
-        <ListButton
-          onPress={() => this.setState({ cancelLabel: undefined })}
-          title="Reset custom cancel label"
-        />
-        <FirebaseRecaptchaVerifierModal ref={ref => (this.modalRecaptcha = ref)} {...modalProps} />
-
-        <HeadingText>Invisible reCAPTCHA</HeadingText>
-        <ListButton
-          onPress={() => this.requestRecaptchaToken(this.invisibleRecaptcha)}
-          title={
-            inProgress === 'invisible' ? 'Requesting reCAPTCHA token...' : 'Request reCAPTCHA token'
+          onPress={() =>
+            this.setState(state => ({ title: state.title ? undefined : 'Prove you are human!' }))
           }
+          title={`Toggle custom title (${title ? 'On' : 'Off'})`}
         />
         <ListButton
-          onPress={() => this.setState({ textStyle: styles.invisibleRecaptchaText })}
-          title="Set custom text-style"
+          onPress={() =>
+            this.setState(state => ({ cancelLabel: state.cancelLabel ? undefined : 'Close' }))
+          }
+          title={`Toggle custom cancel label (${cancelLabel ? 'On' : 'Off'})`}
+        />
+        <FirebaseRecaptchaVerifierModal
+          ref={ref => (this.recaptchaVerifier = ref)}
+          invisible={invisible}
+          {...modalProps}
+        />
+
+        <HeadingText>reCAPTCHA banner</HeadingText>
+        <ListButton
+          onPress={() =>
+            this.setState(state => ({
+              textStyle: state.textStyle ? undefined : styles.invisibleRecaptchaText,
+            }))
+          }
+          title={`Toggle custom banner text-style" (${textStyle ? 'On' : 'Off'})`}
         />
         <ListButton
-          onPress={() => this.setState({ linkStyle: styles.invisibleRecaptchaLink })}
-          title="Set custom link-style"
+          onPress={() =>
+            this.setState(state => ({
+              linkStyle: state.linkStyle ? undefined : styles.invisibleRecaptchaLink,
+            }))
+          }
+          title={`Toggle custom banner link-style" (${linkStyle ? 'On' : 'Off'})`}
         />
-        <ListButton
-          onPress={() => this.setState({ customBanner: <Text>Custom reCAPTCHA banner</Text> })}
-          title="Set custom banner"
-        />
-        <ListButton
-          onPress={() => this.setState({ textStyle: undefined })}
-          title="Reset custom text-style"
-        />
-        <ListButton
-          onPress={() => this.setState({ linkStyle: undefined })}
-          title="Reset custom link-style"
-        />
-        <ListButton
-          onPress={() => this.setState({ customBanner: undefined })}
-          title="Reset custom banner"
-        />
-        <FirebaseInvisibleRecaptcha
-          ref={ref => (this.invisibleRecaptcha = ref)}
-          style={styles.invisibleRecaptcha}
+        <FirebaseRecaptchaBanner
+          style={styles.banner}
           textStyle={textStyle}
           linkStyle={linkStyle}
-          children={customBanner}
-          {...modalProps}
         />
       </ScrollView>
     );
   }
 
-  private async requestRecaptchaToken(verifier: FirebaseAuthApplicationVerifier | null) {
-    this.setState({ inProgress: verifier === this.invisibleRecaptcha ? 'invisible' : 'modal' });
+  private requestRecaptchaToken = async () => {
+    this.setState({ inProgress: true });
     try {
       // @ts-ignore
-      const token = await verifier.verify();
+      const token = await this.recaptchaVerifier.verify();
       setTimeout(
         () =>
           Alert.alert('Congratulations, you are not a bot! 🧑', `token: ${token.slice(0, 10)}...`),
@@ -142,12 +127,12 @@ export default class FirebaseRecaptchaScreen extends React.Component<object, Sta
     } catch (e) {
       setTimeout(() => Alert.alert('Error!', e.message), 1000);
     }
-    setTimeout(() => this.setState({ inProgress: 'none' }), 1000);
-  }
+    setTimeout(() => this.setState({ inProgress: false }), 1000);
+  };
 }
 
 const styles = StyleSheet.create({
-  invisibleRecaptcha: {
+  banner: {
     marginVertical: 10,
   },
   invisibleRecaptchaText: {
