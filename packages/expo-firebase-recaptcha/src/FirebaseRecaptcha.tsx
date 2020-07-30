@@ -97,7 +97,7 @@ function getWebviewSource(
               type: 'fullChallenge'
             }));  
           }
-        }, 400);
+        }, 100);
       }
     }
     window.addEventListener('message', function(event) {
