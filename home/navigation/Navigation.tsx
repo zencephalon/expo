@@ -1,4 +1,4 @@
-import Entypo from '@expo/vector-icons/build/Entypo';
+import AntDesign from '@expo/vector-icons/build/AntDesign';
 import Ionicons from '@expo/vector-icons/build/Ionicons';
 import { NavigationContainer, useTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -180,7 +180,14 @@ function TabNavigator(props: { theme: string }) {
         name="ProjectsStack"
         component={ProjectsStackScreen}
         options={{
-          tabBarIcon: props => <Entypo {...props} style={styles.icon} name="grid" size={24} />,
+          tabBarIcon: props => (
+            <AntDesign
+              {...props}
+              style={styles.icon}
+              name={props.focused ? 'appstore1' : 'appstore-o'}
+              size={20}
+            />
+          ),
           tabBarLabel: 'Projects',
         }}
       />
@@ -202,7 +209,7 @@ function TabNavigator(props: { theme: string }) {
           component={DiagnosticsStackScreen}
           options={{
             tabBarIcon: props => (
-              <Ionicons {...props} style={styles.icon} name="ios-git-branch" size={26} />
+              <Ionicons {...props} style={styles.icon} name="ios-git-network" size={26} />
             ),
             tabBarLabel: 'Diagnostics',
           }}
