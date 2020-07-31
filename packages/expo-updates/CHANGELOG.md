@@ -8,6 +8,10 @@
 
 ### 🐛 Bug fixes
 
+## 0.2.13 — 2020-07-31
+
+_This version does not introduce any user-facing changes._
+
 ## 0.2.12 — 2020-07-24
 
 ### 🐛 Bug fixes
