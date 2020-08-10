@@ -1,0 +1,1 @@
+../../../../versioned-react-native/ABI39_0_0/Expo/EXBluetooth/ABI39_0_0EXBluetooth/ABI39_0_0EXBluetooth.h
