@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import expo.modules.updates.db.dao.AssetDao;
+import expo.modules.updates.db.dao.JSONDataDao;
 import expo.modules.updates.db.dao.UpdateDao;
 import expo.modules.updates.db.entity.AssetEntity;
 import expo.modules.updates.db.entity.UpdateAssetEntity;
@@ -27,6 +28,7 @@ public abstract class UpdatesDatabase extends RoomDatabase {
 
   public abstract UpdateDao updateDao();
   public abstract AssetDao assetDao();
+  public abstract JSONDataDao jsonDataDao();
 
   public static synchronized UpdatesDatabase getInstance(Context context) {
     if (sInstance == null) {
