@@ -18,9 +18,14 @@ public class JSONDataEntity {
   @NonNull
   public Date lastUpdated;
 
-  public JSONDataEntity(String key, String value, Date lastUpdated) {
+  @ColumnInfo(name = "scope_key")
+  @NonNull
+  public String scopeKey;
+
+  public JSONDataEntity(String key, String value, Date lastUpdated, String scopeKey) {
     this.key = key;
     this.value = value;
     this.lastUpdated = lastUpdated;
+    this.scopeKey = scopeKey;
   }
 }

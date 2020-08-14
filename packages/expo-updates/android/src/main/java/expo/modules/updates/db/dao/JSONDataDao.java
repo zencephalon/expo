@@ -18,20 +18,20 @@ public abstract class JSONDataDao {
    * must be marked public for Room
    * so we use the underscore to discourage use
    */
-  @Query("SELECT * FROM json_data WHERE `key` = :key ORDER BY last_updated DESC LIMIT 1;")
-  public abstract List<JSONDataEntity> _loadJSONDataForKey(String key);
+  @Query("SELECT * FROM json_data WHERE `key` = :key AND scope_key = :scopeKey ORDER BY last_updated DESC LIMIT 1;")
+  public abstract List<JSONDataEntity> _loadJSONDataForKey(String key, String scopeKey);
 
   @Insert
   public abstract void _insertJSONData(JSONDataEntity jsonDataEntity);
 
-  @Query("DELETE FROM json_data WHERE `key` = :key;")
-  public abstract void _deleteJSONDataForKey(String key);
+  @Query("DELETE FROM json_data WHERE `key` = :key AND scope_key = :scopeKey;")
+  public abstract void _deleteJSONDataForKey(String key, String scopeKey);
 
   /**
    * for public use
    */
-  public @Nullable String loadJSONValueForKey(String key) {
-    List<JSONDataEntity> rows = _loadJSONDataForKey(key);
+  public @Nullable String loadJSONStringForKey(String key, String scopeKey) {
+    List<JSONDataEntity> rows = _loadJSONDataForKey(key, scopeKey);
     if (rows == null || rows.size() == 0) {
       return null;
     }
@@ -39,8 +39,8 @@ public abstract class JSONDataDao {
   }
 
   @Transaction
-  public void setJSONValueForKey(String key, String value) {
-    _deleteJSONDataForKey(key);
-    _insertJSONData(new JSONDataEntity(key, value, new Date()));
+  public void setJSONStringForKey(String key, String value, String scopeKey) {
+    _deleteJSONDataForKey(key, scopeKey);
+    _insertJSONData(new JSONDataEntity(key, value, new Date(), scopeKey));
   }
 }
