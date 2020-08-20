@@ -69,15 +69,18 @@ RCT_EXTERN NSDictionary<NSString *, NSDictionary *> *EXGetScopedModuleClasses(vo
 
 @end
 
-@interface EXVersionManager ()
+@interface EXVersionManager () <RCTTurboModuleManagerDelegate>
 
 // is this the first time this ABI has been touched at runtime?
 @property (nonatomic, assign) BOOL isFirstLoad;
 @property (nonatomic, strong) NSDictionary *params;
+@property (nonatomic, strong) RCTTurboModuleManager *turboModuleManager;
 
 @end
 
-@implementation EXVersionManager
+@implementation EXVersionManager {
+  std::shared_ptr<facebook::react::JSCExecutorFactory> factoryRef;
+}
 
 /**
  *  Expected params:
@@ -440,6 +443,12 @@ RCT_EXTERN NSDictionary<NSString *, NSDictionary *> *EXGetScopedModuleClasses(vo
   return [moduleClass new];
 }
 
+- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const std::string &)name instance:(id<RCTTurboModule>)instance jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker nativeInvoker:(std::shared_ptr<facebook::react::CallInvoker>)nativeInvoker perfLogger:(id<RCTTurboModulePerformanceLogger>)perfLogger {
+  // TODO: ADD
+  return nullptr;
+}
+
+
 - (NSString *)_experienceId
 {
   return _params[@"manifest"][@"id"];
@@ -448,6 +457,26 @@ RCT_EXTERN NSDictionary<NSString *, NSDictionary *> *EXGetScopedModuleClasses(vo
 - (BOOL)_isOpeningHomeInProductionMode
 {
   return _params[@"browserModuleClass"] && !_params[@"manifest"][@"developer"];
+}
+
+- (void *)versionedJsExecutorFactoryForBridge:(RCTBridge *)bridge
+{
+  __weak __typeof(self) weakSelf = self;
+  if (self->factoryRef == nullptr) {
+    self->factoryRef = std::make_unique<facebook::react::JSCExecutorFactory>([weakSelf, bridge](facebook::jsi::Runtime &runtime) {
+      if (!bridge) {
+        return;
+      }
+      __typeof(self) strongSelf = weakSelf;
+      if (strongSelf) {
+        strongSelf->_turboModuleManager = [[RCTTurboModuleManager alloc] initWithBridge:bridge
+                                                                               delegate:strongSelf
+                                                                              jsInvoker:bridge.jsCallInvoker];
+        [strongSelf->_turboModuleManager installJSBindingWithRuntime:&runtime];
+      }
+    });
+  }
+  return self->factoryRef.get();
 }
 
 @end
