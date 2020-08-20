@@ -1239,7 +1239,7 @@ ABI39_0_0RCT_NOT_IMPLEMENTED(-(instancetype)initWithBundleURL
 
     if (strongSelf->_ABI39_0_0ReactInstance) {
       strongSelf->_ABI39_0_0ReactInstance->callJSFunction(
-          [module UTF8String], [method UTF8String], convertIdToFollyDynamic(args ?: @[]));
+          [ABI39_0_0EX_REMOVE_VERSION(module) UTF8String], [method UTF8String], convertIdToFollyDynamic(args ?: @[]));
 
       // ensureOnJavaScriptThread may execute immediately, so use jsMessageThread, to make sure
       // the block is invoked after callJSFunction
