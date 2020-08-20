@@ -28,6 +28,6 @@ class JSExecutorFactory;
  * If not implemented, or returns an empty pointer, JSIExecutorFactory
  * will be used with a JSCRuntime.
  */
-- (std::unique_ptr<ABI39_0_0facebook::ABI39_0_0React::JSExecutorFactory>)jsExecutorFactoryForBridge:(ABI39_0_0RCTBridge *)bridge;
+- (void *)jsExecutorFactoryForBridge:(ABI39_0_0RCTBridge *)bridge;
 
 @end

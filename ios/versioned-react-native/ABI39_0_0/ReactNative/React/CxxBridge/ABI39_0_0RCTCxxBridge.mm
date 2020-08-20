@@ -334,9 +334,9 @@ struct ABI39_0_0RCTInstanceCallback : public InstanceCallback {
   // Prepare executor factory (shared_ptr for copy into block)
   std::shared_ptr<JSExecutorFactory> executorFactory;
   if (!self.executorClass) {
-    if ([self.delegate conformsToProtocol:@protocol(ABI39_0_0RCTCxxBridgeDelegate)]) {
+    if ([self.delegate respondsToSelector:@selector(jsExecutorFactoryForBridge:)]) {
       id<ABI39_0_0RCTCxxBridgeDelegate> cxxDelegate = (id<ABI39_0_0RCTCxxBridgeDelegate>)self.delegate;
-      executorFactory = [cxxDelegate jsExecutorFactoryForBridge:self];
+      executorFactory = std::make_shared<JSCExecutorFactory>(*reinterpret_cast<JSCExecutorFactory *>([cxxDelegate jsExecutorFactoryForBridge:self]));
     }
     if (!executorFactory) {
       executorFactory = std::make_shared<JSCExecutorFactory>(nullptr);

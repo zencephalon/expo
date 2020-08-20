@@ -69,15 +69,19 @@ ABI39_0_0RCT_EXTERN NSDictionary<NSString *, NSDictionary *> *ABI39_0_0EXGetScop
 
 @end
 
-@interface ABI39_0_0EXVersionManager ()
+@interface ABI39_0_0EXVersionManager () <ABI39_0_0RCTTurboModuleManagerDelegate>
 
 // is this the first time this ABI has been touched at runtime?
 @property (nonatomic, assign) BOOL isFirstLoad;
 @property (nonatomic, strong) NSDictionary *params;
+@property (nonatomic, strong) ABI39_0_0RCTTurboModuleManager *turboModuleManager;
 
 @end
 
-@implementation ABI39_0_0EXVersionManager
+@implementation ABI39_0_0EXVersionManager {
+  std::shared_ptr<ABI39_0_0facebook::ABI39_0_0React::JSExecutorFactory> factoryRef;
+}
+
 
 /**
  *  Expected params:
@@ -449,5 +453,31 @@ ABI39_0_0RCT_EXTERN NSDictionary<NSString *, NSDictionary *> *ABI39_0_0EXGetScop
 {
   return _params[@"browserModuleClass"] && !_params[@"manifest"][@"developer"];
 }
+
+- (void *)versionedJsExecutorFactoryForBridge:(ABI39_0_0RCTBridge *)bridge
+{
+  __weak __typeof(self) weakSelf = self;
+  if (self->factoryRef == nullptr) {
+    self->factoryRef = std::make_unique<ABI39_0_0facebook::ABI39_0_0React::JSCExecutorFactory>([weakSelf, bridge](ABI39_0_0facebook::jsi::Runtime &runtime) {
+      if (!bridge) {
+        return;
+      }
+      __typeof(self) strongSelf = weakSelf;
+      if (strongSelf) {
+        strongSelf->_turboModuleManager = [[ABI39_0_0RCTTurboModuleManager alloc] initWithBridge:bridge
+                                                                               delegate:strongSelf
+                                                                              jsInvoker:bridge.jsCallInvoker];
+        [strongSelf->_turboModuleManager installJSBindingWithRuntime:&runtime];
+      }
+    });
+  }
+  return self->factoryRef.get();
+}
+
+- (std::shared_ptr<ABI39_0_0facebook::ABI39_0_0React::TurboModule>)getTurboModule:(const std::string &)name instance:(id<ABI39_0_0RCTTurboModule>)instance jsInvoker:(std::shared_ptr<ABI39_0_0facebook::ABI39_0_0React::CallInvoker>)jsInvoker nativeInvoker:(std::shared_ptr<ABI39_0_0facebook::ABI39_0_0React::CallInvoker>)nativeInvoker perfLogger:(id<ABI39_0_0RCTTurboModulePerformanceLogger>)perfLogger {
+  // TODO: ADD
+  return nullptr;
+}
+
 
 @end
