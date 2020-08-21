@@ -8,6 +8,8 @@
 
 ### 🐛 Bug fixes
 
+- Fix Audio.stopAndUnloadAsync not handling no-data on Android. ([#9877](https://github.com/expo/expo/pull/9877) by [@IjzerenHein](https://github.com/IjzerenHein))
+
 ## 8.6.0 — 2020-08-18
 
 _This version does not introduce any user-facing changes._
