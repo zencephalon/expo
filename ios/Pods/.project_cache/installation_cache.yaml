@@ -8439,9 +8439,9 @@ CACHE_KEYS:
   EXSensors:
     BUILD_SETTINGS_CHECKSUM:
       EXSensors:
-        :debug: c88f6d921ca61e9e36d3abcf60bd1904
-        :release: c88f6d921ca61e9e36d3abcf60bd1904
-    CHECKSUM: 352c8d17c066765517e9e73c05d68491f2cfa7b6
+        :debug: f7c0add8493ff0c161373eb297d57028
+        :release: f7c0add8493ff0c161373eb297d57028
+    CHECKSUM: 54cad19032f17da9d2e32558a850dd5f7941deac
     FILES:
       - "../../packages/expo-sensors/ios/EXSensors/EXSensorsManager.h"
       - "../../packages/expo-sensors/ios/EXSensors/EXSensorsManager.m"
