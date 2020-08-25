@@ -8960,8 +8960,8 @@ CACHE_KEYS:
       - nanopb/encode (0.3.9011)
   Pods-Exponent:
     BUILD_SETTINGS_CHECKSUM:
-      Debug: ca088870eac8671cb8cb890dea5e5662
-      Release: ca088870eac8671cb8cb890dea5e5662
+      Debug: 4fa26fc5550906c64a067ce1e909b9b6
+      Release: 4fa26fc5550906c64a067ce1e909b9b6
     FILES:
       - "${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMLVisionFaceModel/GoogleMVFaceDetectorResources.bundle"
       - "${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle"
@@ -8971,12 +8971,12 @@ CACHE_KEYS:
       - "${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle"
   Pods-ExponentIntegrationTests:
     BUILD_SETTINGS_CHECKSUM:
-      Debug: f02ff9ead2090d1addc00fee7339115e
-      Release: f02ff9ead2090d1addc00fee7339115e
+      Debug: 2385ae5938d2b694719c8706039001c9
+      Release: 2385ae5938d2b694719c8706039001c9
   Pods-Tests:
     BUILD_SETTINGS_CHECKSUM:
-      Debug: f02ff9ead2090d1addc00fee7339115e
-      Release: f02ff9ead2090d1addc00fee7339115e
+      Debug: 2385ae5938d2b694719c8706039001c9
+      Release: 2385ae5938d2b694719c8706039001c9
   Protobuf:
     BUILD_SETTINGS_CHECKSUM:
       Protobuf:
@@ -9972,22 +9972,6 @@ CACHE_KEYS:
     PROJECT_NAME: UMReactNativeAdapter
     SPECS:
       - UMReactNativeAdapter (5.6.0)
-  UMSensorsInterface:
-    BUILD_SETTINGS_CHECKSUM:
-      UMSensorsInterface:
-        :debug: 2a69c5e2ded5336edb3dbfcb358ca18f
-        :release: 2a69c5e2ded5336edb3dbfcb358ca18f
-    CHECKSUM: 49bea41dcfcc041f0bbab27cfe4a6006f1dde0c0
-    FILES:
-      - "../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMAccelerometerInterface.h"
-      - "../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMBarometerInterface.h"
-      - "../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMDeviceMotionInterface.h"
-      - "../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMGyroscopeInterface.h"
-      - "../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMMagnetometerInterface.h"
-      - "../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMMagnetometerUncalibratedInterface.h"
-    PROJECT_NAME: UMSensorsInterface
-    SPECS:
-      - UMSensorsInterface (5.3.0)
   UMTaskManagerInterface:
     BUILD_SETTINGS_CHECKSUM:
       UMTaskManagerInterface:

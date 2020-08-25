@@ -1228,8 +1228,8 @@ CACHE_KEYS:
       - nanopb/encode (0.3.9011)
   Pods-BareExpo:
     BUILD_SETTINGS_CHECKSUM:
-      Debug: 2376812207103a5cb27166faed1e7156
-      Release: 2376812207103a5cb27166faed1e7156
+      Debug: 1a61fd842858c5c6a6ed2e164b3f6318
+      Release: 1a61fd842858c5c6a6ed2e164b3f6318
     FILES:
       - "${PODS_CONFIGURATION_BUILD_DIR}/EXDevMenu/EXDevMenu.bundle"
       - "${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle"
@@ -1238,8 +1238,8 @@ CACHE_KEYS:
       - "${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle"
   Pods-BareExpoTests:
     BUILD_SETTINGS_CHECKSUM:
-      Debug: 7b3d396c9e7e40fcd86b4c7f7061e278
-      Release: 7b3d396c9e7e40fcd86b4c7f7061e278
+      Debug: ae164bd95afd05d439fc9fc95dbcf342
+      Release: ae164bd95afd05d439fc9fc95dbcf342
   PromisesObjC:
     BUILD_SETTINGS_CHECKSUM:
       PromisesObjC:
@@ -2754,22 +2754,6 @@ CACHE_KEYS:
     PROJECT_NAME: UMReactNativeAdapter
     SPECS:
       - UMReactNativeAdapter (5.6.0)
-  UMSensorsInterface:
-    BUILD_SETTINGS_CHECKSUM:
-      UMSensorsInterface:
-        :debug: edab35b62745c17864e65b8dd2612597
-        :release: edab35b62745c17864e65b8dd2612597
-    CHECKSUM: 49bea41dcfcc041f0bbab27cfe4a6006f1dde0c0
-    FILES:
-      - "../../../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMAccelerometerInterface.h"
-      - "../../../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMBarometerInterface.h"
-      - "../../../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMDeviceMotionInterface.h"
-      - "../../../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMGyroscopeInterface.h"
-      - "../../../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMMagnetometerInterface.h"
-      - "../../../../packages/unimodules-sensors-interface/ios/UMSensorsInterface/UMMagnetometerUncalibratedInterface.h"
-    PROJECT_NAME: UMSensorsInterface
-    SPECS:
-      - UMSensorsInterface (5.3.0)
   UMTaskManagerInterface:
     BUILD_SETTINGS_CHECKSUM:
       UMTaskManagerInterface:
