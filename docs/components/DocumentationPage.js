@@ -6,7 +6,7 @@ import some from 'lodash/some';
 import * as Constants from '~/constants/theme';
 import navigation from '~/common/navigation';
 import * as Utilities from '~/common/utilities';
-import { VERSIONS } from '~/common/versions';
+import { VERSIONS } from '~/constants/versions';
 import * as WindowUtils from '~/common/window';
 import AlgoliaDocsearchMeta from '~/components/AlgoliaDocsearchMeta';
 import DocumentationFooter from '~/components/DocumentationFooter';

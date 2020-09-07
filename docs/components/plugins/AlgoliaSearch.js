@@ -4,7 +4,7 @@ import { css } from 'react-emotion';
 
 import * as Constants from '~/constants/theme';
 import * as Utilities from '~/common/utilities';
-import { LATEST_VERSION } from '~/common/versions';
+import { LATEST_VERSION } from '~/constants/versions';
 
 const STYLES_INPUT = css`
   display: flex;
