@@ -4,7 +4,7 @@ import { css } from 'react-emotion';
 import some from 'lodash/some';
 
 import * as Constants from '~/constants/theme';
-import navigation from '~/common/navigation';
+import navigation from '~/constants/navigation';
 import * as Utilities from '~/common/utilities';
 import { VERSIONS } from '~/constants/versions';
 import * as WindowUtils from '~/common/window';
