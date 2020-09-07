@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export default () => (
+const Permalink = () => (
   <svg
     aria-label="permalink"
     className="anchor-icon"
@@ -14,3 +14,5 @@ export default () => (
     </g>
   </svg>
 );
+
+export default Permalink;

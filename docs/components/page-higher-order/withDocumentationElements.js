@@ -7,7 +7,7 @@ import DocumentationPage from '~/components/DocumentationPage';
 import { SluggerContext } from '~/components/page-higher-order/withSlugger';
 import * as components from '~/common/translate-markdown';
 
-export default meta =>
+const withDocumentationPage = meta =>
   withRouter(
     class DocumentationPageHOC extends React.Component {
       render() {
@@ -26,3 +26,5 @@ export default meta =>
       }
     }
   );
+
+export default withDocumentationPage;
