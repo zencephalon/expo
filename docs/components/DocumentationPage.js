@@ -3,7 +3,7 @@ import * as React from 'react';
 import { css } from 'react-emotion';
 import some from 'lodash/some';
 
-import * as Constants from '~/common/constants';
+import * as Constants from '~/constants/theme';
 import navigation from '~/common/navigation';
 import * as Utilities from '~/common/utilities';
 import { VERSIONS } from '~/common/versions';

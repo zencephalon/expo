@@ -1,7 +1,7 @@
 import styled, { keyframes, css } from 'react-emotion';
 import * as React from 'react';
 import BulletIcon from '~/components/icons/Bullet';
-import * as Constants from '~/common/constants';
+import * as Constants from '~/constants/theme';
 
 const STYLES_TITLE = css`
   font-family: ${Constants.fonts.demi};
