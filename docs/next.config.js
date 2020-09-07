@@ -1,14 +1,8 @@
-const { copySync, removeSync } = require('fs-extra');
 const { join } = require('path');
-
 const { version } = require('./package.json');
 
-// copy versions/v(latest version) to versions/latest
-// (Next.js only half-handles symlinks)
-const vLatest = join('pages', 'versions', `v${version}/`);
-const latest = join('pages', 'versions', 'latest/');
-removeSync(latest);
-copySync(vLatest, latest);
+// Update the `pages/versions/latest` symbolic link
+require('./scripts/latest-version').updateLatestLink(version)
 
 module.exports = {
   trailingSlash: true,
