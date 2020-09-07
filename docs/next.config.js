@@ -12,24 +12,33 @@ copySync(vLatest, latest);
 
 module.exports = {
   trailingSlash: true,
-  // Rather than use `@zeit/next-mdx`, we replicate it
   pageExtensions: ['js', 'jsx', 'md', 'mdx'],
   webpack: (config, options) => {
-    // Create a copy of the babel loader, to separate MDX and Next/Preval caches
-    const babelMdxLoader = {
-      ...options.defaultLoaders.babel,
-      options: {
-        ...options.defaultLoaders.babel.options,
-        cacheDirectory: 'node_modules/.cache/babel-mdx-loader',
+    // Add scoped preval support for constants
+    config.module.rules.push({
+      test: /.jsx?$/,
+      include: [join(__dirname, './constants')],
+      use: {
+        ...options.defaultLoaders.babel,
+        options: {
+          ...options.defaultLoaders.babel.options,
+          cacheDirectory: join(options.config.distDir, 'preval'),
+          plugins: ['preval'],
+        },
       },
-    };
+    });
+
+    // Add support for MDX rendering
+    config.node = { fs: 'empty' };
     config.module.rules.push({
       test: /.mdx?$/, // load both .md and .mdx files
-      use: [babelMdxLoader, '@mdx-js/loader', join(__dirname, './common/md-loader')],
+      use: [
+        options.defaultLoaders.babel,
+        '@mdx-js/loader',
+        join(__dirname, './common/md-loader'),
+      ],
     });
-    config.node = {
-      fs: 'empty',
-    };
+
     return config;
   },
 };
