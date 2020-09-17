@@ -77,7 +77,9 @@ const sections = [
   {
     name: 'Expo Accounts',
     reference: [
+      'Overview',
       'Personal Account',
+      'Organization',
       'Working Together',
     ],
   },
