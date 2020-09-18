@@ -147,7 +147,7 @@ function ResizeModeSegmentedControl({
         values={data}
         fontStyle={{ color: Colors.tintColor }}
         selectedIndex={index}
-        tintColor={'white'}
+        tintColor="white"
         onChange={event => {
           setIndex(event.nativeEvent.selectedSegmentIndex);
         }}
