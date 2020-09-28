@@ -3,12 +3,12 @@ const { join, resolve } = require('path');
 const semver = require('semver');
 
 const headings = require('./common/headingsMdPlugin');
+const navigation = require('./constants/navigation-data');
+const versions = require('./constants/versions');
 const { version } = require('./package.json');
 
 // To generate a sitemap, we need context about the supported versions and navigational data
 const createSitemap = require('./scripts/create-sitemap');
-const navigation = require('./constants/navigation-data');
-const versions = require('./constants/versions');
 
 // copy versions/v(latest version) to versions/latest
 // (Next.js only half-handles symlinks)
@@ -35,7 +35,9 @@ module.exports = {
           // Keep this path in sync with package.json and other scripts that clear the cache
           cacheDirectory: '.next/preval',
           plugins: [
-            ...(options.defaultLoaders.babel.options?.plugins ?? []),
+            ...((options.defaultLoaders.babel.options &&
+              options.defaultLoaders.babel.options.plugins) ||
+              []),
             'preval',
           ],
         },
