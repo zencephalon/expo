@@ -54,6 +54,7 @@
     "danger": "^9.2.10",
     "http-server": "^0.12.3",
     "jest": "26.1.0",
+    "next-compose-plugins": "^2.2.0",
     "prettier": "^1.18.2",
     "puppeteer": "^3.3.0",
     "rimraf": "^3.0.2",
